@@ -9,6 +9,6 @@ This is <b>MACS V1.0</b>, also referred to as <b>MACS R2017a</b>, released on <b
 To install the toolbox, it has to be downloaded and placed as a subdirectory "MACS" into the SPM toolbox folder. Upon starting SPM, batch modules for toolbox features can be accessed by clicking "SPM -> Tools -> MACS Toolbox" in the SPM batch editor. MACS is optimized for SPM12, but also compatible with SPM8. With the adoption of MACS, cvBMS and cvBMA have become obsolete.
 
 [1] http://www.sciencedirect.com/science/article/pii/S1053811916303615 <br>
-[2] http://biorxiv.org/content/early/2017/05/18/095778 <br>
+[2] http://biorxiv.org/content/early/2017/06/20/095778 <br>
 [3] https://github.com/JoramSoch/cvBMS <br>
 [4] https://github.com/JoramSoch/cvBMA <br>
