@@ -15,8 +15,15 @@ function B = MA_load_betas(SPM, m_ind)
 % E-Mail: joram.soch@bccn-berlin.de
 % 
 % First edit: 24/10/2014, 18:30 (V0.2/V6)
-%  Last edit: 18/03/2017, 07:05 (V0.99/V15)
+%  Last edit: 08/08/2017, 15:10 (V1.1/V17)
 
+
+% Load mask if necessary
+%-------------------------------------------------------------------------%
+if nargin < 2 || isempty(m_ind)
+    [M m_dim m_ind] = MA_load_mask(SPM);
+end;
+clear M m_dim
 
 % Get model dimensions
 %-------------------------------------------------------------------------%
