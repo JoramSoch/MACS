@@ -44,7 +44,7 @@ function MA_classic_ICs(SPM, data, ICs)
 % E-Mail: joram.soch@bccn-berlin.de
 % 
 % First edit: 18/03/2017, 09:30 (V0.99/V15)
-%  Last edit: 11/05/2017, 23:50 (V1.0/V16)
+%  Last edit: 08/08/2017, 12:20 (V1.1/V17)
 
 
 %=========================================================================%
@@ -160,7 +160,8 @@ end;
 if ~isempty(find(strcmp(ICs','DIC')==0))
     [s2, R2, adj_R2, gen_R2] = ME_GLM_GoF(Y, X, V, B);
     MLL = ME_GLM_LL(Y, X, V, B, s2);
-    clear R2 adj_R2 gen_R2
+    p   = p + 1;                % The number of model parameters also
+    clear R2 adj_R2 gen_R2      % includes the residual variance!
 end;
 
 % Calculate posterior log-likelihood
