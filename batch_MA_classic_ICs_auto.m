@@ -149,7 +149,7 @@ for i = 1:N
         fprintf('   - Model %s (%d out of %d) ... ',MS.GLMs{j},j,M);
         load(MS.SPMs{i,j});                 % load SPM.mat
         MA_classic_ICs(SPM, [], ICs)        % calculate ICs
-        fprintf('succesful!\n');
+        fprintf('successful!\n');
     end;
 end;
 fprintf('\n');

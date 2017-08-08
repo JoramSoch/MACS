@@ -93,7 +93,7 @@ end;
 for i = 1:N
     fprintf('\n-> Subject %d (%d out of %d) ... ',i,i,N);
     MS_BMA_subject(LMEs(i,:)', params, method, BMA_dirs{i});
-    fprintf('succesful!\n');
+    fprintf('successful!\n');
 end;
 fprintf('\n');
 

@@ -74,7 +74,7 @@ for i = 1:N
         fprintf('   - Model %s (%d out of %d) ... ',MS.GLMs{j},j,M);
         load(MS.SPMs{i,j});                 % load SPM.mat
         MA_cvLME_multi(SPM,[],[],AnC);      % calculate cvLME
-        fprintf('succesful!\n');
+        fprintf('successful!\n');
     end;
 end;
 fprintf('\n');
