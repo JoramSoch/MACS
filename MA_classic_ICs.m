@@ -44,7 +44,7 @@ function MA_classic_ICs(SPM, data, ICs)
 % E-Mail: joram.soch@bccn-berlin.de
 % 
 % First edit: 18/03/2017, 09:30 (V0.99/V15)
-%  Last edit: 08/08/2017, 12:20 (V1.1/V17)
+%  Last edit: 18/08/2017, 17:00 (V1.1/V17)
 
 
 %=========================================================================%
@@ -167,8 +167,8 @@ end;
 % Calculate posterior log-likelihood
 %-------------------------------------------------------------------------%
 if ~isempty(cell2mat(strfind(ICs','DIC')))
-    [PLL, MAPLL] = ME_GLM_DIC(Y, X, V);
-    pD = -2*PLL + 2*MAPLL;
+    [PLL, LLP] = ME_GLM_DIC(Y, X, V);
+    pD = -2*PLL + 2*LLP;
     clear PLL
 end;
 
@@ -185,7 +185,7 @@ for i = 1:numel(ICs)
         case 'BIC'              % Bayesian information criterion
             XIC = -2*MLL + p.*log(n);
         case 'DIC'              % Deviance information criterion
-            XIC = -2*MAPLL + 2*pD;
+            XIC = -2*LLP + 2*pD;
         case 'HQC'              % Hannan-Quinn information criterion
             XIC = -2*MLL + 2*p.*log(log(n));
         case 'KIC'              % Kullback information criterion

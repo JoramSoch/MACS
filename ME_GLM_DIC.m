@@ -1,32 +1,32 @@
-function [PLL, MAPLL] = ME_GLM_DIC(Y, X, V)
+function [PLL, LLP] = ME_GLM_DIC(Y, X, V)
 % _
 % Deviance Information Criterion for the General Linear Model
-% FORMAT [PLL, MAPLL] = ME_GLM_DIC(Y, X, V)
+% FORMAT [PLL, LLP] = ME_GLM_DIC(Y, X, V)
 % 
 %     Y  - an n x v data matrix of v time series with n data points
 %     X  - an n x p design matrix of p regressors with n data points
 %     V  - an n x n covariance matrix embodying temporal correlations
 % 
-%     PLL   - a 1 x v vector of posterior log-likelihood values
-%     MAPLL - a 1 x v vector of maximum-a-posteriori log-likelihoods
+%     PLL - a 1 x v vector of posterior log-likelihood values
+%     LLP - a 1 x v vector of log-likelihood at posterior values
 % 
-% FORMAT [PLL, MAPLL] = ME_GLM_DIC(Y, X, V) calculates components of the
+% FORMAT [PLL, LLP] = ME_GLM_DIC(Y, X, V) calculates components of the
 % deviance information criterion (DIC) for the general linear model (GLM)
 % with data Y, design matrix X and covariance matrix V.
 % 
 % The DIC is given by
-%     DIC = -2*MAPLL + 2*pD
+%     DIC = -2*LLP + 2*pD
 % where pD is given by
-%     pD  = -2*PLL + 2*MAPLL
+%     pD  = -2*PLL + 2*LLP
 % where PLL is the posterior log-likelihood, i.e. the posterior expec-
-% tation of the log-likelihood, and MAPLL is the maximum-a-posteriori
-% log-likelihood, i.e. the log-likelihood at the posterior modes.
+% tation of the log-likelihood, and LLP is the log-likelihood at the
+% posterior, i.e. the log-likelihood at the posterior expectations.
 % 
 % Author: Joram Soch, BCCN Berlin
 % E-Mail: joram.soch@bccn-berlin.de
 % 
 % First edit: 11/05/2017, 23:20 (V1.0/V16)
-%  Last edit: 11/05/2017, 23:20 (V1.0/V16)
+%  Last edit: 18/08/2017, 16:55 (V1.1/V17)
 
 
 % Get model dimensions
@@ -52,9 +52,9 @@ b0 = 0;
 [PLL, Com] = ME_GLM_NG_AnC(X, P, m0, L0, a0, b0, mn, Ln, an, bn, 'Calculate posterior log-likelihood');
 clear Com
 
-% Calculate maximum-a-posteriori log-likelihood
+% Calculate log-likelihood at posterior
 %-------------------------------------------------------------------------%
-beta_MAP = mn;
-tau_MAP  = (an-1)./bn;
-MAPLL    = ME_GLM_LL(Y, X, V, beta_MAP, 1./tau_MAP);
-clear beta_MAP tau_MAP
+beta_exp = mn;
+tau_exp  = an./bn;
+LLP      = ME_GLM_LL(Y, X, V, beta_exp, 1./tau_exp);
+clear beta_exp tau_exp
