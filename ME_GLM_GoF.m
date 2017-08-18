@@ -35,7 +35,7 @@ function [sig2, R2, adj_R2, gen_R2] = ME_GLM_GoF(Y, X, V, B)
 % E-Mail: joram.soch@bccn-berlin.de
 % 
 % First edit: 04/03/2015, 15:15 (V0.3/V10)
-%  Last edit: 10/03/2015, 19:00 (V0.3/V10)
+%  Last edit: 18/08/2017, 16:50 (V1.1/V17)
 
 
 % Get model dimensions
@@ -98,7 +98,7 @@ spm_progress_bar('Clear');
 % Calculate R^2 and adj. R^2
 %-------------------------------------------------------------------------%
     R2 = 1 - (SS_res)./(SS_tot); % = SS_reg./SS_tot
-adj_R2 = 1 - (SS_res./(n-p-1)) ./ (SS_tot./(n-1));
+adj_R2 = 1 - (SS_res./(n-p)) ./ (SS_tot./(n-1));
 
 % Init progress bar
 %-------------------------------------------------------------------------%
