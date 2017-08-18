@@ -1,5 +1,7 @@
 # MACS
 
+<a href="https://zenodo.org/badge/latestdoi/92269905"><img src="https://zenodo.org/badge/92269905.svg" alt="DOI"></a>
+
 <h3>MACS – a new SPM toolbox for model assessment, comparison and selection</h3>
 
 This toolbox unifies cross-validated Bayesian model selection (cvBMS) [1] and averaging (cvBMA) [2] as well as several other methods into a fully-functionining toolbox for Statistical Parametric Mapping (SPM) that supports SPM's batch mode to accelerate model assessment, comparison and selection (MACS) of general linear models (GLMs) applied to functional magnetic resonance imaging (fMRI) data.
