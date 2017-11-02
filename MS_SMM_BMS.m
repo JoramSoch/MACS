@@ -45,7 +45,7 @@ function MS_SMM_BMS(BMS, mask, extent)
 % E-Mail: joram.soch@bccn-berlin.de
 % 
 % First edit: 12/03/2015, 05:30 (V0.3/V10)
-%  Last edit: 17/03/2017, 22:40 (V0.99/V15)
+%  Last edit: 01/11/2017, 11:45 (V1.1/V17)
 
 
 %=========================================================================%
@@ -61,6 +61,7 @@ if nargin == 0
     return
 else
     BMS_dir = fileparts(BMS.fname);
+    if nargin < 3 || isempty(extent), extent = 10; end;
     SMM_dir = strcat(BMS_dir,'/','MS_SMM_BMS_',num2str(extent),'/');
 end;
 
