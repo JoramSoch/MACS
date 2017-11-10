@@ -12,4 +12,4 @@ To install the toolbox, it has to be downloaded and placed as a subdirectory "MA
 
 [1] http://www.sciencedirect.com/science/article/pii/S1053811916303615 <br>
 [2] http://www.sciencedirect.com/science/article/pii/S105381191730527X <br>
-[3] https://www.biorxiv.org/content/early/2017/09/27/194365 <br>
+[3] https://www.biorxiv.org/content/early/2017/11/09/194365 <br>
