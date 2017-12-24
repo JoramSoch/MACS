@@ -23,7 +23,7 @@ function MA_LFE_uniform(LMEs, mods, fams, folder)
 % E-Mail: joram.soch@bccn-berlin.de
 % 
 % First edit: 05/02/2015, 12:20 (V0.3/V9)
-%  Last edit: 17/03/2017, 20:20 (V0.99/V15)
+%  Last edit: 07/12/2017, 20:50 (V1.1/V17)
 
 
 %=========================================================================%
@@ -80,7 +80,7 @@ Finter = spm('FigName','MA_LFE_uniform: estimate');
 LFE = zeros(F,V);
 for i = 1:F
     Mi = sum(mods==i);
-    LFE(i,:) = ME_MF_LFE(LME(mods==i,:),(1/(F*Mi))*ones(1,Mi));
+    LFE(i,:) = ME_MF_LFE(LME(mods==i,:),(1/Mi)*ones(1,Mi));
 end;
 clear Mi
 
