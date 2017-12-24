@@ -62,7 +62,7 @@ function MS_BMA_subject(LMEs, para, opts, folder)
 % E-Mail: joram.soch@bccn-berlin.de
 % 
 % First edit: 03/03/2016, 13:30 (V0.4/V13)
-%  Last edit: 12/05/2017, 13:25 (V1.0/V16)
+%  Last edit: 08/12/2017, 02:20 (V1.1/V17)
 
 
 %=========================================================================%
@@ -128,7 +128,11 @@ for i = 1:M                     % models
     for j = 1:P                 % parameters
         for k = 1:S             % sessions
             if para(i,j) ~= 0   % indexed parameter
-                beta_hdr = SPM.Vbeta(SPM.Sess(k).col(para(i,j)));
+                if para(i,j) <= numel(SPM.Sess(k).col)
+                    beta_hdr = SPM.Vbeta(SPM.Sess(k).col(para(i,j)));
+                else            % implicit baseline
+                    beta_hdr = SPM.Vbeta(SPM.xX.iB(k));
+                end;
                 beta_img = spm_read_vols(beta_hdr);
                 beta_img = reshape(beta_img,[1 V]);
                 B(i,:,j) = B(i,:,j) + beta_img;
