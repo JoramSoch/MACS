@@ -47,7 +47,7 @@ function varargout = MF_visualize(varargin)
 % E-Mail: joram.soch@bccn-berlin.de
 % 
 % First edit: 12/02/2015, 05:35 (V0.3/V10)
-%  Last edit: 17/08/2015, 21:10 (V0.3/V11)
+%  Last edit: 01/12/2017, 16:35 (V1.1/V17)
 
 
 %=========================================================================%
@@ -170,7 +170,7 @@ case 'setup'
     % Set up visualize GUI
     %---------------------------------------------------------------------%
     spm_clf(Finter);
-    spm('FigName',['MF_visualize: Setup'],Finter);
+    spm('FigName','MF_visualize: Setup',Finter);
     hReg = MF_visualize('SetupGUI',M,DIM,xSPM,Finter);
 
     % Activate section overlay
