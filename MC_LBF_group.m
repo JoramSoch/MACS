@@ -17,7 +17,7 @@ function MC_LBF_group(job)
 % E-Mail: joram.soch@bccn-berlin.de
 % 
 % First edit: 18/03/2017, 17:05 (V0.99/V15)
-%  Last edit: 18/03/2017, 17:05 (V0.99/V15)
+%  Last edit: 01/12/2017, 05:55 (V1.1/V17)
 
 
 %=========================================================================%
@@ -106,8 +106,8 @@ LBF = zeros(2,V,N);
 for i = 1:N
     LBF(1,:,i) = LME(1,:,i) - LME(2,:,i);
     LBF(2,:,i) = LME(2,:,i) - LME(1,:,i);
-    PP(1,:,i)  = LBF(1,:,i) ./ (LBF(1,:,i) + 1);
-    PP(2,:,i)  = LBF(2,:,i) ./ (LBF(2,:,i) + 1);
+    PP(1,:,i)  = exp(LBF(1,:,i)) ./ (exp(LBF(1,:,i)) + 1);
+    PP(2,:,i)  = exp(LBF(2,:,i)) ./ (exp(LBF(2,:,i)) + 1);
 end;
 
 % Calculate group-level LBFs
@@ -116,8 +116,8 @@ LGBF = zeros(2,V);
  GPP = zeros(2,V);
 LGBF(1,m_ind) = sum(LME(1,m_ind,:),3) - sum(LME(2,m_ind,:),3);
 LGBF(2,m_ind) = sum(LME(2,m_ind,:),3) - sum(LME(1,m_ind,:),3);
-GPP(1,:) = LGBF(1,:) ./ (LGBF(1,:) + 1);
-GPP(2,:) = LGBF(2,:) ./ (LGBF(2,:) + 1);
+GPP(1,m_ind)  = exp(LGBF(1,m_ind)) ./ (exp(LGBF(1,m_ind)) + 1);
+GPP(2,m_ind)  = exp(LGBF(2,m_ind)) ./ (exp(LGBF(2,m_ind)) + 1);
 
 % Clear progress bar
 %-------------------------------------------------------------------------%
