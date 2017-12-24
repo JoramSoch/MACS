@@ -67,7 +67,7 @@ function MA_cvLME_multi(SPM, data, mode, AnC)
 % E-Mail: joram.soch@bccn-berlin.de
 % 
 % First edit: 04/03/2014, 19:00 (V0.1/V1)
-%  Last edit: 24/05/2017, 09:45 (V1.0/V16)
+%  Last edit: 01/12/2017, 00:25 (V1.1/V17)
 
 
 %=========================================================================%
@@ -208,7 +208,6 @@ for h = 1:s
     S(h).X = X(S(h).n,S(h).p);  % design matrix
     S(h).P = P(S(h).n,S(h).n);  % precision matrix
 end;
-clear Y X P
 
 
 %=========================================================================%
@@ -225,6 +224,13 @@ m0_ni = zeros(p(1),1);          % flat Gaussian
 L0_ni = exp(-23)*eye(p(1));
 a0_ni = 0;                      % Jeffrey's prior
 b0_ni = 0;
+
+% Estimate posteriors from all data
+%-------------------------------------------------------------------------%
+if strcmp(mode,'N-1')
+    [mn_all, Ln_all, an_all, bn_all] = ME_GLM_NG(Y, X, P, m0_ni, L0_ni, a0_ni, b0_ni, sprintf('Estimate posteriors over all sessions 1-%d',s));
+end;
+clear Y X P
 
 % Cycle through cross-validation folds
 %-------------------------------------------------------------------------%
@@ -248,23 +254,15 @@ for g = 1:s
         % Set non-informative priors
         %-----------------------------------------------------------------%
         m0 = m0_ni; L0 = L0_ni; a0 = a0_ni; b0 = b0_ni;
-
+        
         % Estimate posteriors for this fold
         %-----------------------------------------------------------------%
         [mn, Ln, an, bn] = ME_GLM_NG(Yf, Xf, Pf, m0, L0, a0, b0, sprintf('Estimate posteriors that serve as priors for session %d',g));
 
-        % Set these as informative priors
-        %-----------------------------------------------------------------%
-        m0 = mn; L0 = Ln; a0 = an; b0 = bn;
-
-        % Estimate posteriors for remaining session
-        %-----------------------------------------------------------------%
-        [mn, Ln, an, bn] = ME_GLM_NG(S(g).Y, S(g).X, S(g).P, m0, L0, a0, b0, sprintf('Estimate posteriors for session %d using priors from other sessions',g));
-        
         % Save priors and posteriors for this session
         %-----------------------------------------------------------------%
-        S(g).m0 = m0; S(g).L0 = L0; S(g).a0 = a0; S(g).b0 = b0;
-        S(g).mn = mn; S(g).Ln = Ln; S(g).an = an; S(g).bn = bn;
+        S(g).m0 = mn;     S(g).L0 = Ln;     S(g).a0 = an;     S(g).b0 = bn;
+        S(g).mn = mn_all; S(g).Ln = Ln_all; S(g).an = an_all; S(g).bn = bn_all;
         clear m0 L0 a0 b0 mn Ln an bn
 
     end;

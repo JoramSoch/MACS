@@ -61,7 +61,7 @@ function MA_cvLME_single(SPM, data, disc, AnC)
 % E-Mail: joram.soch@bccn-berlin.de
 % 
 % First edit: 04/03/2014, 19:00 (V0.1/V1)
-%  Last edit: 24/05/2017, 09:45 (V1.0/V16)
+%  Last edit: 01/12/2017, 00:35 (V1.1/V17)
 
 
 %=========================================================================%
@@ -204,7 +204,6 @@ if length(s1) == length(s2)
     n1 = numel(s1);             % data points
     n2 = numel(s2);
 end;
-clear Y X P
 
 
 %=========================================================================%
@@ -222,29 +221,18 @@ L0 = exp(-23)*eye(p);
 a0 = 0;                         % Jeffrey's prior
 b0 = 0;
 
-% Estimate posteriors for 1st part (as priors for 2nd part)
+% Estimate (informative) posteriors from all data
+%-------------------------------------------------------------------------%
+[mn, Ln, an, bn] = ME_GLM_NG(Y, X, P, m0, L0, a0, b0, 'Estimate posteriors over both parts');
+clear Y X P
+
+% Estimate posteriors from 1st part (as priors for 2nd part)
 %-------------------------------------------------------------------------%
 [mn1, Ln1, an1, bn1] = ME_GLM_NG(Y1, X1, P1, m0, L0, a0, b0, 'Estimate 1st part posteriors (as 2nd part priors)');
 
-% Estimate posteriors for 2nd part (as priors for 1st part)
+% Estimate posteriors from 2nd part (as priors for 1st part)
 %-------------------------------------------------------------------------%
 [mn2, Ln2, an2, bn2] = ME_GLM_NG(Y2, X2, P2, m0, L0, a0, b0, 'Estimate 2nd part posteriors (as 1st part priors)');
-
-% Set (informative) priors for both parts
-%-------------------------------------------------------------------------%
-m01 = mn2;  m02 = mn1;          % normal distribution
-L01 = Ln2;  L02 = Ln1;
-a01 = an2;  a02 = an1;          % gamma distribution
-b01 = bn2;  b02 = bn1;
-clear mn* Ln* an* bn*
-
-% Estimate posteriors for 1st part (with priors from 2nd part)
-%-------------------------------------------------------------------------%
-[mn1, Ln1, an1, bn1] = ME_GLM_NG(Y1, X1, P1, m01, L01, a01, b01, 'Estimate 1st part posteriors (with 2nd part priors)');
-
-% Estimate posteriors for 2nd part (with priors from 1st part)
-%-------------------------------------------------------------------------%
-[mn2, Ln2, an2, bn2] = ME_GLM_NG(Y2, X2, P2, m02, L02, a02, b02, 'Estimate 2nd part posteriors (with 1st part priors)');
 
 
 %=========================================================================%
@@ -268,19 +256,19 @@ end;
 
 % Calculate evidence for 1st part (using estimates from 2nd part)
 %-------------------------------------------------------------------------%
-oosLME1(m_ind) = ME_GLM_NG_LME(P1, L01, a01, b01, Ln1, an1, bn1);
+oosLME1(m_ind) = ME_GLM_NG_LME(P1, Ln2, an2, bn2, Ln, an, bn);
 
 % Calculate accuracy and complexity for 1st part (using 2nd part)
 %-------------------------------------------------------------------------%
-if AnC, [oosAcc1(m_ind), oosCom1(m_ind)] = ME_GLM_NG_AnC(X1, P1, m01, L01, a01, b01, mn1, Ln1, an1, bn1, 'Compute accuracy and complexity for 1st part'); end;
+if AnC, [oosAcc1(m_ind), oosCom1(m_ind)] = ME_GLM_NG_AnC(X1, P1, mn2, Ln2, an2, bn2, mn, Ln, an, bn, 'Compute accuracy and complexity for 1st part'); end;
 
 % Calculate evidence for 2nd part (using estimates from 1st part)
 %-------------------------------------------------------------------------%
-oosLME2(m_ind) = ME_GLM_NG_LME(P2, L02, a02, b02, Ln2, an2, bn2);
+oosLME2(m_ind) = ME_GLM_NG_LME(P2, Ln1, an1, bn1, Ln, an, bn);
 
 % Calculate accuracy and complexity for 2nd part (using 1st part)
 %-------------------------------------------------------------------------%
-if AnC, [oosAcc2(m_ind), oosCom2(m_ind)] = ME_GLM_NG_AnC(X2, P2, m02, L02, a02, b02, mn2, Ln2, an2, bn2, 'Compute accuracy and complexity for 2nd part'); end;
+if AnC, [oosAcc2(m_ind), oosCom2(m_ind)] = ME_GLM_NG_AnC(X2, P2, mn1, Ln1, an1, bn1, mn, Ln, an, bn, 'Compute accuracy and complexity for 2nd part'); end;
 
 % Calculate total model evidence (assuming independence between parts)
 %-------------------------------------------------------------------------%
