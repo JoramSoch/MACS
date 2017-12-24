@@ -17,12 +17,20 @@ function [M m_dim m_ind] = MA_load_mask(SPM)
 % E-Mail: joram.soch@bccn-berlin.de
 % 
 % First edit: 24/10/2014, 18:20 (V0.2/V6)
-%  Last edit: 27/11/2014, 17:00 (V0.2/V8)
+%  Last edit: 01/12/2017, 01:40 (V1.1/V17)
 
 
 % Init progress bar
 %-------------------------------------------------------------------------%
 Finter = spm('FigName','MA_load_mask: load');
+
+% Change directory
+%-------------------------------------------------------------------------%
+try
+    cd(SPM.swd);
+catch
+    SPM.swd = pwd;
+end
 
 % Load mask image
 %-------------------------------------------------------------------------%
