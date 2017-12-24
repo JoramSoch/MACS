@@ -6,7 +6,7 @@ function module = batch_MS_BMA_group_auto
 % E-Mail: joram.soch@bccn-berlin.de
 % 
 % First edit: 17/03/2017, 22:20 (V0.99/V15)
-%  Last edit: 11/05/2017, 19:05 (V1.0/V16)
+%  Last edit: 07/12/2017, 15:45 (V1.1/V17)
 
 
 % Define toolbox path
@@ -61,7 +61,7 @@ para_mat.help    = {'The parameter matrix is an M x P matrix, where M is the num
                     '    1   4   0   0    '
                     'This would indicate that the 4th model does not have the 3rd/4th regressor from the 1st model.'
                     'Note that this variable can also be a 1 x P vector, if parameter indices are the same for all models.'};
-para_mat.strtype = 'n';
+para_mat.strtype = 'i';
 para_mat.num     = [Inf Inf];
 
 % Analysis name
