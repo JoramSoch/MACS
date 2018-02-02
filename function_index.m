@@ -7,7 +7,7 @@ function function_index
 % E-Mail: joram.soch@bccn-berlin.de
 % 
 % First edit: 15/08/2017, 17:15 (V1.1/V17)
-%  Last edit: 15/08/2017, 17:15 (V1.1/V17)
+%  Last edit: 02/02/2018, 02:55 (V1.2/V18)
 
 
 % Get toolbox file index
@@ -25,12 +25,12 @@ f = cell(1,6);
 % Browse toolbox functions
 %-------------------------------------------------------------------------%
 for i = 1:numel(files)
-    if ~isempty(strfind(files(i).name,'.m'))
+    if ~isempty(strfind(files(i).name,'.m')) || ~isempty(strfind(files(i).name,'.py'))
         
         % Get function type
         %-----------------------------------------------------------------%
         n = n + 1;
-        name = files(i).name(1:end-2);
+        name = files(i).name(1:end-2);                  % function name
         if strncmp(name,'batch_',6), type = 'batch function';     end;
         if strncmp(name,'MA_',3),    type = 'model assessment';   end;
         if strncmp(name,'MC_',3),    type = 'model comparison';   end;
@@ -42,11 +42,10 @@ for i = 1:numel(files)
         
         % Read function code
         %-----------------------------------------------------------------%
-        lines = textread(strcat(MACS_dir,'/',files(i).name),'%s','delimiter','\n');
+        lines   = textread(strcat(MACS_dir,'/',files(i).name),'%s','delimiter','\n');
+        purpose = lines{3}(3:end);                      % function purpose
+        nocl    = numel(lines);                         % number of code lines
         for j = 1:numel(lines)
-            if j == 3                                   % function purpose
-                purpose = lines{j}(3:end);
-            end;
             if strncmp(lines{j},'% First edit:',13)     % first edit
                 first_edit = lines{j}(15:end);
             end;
@@ -54,11 +53,14 @@ for i = 1:numel(files)
                 last_edit = lines{j}(15:end);
             end;
         end;
-        nocl = numel(lines);
         
         % Assemble function info
         %-----------------------------------------------------------------%
-        f{n,1} = name;
+        if ~isempty(strfind(files(i).name,'.m'))
+            f{n,1} = name;
+        else
+            f{n,1} = files(i).name;
+        end;
         f{n,2} = type;
         f{n,3} = purpose;
         f{n,4} = first_edit;
