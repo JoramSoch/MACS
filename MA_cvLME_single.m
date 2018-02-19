@@ -61,7 +61,7 @@ function MA_cvLME_single(SPM, data, disc, AnC)
 % E-Mail: joram.soch@bccn-berlin.de
 % 
 % First edit: 04/03/2014, 19:00 (V0.1/V1)
-%  Last edit: 01/12/2017, 00:35 (V1.1/V17)
+%  Last edit: 16/02/2018, 13:15 (V1.2/V18)
 
 
 %=========================================================================%
@@ -98,6 +98,12 @@ if nargin < 3 || isempty(disc), disc = 10 + mod(size(SPM.xX.X,1),10); end;
 % Inactivate AnC if necessary
 %-------------------------------------------------------------------------%
 if nargin < 4 || isempty(AnC), AnC = false; end;
+
+% Add session field if GLM for EEG
+%-------------------------------------------------------------------------%
+if ~isfield(SPM,'Sess')
+    SPM.Sess = 1;
+end;
 
 % Call other function if multi-run
 %-------------------------------------------------------------------------%
@@ -223,7 +229,7 @@ b0 = 0;
 
 % Estimate (informative) posteriors from all data
 %-------------------------------------------------------------------------%
-[mn, Ln, an, bn] = ME_GLM_NG(Y, X, P, m0, L0, a0, b0, 'Estimate posteriors over both parts');
+[mn, Ln, an, bn] = ME_GLM_NG(Y, X, P, m0, L0, a0, b0, 'Estimate posteriors over both parts 1-2');
 clear Y X P
 
 % Estimate posteriors from 1st part (as priors for 2nd part)
