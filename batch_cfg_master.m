@@ -6,13 +6,21 @@ function module = batch_cfg_master
 % E-Mail: joram.soch@bccn-berlin.de
 % 
 % First edit: 17/03/2017, 00:45 (V0.99/V15)
-%  Last edit: 11/05/2017, 16:45 (V1.0/V16)
+%  Last edit: 06/02/2018, 14:50 (V1.2/V18)
 
 
 % Define toolbox path
 %-------------------------------------------------------------------------%
-if ~isdeployed, addpath(fullfile(spm('dir'),'toolbox','MACS')); end
-
+if ~isdeployed
+    MACS_dir = dir(fullfile(spm('dir'),'toolbox','MACS*'));
+    MACS_dir = MACS_dir([MACS_dir.isdir]);
+    if ~strcmp(MACS_dir(1).name,'MACS')
+        old_dir = fullfile(spm('dir'),'toolbox',MACS_dir(1).name);
+        new_dir = fullfile(spm('dir'),'toolbox','MACS');
+        movefile(old_dir, new_dir, 'f');
+    end;
+    addpath(fullfile(spm('dir'),'toolbox','MACS'));
+end;
 
 %=========================================================================%
 % M O D U L E                                                             %
