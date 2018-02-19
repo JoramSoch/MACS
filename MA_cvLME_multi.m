@@ -67,7 +67,7 @@ function MA_cvLME_multi(SPM, data, mode, AnC)
 % E-Mail: joram.soch@bccn-berlin.de
 % 
 % First edit: 04/03/2014, 19:00 (V0.1/V1)
-%  Last edit: 16/02/2018, 13:15 (V1.2/V18)
+%  Last edit: 19/02/2018, 12:15 (V1.2/V18)
 
 
 %=========================================================================%
@@ -237,6 +237,7 @@ b0_ni = 0;
 % Estimate posteriors from all data
 %-------------------------------------------------------------------------%
 if strcmp(mode,'N-1')
+    X = vertcat(S(1:s).X);
     [mn_all, Ln_all, an_all, bn_all] = ME_GLM_NG(Y, X, P, m0_ni, L0_ni, a0_ni, b0_ni, sprintf('Estimate posteriors over all sessions 1-%d',s));
 end;
 clear Y X P
