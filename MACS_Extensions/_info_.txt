@@ -1,0 +1,1 @@
+This folder includes MATLAB scripts for extensions to the toolbox as described in the MACS toolbox manual (Soch, 2018).
