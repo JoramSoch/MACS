@@ -1,1 +1,0 @@
-This folder includes SPM batch editor jobs for the examples reported in the MACS toolbox paper (Soch et al., 2018).
