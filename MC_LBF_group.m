@@ -7,17 +7,28 @@ function MC_LBF_group(job)
 % FORMAT MC_LBF_group(job) performs Bayesian model comparison (BMC) in a
 % two-model model space and calculates the log Bayes factor (LBF), i.e.
 % difference in log model evidence (LME), as well as the posterior
-% probabilities (PP) of the two models, for each subject as well as
-% for the whole group of subjects.
+% probabilities (PP) [1,2] of the two models, for each subject
+% as well as for the whole group of subjects [3].
 % 
 % Further information:
 %     help ME_BMS_FFX
+% 
+% References:
+% [1] Penny WD, Stephan KE, Daunizeau J, Rosa MJ, Friston KJ, Schofield TM,
+%     Leff AP (2010): "Comparing Families of Dynamic Causal Models".
+%     PLoS ONE, vol. 6, iss. 3, e1000709.
+% [2] Penny WD, Ridgway GR (2013): "Efficient Posterior
+%     Probability Mapping Using Savage-Dickey Ratios". 
+%     PLoS ONE, vol. 8, iss. 3, e59655.
+% [3] Soch J, Allefeld C (2018): "MACS - a new SPM toolbox for model
+%     assessment, comparison and selection". Journal of Neuroscience
+%     Methods, in review. URL: https://www.biorxiv.org/content/early/2017/11/09/194365.
 % 
 % Author: Joram Soch, BCCN Berlin
 % E-Mail: joram.soch@bccn-berlin.de
 % 
 % First edit: 18/03/2017, 17:05 (V0.99/V15)
-%  Last edit: 01/12/2017, 05:55 (V1.1/V17)
+%  Last edit: 09/03/2018, 11:55 (V1.2/V18)
 
 
 %=========================================================================%
@@ -116,8 +127,8 @@ LGBF = zeros(2,V);
  GPP = zeros(2,V);
 LGBF(1,m_ind) = sum(LME(1,m_ind,:),3) - sum(LME(2,m_ind,:),3);
 LGBF(2,m_ind) = sum(LME(2,m_ind,:),3) - sum(LME(1,m_ind,:),3);
-GPP(1,m_ind)  = exp(LGBF(1,m_ind)) ./ (exp(LGBF(1,m_ind)) + 1);
-GPP(2,m_ind)  = exp(LGBF(2,m_ind)) ./ (exp(LGBF(2,m_ind)) + 1);
+ GPP(1,m_ind) = exp(LGBF(1,m_ind)) ./ (exp(LGBF(1,m_ind)) + 1);
+ GPP(2,m_ind) = exp(LGBF(2,m_ind)) ./ (exp(LGBF(2,m_ind)) + 1);
 
 % Clear progress bar
 %-------------------------------------------------------------------------%

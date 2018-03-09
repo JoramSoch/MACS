@@ -8,9 +8,9 @@ function MA_LFE_uniform(LMEs, mods, fams, folder)
 %     folder - a string indicating the folder for the output images
 % 
 % FORMAT MA_LFE_uniform(LMEs, mods, fams, folder) generates log family
-% evidence maps based on the log model evidence maps LMEs assuming uniform
-% prior probabilities over and within families and saves them to sub-
-% directories of the directory folder.
+% evidence maps [1] based on the log model evidence maps LMEs assuming
+% uniform prior probabilities over and within families and saves them to
+% sub-directories of the directory folder.
 % 
 % The variable "mods" is a vector specifying for each model which family it
 % belongs to. The variable "fams" is a cell array specifying the family
@@ -18,6 +18,11 @@ function MA_LFE_uniform(LMEs, mods, fams, folder)
 % 
 % Further information:
 %     help ME_MF_LFE
+% 
+% References:
+% [1] Soch J, Haynes JD, Allefeld C (2016): "How to avoid mismodelling in
+%     GLM-based fMRI data analysis: cross-validated Bayesian model selection".
+%     NeuroImage, vol. 141, pp. 469–489.
 % 
 % Author: Joram Soch, BCCN Berlin
 % E-Mail: joram.soch@bccn-berlin.de

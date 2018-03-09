@@ -61,11 +61,16 @@ function varargout = MA_inspect_GoF(varargin)
 % Consequently, much of this code is stolen from spm_results_ui.m!
 % Additional inspiration came from spm_run_bms_vis.m.
 % 
+% References:
+% [1] Soch J, Allefeld C (2018): "MACS - a new SPM toolbox for model
+%     assessment, comparison and selection". Journal of Neuroscience
+%     Methods, in review. URL: https://www.biorxiv.org/content/early/2017/11/09/194365.
+% 
 % Author: Joram Soch, BCCN Berlin
 % E-Mail: joram.soch@bccn-berlin.de
 % 
 % First edit: 12/02/2015, 05:35 (V0.3/V10)
-%  Last edit: 11/05/2017, 21:30 (V1.0/V16)
+%  Last edit: 09/03/2018, 11:40 (V1.2/V18)
 
 
 %=========================================================================%

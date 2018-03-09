@@ -14,19 +14,24 @@ function [LME] = ME_GLM_NG_LME(P, L0, a0, b0, Ln, an, bn)
 %     LME - a  1 x v vector of log model evidences
 % 
 % FORMAT [LME] = ME_GLM_NG_LME(P, L0, a0, b0, Ln, an, bn) returns the log
-% model evidence for a general linear model with precision matrix P and
+% model evidence [1] for a general linear model with precision matrix P and
 % normal-gamma distributed priors / posteriors for regression coefficients
 % (L0 / Ln) and residual variance (a0, b0 / an, bn).
 % 
 % Further information:
 %     help ME_GLM_NG
 %     help ME_GLM_NG_AnC
+%
+% References:
+% [1] Soch J, Haynes JD, Allefeld C (2016): "How to avoid mismodelling in
+%     GLM-based fMRI data analysis: cross-validated Bayesian model selection".
+%     NeuroImage, vol. 141, pp. 469-489, eq. 9.
 % 
 % Author: Joram Soch, BCCN Berlin
 % E-Mail: joram.soch@bccn-berlin.de
 % 
 % First edit: 07/11/2014, 13:10 (V0.2/V7)
-%  Last edit: 07/01/2015, 15:15 (V0.3/V9)
+%  Last edit: 09/03/2018, 12:15 (V1.2/V18)
 
 
 % Get model dimensions

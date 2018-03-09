@@ -7,7 +7,7 @@ function MS_BMA_group(job, params, method)
 %     method - a string indicating analysis options (see below)
 % 
 % FORMAT MS_BMA_group(job, params, method) performs Bayesian model
-% averaging according to the batch editor job with parameters of
+% averaging [1] according to the batch editor job with parameters of
 % interest indexed by params and using the method indicated by method.
 % 
 % The input variable "params" can be an M x P matrix indexing parameters of
@@ -27,11 +27,16 @@ function MS_BMA_group(job, params, method)
 % Further information:
 %     help MS_BMA_subject
 % 
+% References:
+% [1] Soch J, Meyer AP, Haynes JD, Allefeld C (2017): "How to improve parameter estimates in 
+%     GLM-based fMRI data analysis: cross-validated Bayesian model averaging".
+%     NeuroImage, vol. 158, pp. 186-195.
+% 
 % Author: Joram Soch, BCCN Berlin
 % E-Mail: joram.soch@bccn-berlin.de
 % 
 % First edit: 03/03/2016, 18:35 (V0.4/V13)
-%  Last edit: 11/05/2017, 18:20 (V1.0/V16)
+%  Last edit: 09/03/2018, 12:00 (V1.2/V18)
 
 
 %=========================================================================%

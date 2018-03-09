@@ -8,8 +8,8 @@ function [LFE] = ME_MF_LFE(LME, prior)
 % 
 %     LFE   - a  1 x V vector with log family evidences
 % 
-% FORMAT [LFE] = ME_MF_LFE(LME, prior) computes the log family evidence for
-% a number of log model evidences with certain prior model probabilities.
+% FORMAT [LFE] = ME_MF_LFE(LME, prior) computes the log family evidence [1]
+% for a number of log model evidences with certain prior model probabilities.
 % 
 % Assuming prior and posterior addivity of model probabilities into family
 % probabilities as well as a uniform prior within families implies that the
@@ -19,12 +19,19 @@ function [LFE] = ME_MF_LFE(LME, prior)
 % 
 % This procedure selects the maximum log model evidence in a family as a
 % reference point and exponentiates only the difference relative to each
-% other log model evidence. If the difference is too large, contribution
+% other log model evidence [2]. If difference is too large, contribution
 % from the respective model will be automatically and rightfully ignored.
 % 
 % When a non-uniform prior within families is assumed, the computation
 % gets more complicated. In this case, the log prior has to be added to
-% the log model evidences before the above procedure is performed.
+% the log model evidences before the above procedure is performed [2].
+% 
+% References:
+% [1] Soch J, Haynes JD, Allefeld C (2016): "How to avoid mismodelling in
+%     GLM-based fMRI data analysis: cross-validated Bayesian model selection".
+%     NeuroImage, vol. 141, pp. 469–489.
+% [2] Soch J (2018): "cvBMS and cvBMA: filling in the gaps".
+%     Technical Report, in preparation, will be available at arXiv.
 % 
 % Author: Joram Soch, BCCN Berlin
 % E-Mail: joram.soch@bccn-berlin.de

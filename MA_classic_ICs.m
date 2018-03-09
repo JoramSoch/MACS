@@ -18,13 +18,13 @@ function MA_classic_ICs(SPM, data, ICs)
 %     If data is 'WKy', then the filtered and whitened data are used.
 % 
 % The input variable "ICs" is a cell array of strings and can contain:
-%     If IC is 'AIC',  then it's Akaike information criterion.
-%     If IC is 'AICc', then it's corrected Akaike information criterion.
-%     If IC is 'BIC',  then it's Bayesian information criterion.
-%     If IC is 'DIC',  then it's Deviance information criterion.
-%     If IC is 'HQC',  then it's Hannan-Quinn information criterion.
-%     If IC is 'KIC',  then it's Kullback information criterion.
-%     If IC is 'KICc', then it's corrected Kullback information criterion.
+%     If IC is 'AIC',  then it's Akaike information criterion [1].
+%     If IC is 'AICc', then it's corrected Akaike information criterion [2].
+%     If IC is 'BIC',  then it's Bayesian information criterion [3].
+%     If IC is 'DIC',  then it's Deviance information criterion [4].
+%     If IC is 'HQC',  then it's Hannan-Quinn information criterion [5].
+%     If IC is 'KIC',  then it's Kullback information criterion [6].
+%     If IC is 'KICc', then it's corrected Kullback information criterion [7].
 % 
 % Note that the DIC is - in contrast to the BIC - a "real" Bayesian
 % information criterion that requires prior distributions. Although it
@@ -40,11 +40,31 @@ function MA_classic_ICs(SPM, data, ICs)
 % Exemplary usage:
 %     MA_classic_ICs(SPM, 'Ky', {'AIC', 'BIC'});
 % 
+% References:
+% [1] Akaike H (1974): "A new look at the statistical model identification".
+%     IEEE Transactions on Automatic Control, vol. 19, pp. 716-723.
+% [2] Hurvich CM, Tsai CL (1989): "Regression and Time Series Model Selection
+%     in Small Samples". Biometrika, vol. 76, pp. 297-307.
+% [3] Schwarz G (1978): "Estimating the Dimension of a Model".
+%     The Annals of Statistics, vol. 6, pp. 461-464.
+% [4] Spiegelhalter DJ, Best NG, Carlin BP, van der Linde A (2002): 
+%     "Bayesian measures of model complexity and fit".
+%     Journal of the Royal Statistical Society B, vol. 64, pp. 583-639.
+% [5] Hannan EJ, Quinn BG (1979):
+%     "The Determination of the order of an autoregression".
+%     Journal of the Royal Statistical Society B, vol. 41, pp. 190–195.
+% [6] Cavanaugh JE (1999): "A large-sample model selection
+%     criterion based on Kullback's symmetric divergence".
+%     Statistics and Probability Letters, vol. 42, p. 333-344.
+% [7] Cavanaugh JE (2004): "Criteria for linear model selection
+%     based on Kullback's symmetric divergence".
+%     Australian & New Zealand Journal of Statistics, vol. 46, pp. 257-274.
+% 
 % Author: Joram Soch, BCCN Berlin
 % E-Mail: joram.soch@bccn-berlin.de
 % 
 % First edit: 18/03/2017, 09:30 (V0.99/V15)
-%  Last edit: 18/08/2017, 17:00 (V1.1/V17)
+%  Last edit: 09/03/2018, 14:05 (V1.2/V18)
 
 
 %=========================================================================%

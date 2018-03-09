@@ -61,13 +61,13 @@ function MA_cvLME_multi(SPM, data, mode, AnC)
 %     NeuroImage, vol. 141, pp. 469–489.
 % [2] Soch J, Meyer AP, Haynes JD, Allefeld C (2017): "How to improve parameter estimates in 
 %     GLM-based fMRI data analysis: cross-validated Bayesian model averaging".
-%     NeuroImage, in review. URL: http://biorxiv.org/content/early/2016/12/20/095778
+%     NeuroImage, vol. 158, pp. 186-195.
 % 
 % Author: Joram Soch, BCCN Berlin
 % E-Mail: joram.soch@bccn-berlin.de
 % 
 % First edit: 04/03/2014, 19:00 (V0.1/V1)
-%  Last edit: 19/02/2018, 12:15 (V1.2/V18)
+%  Last edit: 09/03/2018, 12:00 (V1.2/V18)
 
 
 %=========================================================================%

@@ -31,11 +31,16 @@ function [sig2, R2, adj_R2, gen_R2] = ME_GLM_GoF(Y, X, V, B)
 % Further information:
 %     help ME_GLM
 % 
+% References:
+% [1] Razavi M, Grabowski TJ, Vispoel WP, Monahan P, Mehta S, Eaton B,
+%     Bolinger L (2003): "Model assessment and model building in fMRI".
+%     Human Brain Mapping, vol. 20, pp. 227-238.
+% 
 % Author: Joram Soch, BCCN Berlin
 % E-Mail: joram.soch@bccn-berlin.de
 % 
 % First edit: 04/03/2015, 15:15 (V0.3/V10)
-%  Last edit: 18/08/2017, 16:50 (V1.1/V17)
+%  Last edit: 09/03/2018, 12:40 (V1.2/V18)
 
 
 % Get model dimensions

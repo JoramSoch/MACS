@@ -22,11 +22,19 @@ function [PLL, LLP] = ME_GLM_DIC(Y, X, V)
 % tation of the log-likelihood, and LLP is the log-likelihood at the
 % posterior, i.e. the log-likelihood at the posterior expectations.
 % 
+% Further information:
+%     help ME_GLM
+% 
+% References:
+% [1] Woolrich M, Jenkinson M, Brady J, Smith S (2004):
+%     "Fully Bayesian Spatio-Temporal Modeling of FMRI Data".
+%     IEEE Transactions on Medical Imaging, vol. 23, pp. 213-231.
+% 
 % Author: Joram Soch, BCCN Berlin
 % E-Mail: joram.soch@bccn-berlin.de
 % 
 % First edit: 11/05/2017, 23:20 (V1.0/V16)
-%  Last edit: 18/08/2017, 16:55 (V1.1/V17)
+%  Last edit: 09/03/2018, 12:50 (V1.2/V18)
 
 
 % Get model dimensions

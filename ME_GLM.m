@@ -28,24 +28,30 @@ function [beta_est, sig2_est] = ME_GLM(Y, X, V, msg)
 % Maximum Likelihood (ML) or Ordinary Least Squares (OLS) estimation
 % proceeds by minimizing RSS with respect to beta which is equivalent
 % to the residual vector being orthogonal to the design space (X'e = 0).
-% ML/OLS estimates are given by:
+% ML/OLS estimates are given by [1,2]:
 %     beta_est = (X'*X)^-1 * X'*y
 %     sig2_est = 1/n * (y-Xb_est)'*(y-Xb_est)
 % 
 % When the covariance matrix is not equal to the identity matrix (V <> I),
 % so that errors are not i.i.d., Gauss-Markov (GM) estimation or Weighted
-% Least Squares (WLS) must be used. GM/WLS estimates are given by:
+% Least Squares (WLS) must be used. GM/WLS estimates are given by [1,2]:
 %     beta_est = (X'*inv(V)*X)^-1 * X'*inv(V)*y
 %     sig2_est = 1/n * (y-Xb_est)'*inv(V)*(y-Xb_est)
 % 
 % An unbiased estimate for the residual variance is given by:
-%     sig2_est = 1/(n-p) * (y-Xb_est)'*(y-Xb_est)
+%     sig2_est = 1/(n-p) * (y-Xb_est)'*[inv(V)]*(y-Xb_est)
+% 
+% References:
+% [1] Bishop CM (2006): "Pattern Recognition and Machine Learning".
+%     Springer, ch. 3.1, pp. 140-143.
+% [2] Koch KR (2007): "Introduction to Bayesian Statistics".
+%     Springer, ch. 4.2.2/3, pp. 93-96.
 % 
 % Author: Joram Soch, BCCN Berlin
 % E-Mail: joram.soch@bccn-berlin.de
 % 
 % First edit: 29/10/2014, 14:05 (V0.2/V7)
-%  Last edit: 10/03/2015, 19:00 (V0.3/V10)
+%  Last edit: 09/03/2018, 12:30 (V1.2/V18)
 
 
 % Get model dimensions

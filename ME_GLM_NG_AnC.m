@@ -19,20 +19,25 @@ function [Acc, Com] = ME_GLM_NG_AnC(X, P, m0, L0, a0, b0, mn, Ln, an, bn, msg)
 %     Com - a  1 x v vector of (Bayesian) model complexities
 % 
 % FORMAT [Acc, Com] = ME_GLM_NG_AnC(X, P, m0, L0, a0, b0, mn, Ln, an, bn, msg)
-% returns model accuracy and model complexity for a general linear model with
-% design matrix X, precision matrix P and normal-gamma distributed priors /
-% posteriors for regression coefficients (m0, L0 / mn, Ln) and residual
-% variance (a0, b0 / an, bn).
+% returns model accuracy and model complexity [1] for a general linear model
+% with design matrix X, precision matrix P and normal-gamma distributed
+% priors/posteriors for regression coefficients (m0, L0 / mn, Ln) and
+% residual variance (a0, b0 / an, bn).
 % 
 % Further information:
 %     help ME_GLM_NG
 %     help ME_GLM_NG_LME
 % 
+% References:
+% [1] Soch J, Haynes JD, Allefeld C (2016): "How to avoid mismodelling in
+%     GLM-based fMRI data analysis: cross-validated Bayesian model selection".
+%     NeuroImage, vol. 141, pp. 469-489, eqs. C.2/C.4.
+% 
 % Author: Joram Soch, BCCN Berlin
 % E-Mail: joram.soch@bccn-berlin.de
 % 
 % First edit: 07/01/2015, 14:10 (V0.3/V9)
-%  Last edit: 07/01/2015, 15:15 (V0.3/V9)
+%  Last edit: 09/03/2018, 12:15 (V1.2/V18)
 
 
 % Get model dimensions

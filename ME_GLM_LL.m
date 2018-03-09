@@ -15,11 +15,20 @@ function LL = ME_GLM_LL(Y, X, V, B, s2)
 % for the general linear model with data Y, design matrix X, covariance
 % matrix V, regression coefficients B and residual variances s2.
 % 
+% Further information:
+%     help ME_GLM
+% 
+% References:
+% [1] Bishop CM (2006): "Pattern Recognition and Machine Learning".
+%     Springer, ch. 3.1, pp. 140-143.
+% [2] Koch KR (2007): "Introduction to Bayesian Statistics".
+%     Springer, ch. 4.2.2/3, pp. 93-96.
+% 
 % Author: Joram Soch, BCCN Berlin
 % E-Mail: joram.soch@bccn-berlin.de
 % 
 % First edit: 18/03/2017, 08:40 (V0.99/V15)
-%  Last edit: 18/03/2017, 11:35 (V0.99/V15)
+%  Last edit: 09/03/2018, 12:35 (V1.2/V18)
 
 
 % Number of data sets

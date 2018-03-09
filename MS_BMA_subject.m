@@ -56,13 +56,13 @@ function MS_BMA_subject(LMEs, para, opts, folder)
 %     PLoS ONE, vol. 6, iss. 3, e1000709.
 % [3] Soch J, Meyer AP, Haynes JD, Allefeld C (2017): "How to improve parameter estimates in 
 %     GLM-based fMRI data analysis: cross-validated Bayesian model averaging".
-%     NeuroImage, in review. URL: http://biorxiv.org/content/early/2016/12/20/095778
+%     NeuroImage, vol. 158, pp. 186-195.
 % 
 % Author: Joram Soch, BCCN Berlin
 % E-Mail: joram.soch@bccn-berlin.de
 % 
 % First edit: 03/03/2016, 13:30 (V0.4/V13)
-%  Last edit: 08/12/2017, 02:20 (V1.1/V17)
+%  Last edit: 09/03/2018, 12:00 (V1.2/V18)
 
 
 %=========================================================================%

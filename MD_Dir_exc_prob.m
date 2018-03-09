@@ -24,7 +24,7 @@ function exc_p = MD_Dir_exc_prob(alpha)
 % 
 % If K > 2, no closed-form expression for exceedance probabilities exists.
 % One option would be to use a sampling approach. Here, we use a numerical
-% integral over several Gamma CDFs instead [3].
+% integral over several Gamma CDFs instead [3,4].
 % 
 % References:
 % [1] Stephan KE, Penny WD, Daunizeau J, Moran RJ, Friston KJ (2009):
@@ -35,12 +35,14 @@ function exc_p = MD_Dir_exc_prob(alpha)
 %     PLoS ONE, vol. 6, iss. 3, e1000709.
 % [3] Soch J & Allefeld C (2015): "Non-Critical Comments on
 %     Bayesian Model Selection". Internal Report, June 2015.
+% [4] Soch J (2018): "cvBMS and cvBMA: filling in the gaps".
+%     Technical Report, in preparation, will be available at arXiv.
 % 
 % Author: Joram Soch, BCCN Berlin
 % E-Mail: joram.soch@bccn-berlin.de
 % 
 % First edit: 21/10/2014, 18:20 (V0.2/V6)
-%  Last edit: 15/09/2016, 09:20 (V0.9a/V13a)
+%  Last edit: 09/03/2018, 12:05 (V1.2/V18)
 
 
 % Get dimensionality
@@ -62,8 +64,8 @@ if K > 2
     exc_p = zeros(1,K);
     for j = 1:K
         f = @(x) integrand(x,alpha(j),alpha([1:K]~=j));
-        % exc_p(j) = integral(f,0,Inf);
-        % exc_p(j) = integral(f,0,Inf,'WayPoints',[alpha(j)]);
+      % exc_p(j) = integral(f,0,Inf);
+      % exc_p(j) = integral(f,0,Inf,'WayPoints',[alpha(j)]);
         exc_p(j) = integral(f,0,alpha(j)) + integral(f,alpha(j),Inf);
     end;
 end;
@@ -78,5 +80,5 @@ for k = 1:numel(ak)
     p = p .* gammainc(x,ak(k));
 end;
 % times a Gamma PDF
-p = p .* exp((aj-1).*log(x) - x - gammaln(aj));
+  p = p .* exp((aj-1).*log(x) - x - gammaln(aj));
 % p = p .* x.^(aj-1) .* exp(-x) ./ gamma(aj);

@@ -45,17 +45,17 @@ function [mn, Ln, an, bn] = ME_GLM_NG(Y, X, P, m0, L0, a0, b0, msg)
 % References:
 % [1] Bishop CM (2006): "Pattern Recognition and Machine Learning".
 %     Springer, ch. 3.3, pp. 175-177.
-% [2] Koch KR (2000): "Einführung in die Bayes-Statistik".
+% [2] Koch KR (2007): "Introduction to Bayesian Statistics".
 %     Springer, ch. 4.3.2, pp. 117-119.
 % [3] Soch J, Haynes JD, Allefeld C (2016): "How to avoid mismodelling in
 %     GLM-based fMRI data analysis: cross-validated Bayesian model selection".
-%     NeuroImage, vol. 141, pp. 472–473, eq. 6/9.
+%     NeuroImage, vol. 141, pp. 469-489, eq. 6.
 % 
 % Author: Joram Soch, BCCN Berlin
 % E-Mail: joram.soch@bccn-berlin.de
 % 
 % First edit: 24/10/2014, 16:30 (V0.2/V6)
-%  Last edit: 15/09/2016, 07:10 (V0.9a/V13a)
+%  Last edit: 09/03/2018, 12:15 (V1.2/V18)
 
 
 % Get model dimensions

@@ -36,11 +36,16 @@ function [mf_SNR, mb_SNR] = ME_GLM_SNR(Y, X, V, B)
 % Further information:
 %     help ME_GLM
 % 
+% References:
+% [1] Welvaert M, Rosseel Y (2013): "On the Definition of Signal-
+%     To-Noise Ratio and Contrast-To-Noise Ratio for fMRI Data".
+%     PLoS ONE, vol. 8, iss. 11, e77089.
+% 
 % Author: Joram Soch, BCCN Berlin
 % E-Mail: joram.soch@bccn-berlin.de
 % 
 % First edit: 11/03/2015, 03:05 (V0.3/V10)
-%  Last edit: 11/05/2017, 19:55 (V1.0/V16)
+%  Last edit: 09/03/2018, 12:45 (V1.2/V18)
 
 
 % Get model dimensions

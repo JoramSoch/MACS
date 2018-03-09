@@ -22,7 +22,7 @@ function [alpha_post] = ME_BMS_RFX_VB(LME, alpha_prior)
 % 
 % Model estimation proceeds using Variational Bayes. Essentially, this
 % script implements the procedure described in [1,2] and should give the
-% same results as spm_BMS.m while being substantially faster [4].
+% same results as spm_BMS.m while being substantially faster [4,5].
 % 
 % References:
 % [1] Stephan KE, Penny WD, Daunizeau J, Moran RJ, Friston KJ (2009):
@@ -36,12 +36,14 @@ function [alpha_post] = ME_BMS_RFX_VB(LME, alpha_prior)
 %     PLoS ONE, vol. 6, iss. 3, e1000709.
 % [4] Soch J & Allefeld C (2015): "Non-Critical Comments on
 %     Bayesian Model Selection". Internal Report, June 2015.
+% [5] Soch J (2018): "cvBMS and cvBMA: filling in the gaps".
+%     Technical Report, in preparation, will be available at arXiv.
 % 
 % Author: Joram Soch, BCCN Berlin
 % E-Mail: joram.soch@bccn-berlin.de
 % 
 % First edit: 20/11/2014, 17:10 (V0.2/V8)
-%  Last edit: 15/09/2016, 09:05 (V0.9a/V13a)
+%  Last edit: 09/03/2018, 12:10 (V1.2/V18)
 
 
 % Get model dimensions
