@@ -1,11 +1,52 @@
 % MACS Toolbox: Model Space Pipeline
 % _
-% Model Space Pipeline for the MACS Toolbox
-% For details, see section 3.2 of the paper.
+% This script assists in setting up a batch for defining a model space that
+% can be viewed and executed in the SPM batch editor. It is particularly
+% advantageous when the number of subjects or the number of models in your
+% analyses is very large.
+% 
+% This script assumes that you have organized your data in the form of a
+% subject-model hierarchy looking like this:
+% 
+%     [stat_dir]\
+%     [work_dir]\
+%         sub01\
+%             mod01\
+%             mod02\
+%             mod03\
+%             ...
+%             mod08\
+%             mod09\
+%             mod10\
+%         sub02\
+%             mod01\
+%             ...
+%             mod10\
+%         sub03\
+%         ...
+%         sub23\
+%         sub24\
+%         sub25\
+% 
+% If this is the case, you can simply enter
+% - the statistics directory into "stat_dir",
+% - the working directory into "work_dir",
+% - the subject folder names into "subj_ids" and
+% - the model folder names into "mod_nams" below.
+% 
+% In addition, you will have to specify
+% - a model space name as "ms_name" and
+% - a model space suffix as "ms_suff"
+% which, together with the statistics directory, will determine where the
+% model space directory will be located and the model space file will be
+% written. Use these two parameters to distinguish different model space
+% and analyses from each other.
 % 
 % Author: Joram Soch, BCCN Berlin
 % E-Mail: joram.soch@bccn-berlin.de
-% Date  : 18/08/2017, 17:35
+% 
+% First edit: 18/08/2017, 17:35 (V1.1/V17)
+%  Last edit: 09/03/2018, 09:30 (V1.2/V18)
 
 
 %%% Step 0: Study parameters %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -61,3 +102,10 @@ save(filename,'matlabbatch');
 
 % execute job
 MA_model_space(job);
+
+% display message
+fprintf('\n');
+fprintf('\n-> Thank you! The following files have been created:\n');
+fprintf('   - SPM batch: %s.\n', strcat(job.dir{1},'batch.mat'));
+fprintf('   - MS.mat file: %s.\n', strcat(job.dir{1},'MS.mat'));
+fprintf('\n');
