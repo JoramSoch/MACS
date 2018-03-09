@@ -1,1 +1,0 @@
-This folder includes SPM batch editor jobs for typical pipelines to perform cvBMS (Soch et al., 2016) or cvBMA (Soch et al., 2017).
