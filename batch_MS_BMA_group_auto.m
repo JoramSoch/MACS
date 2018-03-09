@@ -1,17 +1,12 @@
 function module = batch_MS_BMA_group_auto
 % _
-% Configure MATLAB Batch for MACS Toolbox
+% Configure MATLAB Batch for "MS: perform BMA (automatic)"
 % 
 % Author: Joram Soch, BCCN Berlin
 % E-Mail: joram.soch@bccn-berlin.de
 % 
 % First edit: 17/03/2017, 22:20 (V0.99/V15)
-%  Last edit: 07/12/2017, 15:45 (V1.1/V17)
-
-
-% Define toolbox path
-%-------------------------------------------------------------------------%
-if ~isdeployed, addpath(fullfile(spm('dir'),'toolbox','MACS')); end
+%  Last edit: 09/03/2018, 10:25 (V1.2/V18)
 
 
 %=========================================================================%

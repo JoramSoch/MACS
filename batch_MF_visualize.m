@@ -1,17 +1,12 @@
 function module = batch_MF_visualize
 % _
-% Configure MATLAB Batch for MACS Toolbox
+% Configure MATLAB Batch for "MF: visualize high-dimensional data"
 % 
 % Author: Joram Soch, BCCN Berlin
 % E-Mail: joram.soch@bccn-berlin.de
 % 
 % First edit: 18/03/2017, 05:00 (V0.99/V15)
-%  Last edit: 18/03/2017, 05:00 (V0.99/V15)
-
-
-% Define toolbox path
-%-------------------------------------------------------------------------%
-if ~isdeployed, addpath(fullfile(spm('dir'),'toolbox','MACS')); end
+%  Last edit: 09/03/2018, 10:25 (V1.2/V18)
 
 
 %=========================================================================%

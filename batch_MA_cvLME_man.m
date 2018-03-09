@@ -1,17 +1,12 @@
 function module = batch_MA_cvLME_man
 % _
-% Configure MATLAB Batch for MACS Toolbox
+% Configure MATLAB Batch for "MA: calculate cvLME (manually)"
 % 
 % Author: Joram Soch, BCCN Berlin
 % E-Mail: joram.soch@bccn-berlin.de
 % 
 % First edit: 16/03/2017, 21:55 (V0.99/V15)
-%  Last edit: 17/03/2017, 06:25 (V0.99/V15)
-
-
-% Define toolbox path
-%-------------------------------------------------------------------------%
-if ~isdeployed, addpath(fullfile(spm('dir'),'toolbox','MACS')); end
+%  Last edit: 09/03/2018, 10:25 (V1.2/V18)
 
 
 %=========================================================================%

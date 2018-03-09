@@ -1,17 +1,12 @@
 function module = batch_MA_inspect_GoF
 % _
-% Configure MATLAB Batch for MACS Toolbox
+% Configure MATLAB Batch for "MA: inspect goodness of fit"
 % 
 % Author: Joram Soch, BCCN Berlin
 % E-Mail: joram.soch@bccn-berlin.de
 % 
 % First edit: 18/03/2017, 02:35 (V0.99/V15)
-%  Last edit: 11/05/2017, 16:45 (V1.0/V16)
-
-
-% Define toolbox path
-%-------------------------------------------------------------------------%
-if ~isdeployed, addpath(fullfile(spm('dir'),'toolbox','MACS')); end
+%  Last edit: 09/03/2018, 10:25 (V1.2/V18)
 
 
 %=========================================================================%

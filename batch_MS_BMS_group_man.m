@@ -1,17 +1,12 @@
 function module = batch_MS_BMS_group_man
 % _
-% Configure MATLAB Batch for MACS Toolbox
+% Configure MATLAB Batch for "MS: perform BMS (manually)"
 % 
 % Author: Joram Soch, BCCN Berlin
 % E-Mail: joram.soch@bccn-berlin.de
 % 
 % First edit: 17/03/2017, 07:00 (V0.99/V15)
-%  Last edit: 17/03/2017, 10:30 (V0.99/V15)
-
-
-% Define toolbox path
-%-------------------------------------------------------------------------%
-if ~isdeployed, addpath(fullfile(spm('dir'),'toolbox','MACS')); end
+%  Last edit: 09/03/2018, 10:25 (V1.2/V18)
 
 
 %=========================================================================%

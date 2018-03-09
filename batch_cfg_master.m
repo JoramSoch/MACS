@@ -1,12 +1,12 @@
 function module = batch_cfg_master
 % _
-% Configure MATLAB Batch Menu for MACS Toolbox
+% Configure MATLAB Batch Menu for MACS Toolbox (see spm_cfg.m)
 % 
 % Author: Joram Soch, BCCN Berlin
 % E-Mail: joram.soch@bccn-berlin.de
 % 
 % First edit: 17/03/2017, 00:45 (V0.99/V15)
-%  Last edit: 09/03/2018, 09:35 (V1.2/V18)
+%  Last edit: 09/03/2018, 10:25 (V1.2/V18)
 
 
 % Define toolbox path
