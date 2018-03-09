@@ -1,0 +1,972 @@
+\documentclass[a4paper,12pt]{article}
+
+%%% Packages %%%
+\usepackage{fullpage}
+\usepackage{amsmath}
+\usepackage{gensymb}
+\usepackage{xfrac}
+\usepackage{url}
+\usepackage{csquotes}
+\usepackage{graphicx}
+\usepackage{enumitem}
+\usepackage{natbib}
+\usepackage{setspace}
+\usepackage[utf8]{inputenc}
+\usepackage[bottom,hang,flushmargin]{footmisc}
+
+%%% Settings %%%
+\setlength{\parindent}{0pt}
+\frenchspacing
+\urlstyle{same}
+\MakeOuterQuote{"}
+\setlist{nolistsep}
+\setlist[itemize]{leftmargin=*}
+\setlist[enumerate]{leftmargin=*}
+\bibpunct{}{}{;}{a}{,}{,~}
+\renewcommand{\thefootnote}{\arabic{footnote}}
+\newcommand{\ra}{$\rightarrow$ }
+
+%%% Contents %%%
+\makeatletter
+\renewcommand*{\numberline}[1]{\hb@xt@\@tempdima{\hfil#1 }}
+\makeatother
+
+
+\begin{document}
+
+
+%%% Title %%%
+\pagenumbering{roman}
+\vspace*{1em}
+\begin{center}
+	\Huge
+		\textbf{MACS Manual} \\
+		\vspace{1em}
+	\Large
+		Joram Soch, BCCN Berlin \\
+		\vspace{1em}
+\end{center}
+
+
+
+%%% Info %%%
+\setstretch{1.5}
+\vspace{1em}
+\begin{center}
+	\begin{tabular}{l p{10.5cm}}
+		\textbf{Toolbox URL:} & \url{https://github.com/JoramSoch/MACS} \\
+		\textbf{Support Contact:} & Joram Soch $\left\langle\right.$\url{joram.soch@bccn-berlin.de}$\left.\right\rangle$  \\
+		\textbf{Current Version:} & MACS V1.1 \begin{tabular}{l} \includegraphics[scale=0.3]{../Figures/DOI_V11.png} \end{tabular} \\
+		\textbf{Toolbox Paper:} & Soch J, Allefeld C (in review). MACS -- a new SPM toolbox for model assessment, comparison and selection. \textit{Journal of Neuroscience Methods}, in review, available at \textit{bioRxiv}; DOI: 10.1101/194365. \\
+	\end{tabular}
+\end{center}
+\vspace*{1em}
+
+
+
+%%% Contents %%%
+\pagebreak
+\tableofcontents
+
+
+
+%%% Text %%%
+\pagebreak
+\pagenumbering{arabic}
+\section{How to install the toolbox and read this manual} \label{sec:MACS}
+
+\textbf{Purpose:} This is a manual for \textbf{MACS} (pronounced as "Max"), an SPM toolbox for model assessment, comparison and selection (MACS) of general linear models (GLMs) applied to functional magnetic resonance imaging (fMRI) data using Statistical Parametric Mapping (SPM). MACS includes classical, information-theoretic and Bayesian methods of model assessment previously applied to GLMs for fMRI as well as recent methodological developments of model selection (Soch et al., 2016) and model averaging (Soch et al., 2017) in fMRI data analysis (Soch \& Allefeld, in review).
+
+\textbf{Requirements:} To use the MACS toolbox, you need SPM8 or SPM12 running in \linebreak[4] MATLAB R2008a or later running on any operating system.
+
+\textbf{Procedure:} To install the MACS toolbox, proceed as follows:
+\begin{itemize}
+	
+\item
+Go to the GitHub repository of the MACS toolbox (see URL given on title page).
+
+\item
+Download the toolbox by clicking "Clone or download \ra Download ZIP".
+
+\item
+Unpack the ZIP file and rename the folder from "MACS-master" to "MACS".
+
+\item
+Place the folder into SPM's toolbox directory. This directory can be retrieved by typing into the MATLAB command window: \texttt{strcat(spm('dir'),'/toolbox/')}.
+
+\item
+Launch SPM by typing \texttt{spm fmri} into the MATLAB command window.
+
+\item
+Open the SPM batch editor by clicking "Batch" in the SPM menu window.
+
+\end{itemize}
+
+\textbf{Consequences:} Upon successful installation of the toolbox, its modules can be accessed by clicking "SPM \ra Tools \ra MACS Toolbox" (see Figure~1).
+
+\textbf{Remark:} When reading this manual, you are not meant to go from first to last page, but instead choose a specific analysis to be performed and search for the corresponding section in the manual. Each section is subdivided into subsesctions (\textit{Purpose} -- \textit{Requirements} -- \textit{Procedure} -- \textit{Consequences}) and is written in the form of a cooking recipe, so that you can follow step-by-step instructions to perform a specific analysis. If you are unsure which analysis you want to perform or about where to start, we recommend to read the manual in the following order: Sections \ref{sec:GoF} -- \ref{sec:cvLME-man} -- \ref{sec:MS} -- \ref{sec:cvLME-auto} -- \ref{sec:cvBMS} -- \ref{sec:cvBMS-vis} -- \ref{sec:cvBMA} -- \ref{sec:cvBMA-vis}.
+
+\pagebreak
+\textbf{Documentation:} Further information on the toolbox can be found in two theoretical papers (Soch et al., 2016; Soch et al., 2017) as well as a toolbox paper (Soch \& Allefeld, in review) and a technical report (Soch, in prep.) which you are also welcome to cite when using the toolbox:
+
+\begin{itemize}
+
+\item
+Soch J, Haynes JD, Allefeld C (2016). How to avoid mismodelling in GLM-based fMRI data analysis: cross-validated Bayesian model selection. \textit{NeuroImage}, vol. 141, pp. 469-489; DOI: 10.1016/j.neuroimage.2016.07.047.
+
+\item
+Soch J, Meyer AP, Haynes JD, Allefeld C (2017). How to improve parameter estimates in GLM-based fMRI data analysis: cross-validated Bayesian model averaging. \textit{NeuroImage}, vol. 158, pp. 186-195; DOI: 10.1016/j.neuroimage.2017.06.056.
+
+\item
+Soch J, Allefeld C (in review). MACS – a new SPM toolbox for model assessment, comparison and selection. \textit{Journal of Neuroscience Methods}, in review, available at \textit{bioRxiv}; DOI: 10.1101/194365.
+
+\item
+Soch J (in prep.). cvBMS and cvBMA: filling in the gaps. Technical Report, in preparation, will be available at \textit{arXiv}.
+
+\end{itemize}
+
+\vspace{1em}
+\begin{flushleft}
+\includegraphics[width=1.0\linewidth, clip=true, trim=0 0 0 0]{../Figures/Figure_1.png}
+\end{flushleft}
+\vspace{-1em}
+
+\textbf{Figure 1.} MACS toolbox modules in the SPM batch editor.
+
+
+
+\pagebreak
+\section{How to define a model space of GLMs for fMRI} \label{sec:MS}
+
+\textbf{Purpose:} Defining a model space enables you to use the full power of the automatic processing mode provided by the MACS toolbox. In short, whereas manual processing requires you to enter filepaths of the models in each individual processing step, they only need to be specified once in automatic processing. In this manual, Sections~\ref{sec:GoF}--\ref{sec:cvLME-man} will use the manual processing mode while Sections~\ref{sec:cvLME-auto}--\ref{sec:cvBMA} will use the automatic processing mode and thus rest on defining a model space.
+
+\textbf{Requirements:} This module requires that several models ($M$ = number of models) have been specified for several subjects ($N$ = number of subjects) and the \texttt{SPM.mat} files for all these models are available.
+
+\textbf{Procedure:} Defining a model space proceeds as follows:
+\begin{itemize}
+
+\item
+Open the SPM batch editor by clicking "Batch" in the SPM menu window.
+
+\item
+Select the MACS toolbox module for model space definition by clicking "SPM \ra Tools \ra MACS Toolbox \ra MA: define model space".
+
+\item
+Choose a model space directory by clicking "Directory \ra Specify". This will be the directory into which the model space file \texttt{MS.mat} will be saved and where second-level analysis results will be written, e.g. when performing group-level Bayesian model selection (see e.g. Section~\ref{sec:cvBMS}).
+
+\item
+Create a new subject by clicking "Select SPM.mats \ra New: Subject".
+
+\item
+Create a new model by clicking "Subject \ra New: Model".
+
+\item
+Select the \texttt{SPM.mat} belonging to this model by clicking "Model \ra Specify". This model has to be specified in SPM, but does not necessarily need to be estimated.
+
+\item
+Repeat the last three steps for all models applied to all subjects. The number of models and their order of specification has to be the same for all subjects.
+
+\item
+Create a new model label by clicking "Enter GLM names \ra New: Name".
+
+\item
+Enter the name of this model by clicking "Name \ra Specify".
+
+\item
+Repeat the last two steps for all models in the model space. The order of specification has to match the order of the \texttt{SPM.mat} files within each subject.
+
+\pagebreak
+\item
+Save the batch under the filename \texttt{batch.mat} into the model space directory. This is recommended for easier setup of later analyses, e.g. when initializing the model space with a different model space directory.
+
+\item
+Run the batch by clicking the green triangle.
+
+\end{itemize}
+
+\textbf{Consequences:} This module results in an \texttt{MS.mat} file saved into the model space directory specified above. This file contains a single struct variable \texttt{MS} with the fields \texttt{swd}, a string specifying the model space directory; \texttt{SPMs}, an $N \times M$ cell array of \texttt{SPM.mat} filepaths; and \texttt{GLMs}, an $1 \times M$ cell array of GLM names (see Figure~2). Such an \texttt{MS.mat} file can be used as an input parameter by any MACS toolbox module belonging to the automatic processing stream (see e.g. Section~\ref{sec:cvLME-auto}).
+
+\textbf{Remark:} When the number of subjects or the number of models is very large, even the automatic processing mode relying on model space definition can be tedious. At least for programmers, a simpflification is available as a template script in the MACS toolbox. Simply open the file \texttt{MS\_mat\_pipeline.m} from the toolbox sub-directory \texttt{MACS\_Pipelines} and edit subject IDs, model labels as well as output directory. This script works, if your data are organized in a subject-model hierarchy, and writes the \texttt{MS.mat} file as well as an editable \texttt{batch.mat} file into the specified directory.
+
+\vspace{1em}
+\begin{flushleft}
+\includegraphics[width=1.0\linewidth, clip=true, trim=0 0 0 0]{../Figures/Figure_2.png}
+\end{flushleft}
+\vspace{-1em}
+
+\textbf{Figure 2.} Structure of a model space variable in a model space file.
+
+
+
+\pagebreak
+\section[How to inspect the goodness of fit for a single model]{How to inspect the goodness of fit \\ for a single model} \label{sec:GoF}
+
+\textbf{Purpose:} Assessing the goodness of fit for a single GLM allows a visual inspection of how well a particular model fits the measured data. Additionally, it will give rise to metrics that allow to quantify and compare the goodness of fit.
+
+\textbf{Requirements:} This module requires that one model has been estimated in SPM, with its \texttt{SPM.mat} file being available on disk.
+
+\textbf{Procedure:} Inspecting the goodness of fit proceeds as follows:
+\begin{itemize}
+	
+\item
+Open the SPM batch editor by clicking "Batch" in the SPM menu window.
+
+\item
+Select the MACS toolbox module for goodness-of-fit inspection by clicking "SPM \ra Tools \ra MACS Toolbox \ra MA: inspect goodness of fit".
+
+\item
+Select the model by clicking "Select SPM.mat \ra Specify". This model needs to be specified and estimated in SPM.
+
+\item
+Select the plotting type by highlighting "Type of plot" and clicking "line graph" or "scatter plot". The suggested and default option is "line graph".
+
+\item
+Save the batch under the filename \texttt{MA\_inspect\_GoF.mat} into the GLM directory.
+
+\item
+Run the batch by clicking the green triangle.
+
+\end{itemize}
+
+\textbf{Consequences:} This module results in an interactive plot in the SPM graphics window. The lower panel will show an anatomical image highlighting the top 5\% (good fit, in yellow color) and the bottom 5\% (bad fit, in red color) of the voxels in terms of "R-squared", a measure for model fit. Upon browsing through through the anatomical image, the upper panel will adapt instantly and show the measured signal against the predicted signal as well as goodness-of-fit measures for the current voxel.
+
+Furthermore, several images will be written into the GLM directory: \texttt{MA\_GoF\_R2.nii}, the coefficient of determination $R^2$; \texttt{MA\_GoF\_R2\_adj.nii}, the adjusted coefficient of determination $R^2_\mathrm{adj}$; \texttt{MA\_GoF\_SNR\_mf.nii}, the model-free signal-to-noise ratio $\mathrm{SNR}_\mathrm{mf}$; and \texttt{MA\_GoF\_SNR\_mb.nii}, the model-based signal-to-noise ratio $\mathrm{SNR}_\mathrm{mb}$.
+
+
+
+\pagebreak
+\section[How to calculate classical information criteria for a single model]{How to calculate classical information criteria \\ for a single model} \label{sec:ICs}
+
+\textbf{Purpose:} Classical information criteria (ICs) are model selection criteria that are based on the maximum log-likelihood (MLL), as a measure of model accuracy, and some function of the number of data points $n$ and the number of model parameters $p$, as a measure of model complexity. Classical ICs allow to quantify the quality of a model and can be directly compared between models.
+
+\textbf{Requirements:} This module requires that one model has been estimated in SPM, with its \texttt{SPM.mat} file being available on disk.
+
+\textbf{Procedure:} Computing classical ICs proceeds as follows:
+\begin{itemize}
+
+\item
+Open the SPM batch editor by clicking "Batch" in the SPM menu window.
+
+\item
+Select the MACS toolbox module for classical information criteria by clicking "SPM \ra Tools \ra MACS Toolbox \ra MA: classical ICs (manually)".
+
+\item
+Select the model by clicking "Select SPM.mat \ra Specify". This model needs to be specified and estimated in SPM. Note that the classical IC module can also be directly appended to existing SPM batch jobs. If this is the case, select the model by clicking "Select SPM.mat \ra Dependency" and then e.g. "fMRI model specification: SPM.mat file \ra OK" or "Model estimation: SPM.mat file \ra OK".
+
+\item
+Select the model quality criterion by highlighting "Information criterion" and clicking one of the criteria. The two most common ones are "AIC" and "BIC".
+
+\item
+Save the batch under the filename \texttt{MA\_ICs\_XIC.mat} into the GLM directory where \texttt{XIC} is to be replaced by the selected information criterion.
+
+\item
+Run the batch by clicking the green triangle.
+
+\end{itemize}
+
+\textbf{Consequences:} This module results in an image called \texttt{MA\_ICs\_XIC.nii} in the GLM directory where \texttt{XIC} will be the selected information criterion. When this has been done for two models, an information difference can be calculated (see Section~\ref{sec:dIC}).
+
+
+
+\pagebreak
+\section[How to calculate the information difference between two models]{How to calculate the information difference \\ between two models} \label{sec:dIC}
+
+\textbf{Purpose:} The information difference ($\Delta\mathrm{IC}$) is simply the difference between the information criteria for two models (see Section~\ref{sec:ICs}). It can be used (i) to find out which model better explains the data and (ii) to assess the amount of evidence that there is for either of the models, e.g. via posterior probabilities.
+
+\textbf{Requirements:} These operations require that two models for the same subject have been estimated in SPM, with their \texttt{SPM.mat} files being available on disk.
+
+\textbf{Procedure:} Computing an information difference proceeds as follows:
+\begin{itemize}
+
+\item
+Set up a batch that calculates the desired information criterion for the first model (see Section~\ref{sec:ICs}), but don't save and run it.
+
+\item
+Create a new module by right-clicking "MA: classical ICs (manually)" and then left-clicking "Replicate Module".
+
+\item
+In this module, select the second model by clicking "Select SPM.mat \ra Specify".
+
+\item
+Select the MACS toolbox module for log Bayes factor by clicking "SPM \ra Tools \ra MACS Toolbox \ra MC: calculate LBF (manually)". Although this module is primarily designed for calculating log Bayes factors (LBFs), i.e. differences between log model evidences (LMEs), it can in principle be used to calculate the difference between any two model quantities, e.g. also information criteria.
+
+\item
+Choose an output directory by clicking "Directory \ra Specify". This will be the directory where the information difference images will be saved.
+
+\item
+Create a new subject by clicking "Select LME maps \ra New: Subject".
+
+\item
+Create a new model by clicking "Subject \ra New: Model".
+
+\item
+Select the first model by clicking "Model \ra Dependency" and then selecting the output from the first module. This creates a reference to the information criterion image file that will be calculated when executing the first module belonging to the first model.
+
+\item
+Repeat the last two steps in order to select the second model.
+
+\item
+Create a new model label by clicking "Enter GLM names \ra New: Name".
+
+\item
+Enter the name of the first model by clicking "Name \ra Specify".
+
+\item
+Repeat the last two steps in order to name the second model.
+
+\pagebreak
+\item
+Save the batch under the filename \texttt{design.mat} into the output directory.
+
+\item
+Run the batch by clicking the green triangle.
+	
+\end{itemize}
+
+\textbf{Consequences:} These operations result in several images written into the output directory (see Figure~3), among them \texttt{LBF\_GLM\_1\_vs\_GLM\_2\_sub1.nii}, the information difference in favor of the first model, i.e. $\Delta\mathrm{IC}_{12} = \mathrm{IC}(m_1) - \mathrm{IC}(m_2)$; and \texttt{LBF\_GLM\_2\_vs\_GLM\_1\_ sub1.nii}, the information difference in favor of the second model, i.e. $\Delta\mathrm{IC}_{21} = \mathrm{IC}(m_2) - \mathrm{IC}(m_1)$; the other images can be ignored.
+
+\vspace{1em}
+\begin{flushleft}
+\includegraphics[width=1.0\linewidth, clip=true, trim=0 0 0 0]{../Figures/Figure_3.png}
+\end{flushleft}
+\vspace{-1em}
+
+\textbf{Figure 3.} File output from application of the log Bayes factor module.
+
+
+\pagebreak
+\section[How to calculate the cvLME for a single subject and model]{How to calculate the cvLME \\ for a single subject and model} \label{sec:cvLME-man}
+
+\textbf{Purpose:} The cross-validated log model evidence (cvLME) is a model selection criterion that combines cross-validation with the Bayesian marginal likelihood and underlies cross-validated Bayesian model selection (cvBMS) and averaging (cvBMA).
+
+\textbf{Requirements:} This module requires that one model has been specified in SPM, with its \texttt{SPM.mat} file being available on disk.
+
+\textbf{Procedure:} Computing the cvLME proceeds as follows:
+\begin{itemize}
+	
+\item
+Open the SPM batch editor by clicking "Batch" in the SPM menu window.
+
+\item
+Select the MACS toolbox module for cross-validated log model evidences by clicking "SPM \ra Tools \ra MACS Toolbox \ra MA: calculate cvLME (manually)".
+
+\item
+Select the model by clicking "Select SPM.mat \ra Specify". This model needs to be specified and/or estimated in SPM. Note that the cvLME module can also be directly appended to existing SPM batch jobs. If this is the case, select the model by clicking "Select SPM.mat \ra Dependency" and then e.g. "fMRI model specification: SPM.mat file \ra OK" or "Model estimation: SPM.mat file \ra OK".
+
+\item
+Choose whether model accuracy and model complexity are calculated by clicking "Accuracy \& Complexity \ra Yes/No". Generally, if you don't intend to look at them in detail, it is recommended that this option is left at the default "No" in order save processing time and disk space.
+
+\item
+Save the batch under the filename \texttt{MA\_cvLME.mat} into the GLM directory.
+
+\item
+Run the batch by clicking the green triangle.
+	
+\end{itemize}
+
+\textbf{Consequences:} This module results in an image called \texttt{MA\_cvLME.nii} in the GLM directory which contains the voxel-wise cross-validated log model evidence for this model. Furthermore, a number of images \texttt{MA\_cvLME\_SX.nii} where \texttt{X} ranges from 1 to the number of fMRI recording sessions $S$ will be saved that contain voxel-wise out-of-sample log model evidences for each session. If the selected first-level model is a single-session design, such that split-half cross-validation is used, these images will be called \texttt{MA\_cvLME\_P1.nii} and \texttt{MA\_cvLME\_P2.nii}. Usually, only the cross-validated and not the out-of-sample evidences will be needed and can facilitate a lot of further operations (see Section~\ref{sec:cvLME-auto}).
+
+
+
+\pagebreak
+\section[How to calculate the cvLME for multiple subjects or models]{How to calculate the cvLME \\ for multiple subjects or models} \label{sec:cvLME-auto}
+
+\textbf{Purpose:} Computing the cross-validated log model evidence (cvLME) for multiple subjects or models automatically is advantageous when the number of subjects (studied cohort) or the number of models (model space) is large.
+
+\textbf{Requirements:} This module requires a model space file called \texttt{MS.mat} (see Section~\ref{sec:MS}) listing a number of models for a number of subjects.
+
+\textbf{Procedure:} Computing the cvLME proceeds as follows:
+\begin{itemize}
+
+\item
+Open the SPM batch editor by clicking "Batch" in the SPM menu window.
+
+\item
+Select the MACS toolbox module for cross-validated log model evidences by clicking "SPM \ra Tools \ra MACS Toolbox \ra MA: calculate cvLME (automatic)".
+
+\item
+Select the model space by clicking "Select MS.mat \ra Specify".
+
+\item
+Run the batch by clicking the green triangle.
+
+\item
+Really, this is all? Yes, this is it!
+
+\end{itemize}
+
+\textbf{Consequences:} This module results in an image called \texttt{MA\_cvLME.nii} for the cross-validated and several images \texttt{MA\_cvLME\_SX.nii} for the out-of-sample log model evidences (see Section~\ref{sec:cvLME-man}) in the directory of each GLM that is in the model space specified by the \texttt{MS.mat} file. These cvLME maps can then be further processed into posterior probabilities (see Section~\ref{sec:PP}), log family evidences (see Section~\ref{sec:LFE}), log Bayes factors (see Section~\ref{sec:LBF}) or used for cross-validated Bayesian model selection (see Section~\ref{sec:cvBMS}) and cross-validated Bayesian model averaging (see Section~\ref{sec:cvBMA}).
+
+
+
+\pagebreak
+\section{How to calculate posterior probabilities from cvLMEs} \label{sec:PP}
+
+\textbf{Purpose:} Because the cvLME is a relative measure of model quality, its absolute value has no direct interpretation. However, posterior probabilities (PP) can be used to quantify the evidence in favor of each model. This section demonstrates how to calculate posterior model probabilities for a single subject.
+
+\textbf{Requirements:} This module requires that several models for the same subject have been assessed using the cvLME (see Section~\ref{sec:cvLME-man} or \ref{sec:cvLME-auto}), such that a cvLME map \texttt{MA\_cvLME.nii} exists in the directory of each.
+
+\textbf{Procedure:} Computing posterior probabilities proceeds as follows:
+\begin{itemize}
+
+\item
+Go to the folder belonging to this subject, i.e. where the model sub-directories are located, and create a new sub-directory, e.g. \texttt{MS\_BMS\_subject}. This is the output directory into which analysis results will be saved.
+	
+\item
+Set up a batch that defines a model space (see Section~\ref{sec:MS}) which only includes the models from this particular subject and uses the output folder as the model space directory. Don't save and run this batch!
+
+\item
+Select the MACS toolbox module for group-level Bayesian model selection by clicking \linebreak[4] "SPM \ra Tools \ra MACS Toolbox \ra MS: perform BMS (automatic)".
+
+\item
+Select the model space by clicking "Select MS.mat \ra Dependency" and then \linebreak[4] "MA: define model space: model space (MS.mat file) \ra OK".
+
+\item
+Switch the estimation algorithm by clicking "Inference method \ra Fixed Effects (FFX)".
+
+\item
+Save the batch under the filename \texttt{design.mat} into the output directory.
+
+\item
+Run the batch by clicking the green triangle.
+	
+\end{itemize}
+
+\textbf{Consequences:} This module results in an image called \texttt{GLM\_XYZ\_model\_PPM.nii} for each model defined in the model space where \texttt{GLM\_XYZ} stands for the name given to this model. This posterior probability map (PPM) contains the voxel-wise posterior probabilities of this model relative to the cvLMEs from the whole model space.
+
+
+
+\pagebreak
+\setstretch{1.4}
+\section{How to calculate log family evidences from cvLMEs} \label{sec:LFE}
+
+\textbf{Purpose:} When some models in a model space are more similar to each other than they are to another model, model families need to be formed for proper model selection and to avoid an unfair comparison. This can be achieved by calculating log family evidences (LFEs) from log model evidences (LMEs).
+
+\textbf{Requirements:} This module requires that several models for one or more subjects have been assessed using the cvLME (see Section~\ref{sec:cvLME-man} or \ref{sec:cvLME-auto}), such that a cvLME map \texttt{MA\_cvLME.nii} exists in the directory of each.
+
+\textbf{Procedure:} Computing log family evidences proceeds as follows:
+\begin{itemize}
+
+\item
+Set up a batch that defines a model space (see Section~\ref{sec:MS}) including all models from all subjects, but don't save and run this batch!
+
+\item
+Select the MACS toolbox module for log family evidence calculation by clicking \linebreak[4] "SPM \ra Tools \ra MACS Toolbox \ra MA: calculate LFE (automatic)".
+
+\item
+Select the model space by clicking "Select MS.mat \ra Dependency" and then \linebreak[4] "MA: define model space: model space (MS.mat file) \ra OK".
+
+\item
+Specify the family affiliation by clicking "Family vector \ra Specify". This has to be a $1 \times M$ vector ($M$ = number of models) where the number $j$ in the $i$-th position indicates that the $i$-th model belongs to family $j$. For example, if you have 10 models belonging to 4 families, the family vector could be \texttt{[1 1 1 2 2 2 3 3 4 4]}.
+
+\item
+Create a new family label by clicking "Family names \ra New: Name".
+
+\item
+Enter the name of this model family by clicking "Name \ra Specify".
+
+\item
+Repeat the last two steps for all model families. The order of specification has to match the numbers in the family vector and it is required that the numer of family names is equal to the highest number in the family vector.
+
+\item
+Save the batch under the filename \texttt{design.mat} into the model space directory.
+
+\item
+Run the batch by clicking the green triangle.
+	
+\end{itemize}
+
+\textbf{Consequences:} For each subject in the model space, this module will create an output directory called \texttt{MA\_LFE\_uniform} in the folder where the first model's sub-directory is located. Within this folder, there will be an image called \texttt{GLMs\_XYZ\_LFE.nii} for each model family where \texttt{GLMs\_XYZ} stands for the name given to this family. These log family evidence (LFE) maps can then be used for further statistics. Generally speaking, all analyses that operate on cvLME maps, can also operate on LFE maps.
+
+
+
+\pagebreak
+\setstretch{1.5}
+\section{How to calculate log Bayes factors from cvLMEs} \label{sec:LBF}
+
+\textbf{Purpose:} When only comparing two models, one can compute log Bayes factors (LBFs) from log model evidences (LMEs). An LBF is nothing else than a difference between two LMEs, assumes a uniform prior over models and can be subjected to certain scales of interpretation (see below).
+
+\textbf{Requirements:} This module requires that two models for one or more subjects have been assessed using the cvLME (see Section~\ref{sec:cvLME-man} or \ref{sec:cvLME-auto}), such that a cvLME map \texttt{MA\_cvLME.nii} exists in the directory of each.
+
+\textbf{Procedure:} Computing log Bayes factors proceeds as follows:
+\begin{itemize}
+
+\item
+Create a new directory, e.g. \texttt{MS\_LBF\_group}, at an arbitrary location, preferably somewhere in your second-level results folder. This is the output directory into which analysis results will be saved.
+
+\item
+Set up a batch that defines a model space (see Section~\ref{sec:MS}) including both models from all subjects and using the output folder as the model space directory. Don't save and run this batch!
+
+\item
+Select the MACS toolbox module for log Bayes factor calcualtion by clicking \linebreak[4] "SPM \ra Tools \ra MACS Toolbox \ra MC: calculate LBF (automatic)".
+
+\item
+Select the model space by clicking "Select MS.mat \ra Dependency" and then \linebreak[4] "MA: define model space: model space (MS.mat file) \ra OK".
+
+\item
+Save the batch under the filename \texttt{design.mat} into the output directory.
+
+\item
+Run the batch by clicking the green triangle.
+
+\end{itemize}
+
+\textbf{Consequences:} For each subject and model in the model space, this module will write an image called \texttt{LBF\_GLM\_1\_vs\_GLM\_2\_subX.nii} giving the voxel-wise log Bayes factor (LBF) and \texttt{PP\_GLM\_1\_subX.nii} giving the voxel-wise posterior probability (PP) into the output directory where \texttt{X} ranges from 1 to the number subjects $N$ and \texttt{GLM\_1/2} are the names of the two models. Additionally, such LBF and PP images with filenames ending on \texttt{\_group.nii} instead of \texttt{\_subX.nii} will be saved for the entire group of subjects which is based on the log group Bayes factor (LGBF) method.
+
+
+
+\pagebreak
+\section[How to perform cross-validated Bayesian model selection]{How to perform cross-validated \\ Bayesian model selection} \label{sec:cvBMS}
+
+\textbf{Purpose:} Cross-validated Bayesian model selection (cvBMS; Soch et al., 2016) is a principled approach to avoid mismodelling in GLM-based fMRI data analysis, a method that allows to choose the best GLM for a given group-level fMRI data set. It consists in (i) first-level model assessment using the cross-validated log model evidence (cvLME), (ii) second-level model inference using random-effects Bayesian model selection (RFX BMS) and (iii) voxel-wise model selection by best-performing model identification.
+
+\textbf{Requirements:} These operations require that several models for several subjects have been specified in SPM, with their \texttt{SPM.mat} files available on disk.
+
+\textbf{Procedure:} To perform cvBMS, proceed as follows:
+\begin{itemize}
+	
+\item
+Create a new directory, e.g. \texttt{MS\_cvBMS}, at an arbitrary location, preferably somewhere in your second-level results folder. This is the output directory into which analysis results will be saved.
+	
+\item
+Set up a batch that defines a model space (see Section~\ref{sec:MS}) which includes all models from all subjects and uses the output folder as the model space directory. Don't save and run this batch!
+
+\item
+Select the MACS toolbox module for cross-validated log model evidences by clicking \linebreak[4] "SPM \ra Tools \ra MACS Toolbox \ra MA: calculate cvLME (automatic)".
+
+\item
+Select the model space by clicking "Select MS.mat \ra Dependency" and then \linebreak[4] "MA: define model space: model space (MS.mat file) \ra OK".
+
+\item
+Select the MACS toolbox module for group-level Bayesian model selection by clicking \linebreak[4] "SPM \ra Tools \ra MACS Toolbox \ra MS: perform BMS (automatic)".
+
+\item
+Select the model space by clicking "Select MS.mat \ra Dependency" and then \linebreak[4] "MA: define model space: model space (MS.mat file) \ra OK".
+
+\item
+Select the MACS toolbox module for selected-model maps after BMS by clicking \linebreak[4] "SPM \ra Tools \ra MACS Toolbox \ra MS: generate SMM from BMS".
+
+\item
+Select model selection results by clicking "Select BMS.mat \ra Dependency" and then \linebreak[4] "MS: perform BMS (automatic): BMS results (BMS.mat file) \ra OK".
+
+\pagebreak
+\item
+Save the batch under the filename \texttt{design.mat} into the output directory.
+
+\item
+Run the batch by clicking the green triangle.
+	
+\end{itemize}
+
+\textbf{Consequences:} For each model in the model space, these operations will write the following images into the output directory: \texttt{GLM\_XYZ\_model\_alpha.nii}, voxel-wise concentration parameters of the posterior Dirichlet distribution that comes out of the RFX BMS; \texttt{GLM\_XYZ\_model\_EF.nii}, the expected frequency (EF) of each model, i.e. the posterior mean of model frequencies; \texttt{GLM\_XYZ\_model\_LF.nii}, the likeliest frequency (EF) of each model, i.e. the posterior mdoe of model frequencies; and, if the attribute "Exceedance probabilities" in the module "MS: perform BMS (automatic)" was set to "Yes", \texttt{GLM\_XYZ\_model\_EP.nii}, the exceedance probability of each model, i.e. the posterior probability that this model is more frequent (or, "more often used") than any other model in the model space. Generally, the most interesting thing to look at are likeliest frequencies which can be interpreted as the proportion of subjects in which the corresponding model is the optimal model or best explanation of the measured data.
+
+Additionally, there will be sub-directory called \texttt{MS\_SMM\_BMS\_10} which contains the following images: \texttt{MS\_SMM\_map\_pos\_X\_mod\_Y\_GLM\_XYZ.nii}, where \texttt{GLM\_XYZ} is the name of the model placed at the \texttt{Y}-th position when defining the model space and ranking on \texttt{X}-th place when ordering by the number of voxels in which models are selected according to estimated model frequency. For example, \texttt{MS\_SMM\_map\_pos\_2\_mod\_8\_GLM\_B4.nii} would be the selected-model map (SMM) of \texttt{GLM\_A4}, the second model in the model space (\texttt{mod\_8}) and the winning model in second-most of the voxels (\text{pos\_2}). SMMs are likeliest frequency maps, but only show those voxels where the corresponding model is the optimal model. For further information, type \texttt{help MS\_SMM\_BMS} into the command window.
+
+\textbf{Remark:} The pipeline described here is also available as a template batch in the MACS toolbox. Simply start the SPM batch editor and open the file \texttt{cvBMS\_template.mat} from the toolbox sub-directory \texttt{MACS\_Pipelines}.
+
+
+
+\pagebreak
+\section[How to perform cross-validated Bayesian model averaging]{How to perform cross-validated \\ Bayesian model averaging} \label{sec:cvBMA}
+
+\textbf{Purpose:} Cross-validated Bayesian model averaging (cvBMA; Soch et al., 2017) is a principled approach to improve parameter estimates in GLM-based fMRI data analysis, a technique that allows to improve
+parameter estimates by combining several GLMs for a given subject-level fMRI data set. It consists in (i) first-level model assessment using the cross-validated log model evidence (cvLME) and (ii) first-level model combination using standard Bayesian model averaging (BMA).
+
+\textbf{Requirements:} These operations require that several models for several subjects have been specified in SPM, with their \texttt{SPM.mat} files available on disk.
+
+\textbf{Procedure:} To perform cvBMA, proceed as follows:
+\begin{itemize}
+	
+\item
+Set up a batch that defines a model space (see Section~\ref{sec:MS}) including all models from all subjects, but don't save and run this batch!
+
+\item
+Select the MACS toolbox module for cross-validated log model evidences by clicking \linebreak[4] "SPM \ra Tools \ra MACS Toolbox \ra MA: calculate cvLME (automatic)".
+
+\item
+Select the model space by clicking "Select MS.mat \ra Dependency" and then \linebreak[4] "MA: define model space: model space (MS.mat file) \ra OK".
+
+\item
+Select the MACS toolbox module for group-level Bayesian model selection by clicking \linebreak[4] "SPM \ra Tools \ra MACS Toolbox \ra MS: perform BMA (automatic)".
+
+\item
+Select the model space by clicking "Select MS.mat \ra Dependency" and then \linebreak[4] "MA: define model space: model space (MS.mat file) \ra OK".
+
+\item
+Specify the parameter assignment by clicking "Parameter matrix \ra Specify". This has to be an $M \times P$ matrix ($M$ = number of models, $P$ = number of parameters) which indicates which regressor (column) in which GLM (row) belongs to which common model parameter. For example, if you have three models and four parameters to be averaged, the parameter matrix could be \texttt{[1 2 3 4; 1 3 5 7; 1 4 7 10]}. If a model does not include certain model parameters, this would be indicated by entering zeros, e.g. \texttt{[1 2 3 4; 1 2 0 0]}. If the parameters have the same indices in all models, it can also be a $1 \times P$ vector, e.g. \texttt{[1 2 3 4]}. For more information, read the help text that appears in the batch editor when clicking on "Parameter matrix".
+
+\pagebreak
+\item
+Choose an analysis title by clicking "Analysis name \ra Specify". This will allow to distinguish your analysis from others in the same model space, e.g. when only using a subset of the models for model averaging. If you only intend to do one BMA analysis, just leave this parameter at its default value.
+
+\item
+Save the batch under the filename \texttt{design.mat} into the model space directory.
+
+\item
+Run the batch by clicking the green triangle.
+	
+\end{itemize}
+
+\textbf{Consequences:} For each subject in the model space, this module will create an output directory called \texttt{MS\_BMA\_subject\_ba\_BMA1} in the folder with the first model's sub-directory where \texttt{BMA1} is the name given to the analysis. Within this folder, there will be an image for each parameter called \texttt{beta\_NNNN\_BMA.nii} with the averaged model parameter estimates where \texttt{NNNN} is a four-digit index, e.g. \texttt{0005}, that is based on the indices in the first row of the parameter matrix, i.e. equivalent to the regressor order from the first model. These averaged parameter (BMA) maps can then be used for further statistics, e.g. second-level tests across subjects. Generally speaking, all analyses that operate on GLM beta maps, can also operate on BMA beta maps.
+
+\textbf{Remark:} The pipeline described here is also available as a template batch in the MACS toolbox. Simply start the SPM batch editor and open the file \texttt{cvBMA\_template.mat} from the toolbox sub-directory \texttt{MACS\_Pipelines}.
+
+
+
+\pagebreak
+\section[How to visualize first-level model averaging results]{How to visualize first-level \\ model averaging results} \label{sec:cvBMA-vis}
+
+\textbf{Purpose:} This section introduces you how to get an impression how an averaged model parameter estimate obtained from cross-validated Bayesian model averaging differs from the individual model's parameter estimates.
+
+\textbf{Requirements:} This module requires that cross-validated Bayesian model averaging (cvBMA; see Section~\ref{sec:cvBMA}) has been performed.
+
+\textbf{Procedure:} Visualizing cvBMA results proceeds as follows:
+\begin{itemize}
+	
+\item
+Open the SPM batch editor by clicking "Batch" in the SPM menu window.
+
+\item
+Select the MACS toolbox module for high-dimensional data visualization by clicking "SPM \ra Tools \ra MACS Toolbox \ra MF: visualize high-dimensional data".
+
+\item
+Choose a particular subject from your model space and change MATLAB's current directory to this subject's directory. Then go back to the batch editor.
+
+\item
+Specify the input images by clicking "Input images \ra Specify". For a particular regressor whose coefficients you have averaged, choose this regressor's beta map from each model's sub-directory as well as this regressor's BMA map \texttt{beta\_NNNN\_BMA.nii} from the sub-directory \texttt{MS\_BMA\_subject\_ba\_BMA1}.
+
+\item
+Click "Overlay image \ra Specify" and choose the same BMA map.
+
+\item
+Click "Overlay threshold \ra Specify" and enter "$>\!0$" (without quotes).
+
+\item
+Click "Title \ra Specify" and enter a figure name, e.g. "cvBMA visualization".
+
+\item
+Save the batch under the filename \texttt{beta\_NNNN\_BMA.mat} into the BMA directory.
+
+\item
+Run the batch by clicking the green triangle.
+	
+\end{itemize}
+
+\textbf{Consequences:} This module results in an interactive plot in the SPM graphics window. The lower panel will show an anatomical image highlighting the voxels in which the averaged estimate is positive (or negative, if you enter "$<0$" as the overlay threshold). Upon browsing through through the anatomical image, the upper panel will adapt instantly and show a bar plot of model-wise as well as averaged parameters for the regressor you have chosen. The right-most bar representing the BMA estimate should always be between the minimum and maximum of the other bars.
+
+\textbf{Remark:} In the future, this feature will be automatized and have its own module.
+
+
+
+\pagebreak
+\setstretch{1.45}
+\section[How to visualize second-level model selection results]{How to visualize second-level \\ model selection results} \label{sec:cvBMS-vis}
+
+\textbf{Purpose:} This section introduces you how to visualize model frequencies obtained from cross-validated Bayesian model selection.
+
+\textbf{Requirements:} This module requires that cross-validated Bayesian model selection (cvBMS; see Section~\ref{sec:cvBMS}) has been performed.
+
+\textbf{Procedure:} Visualizing cvBMS results proceeds as follows:
+\begin{itemize}
+	
+\item
+Open the SPM batch editor by clicking "Batch" in the SPM menu window.
+
+\item
+Select the MACS toolbox module for high-dimensional data visualization by clicking "SPM \ra Tools \ra MACS Toolbox \ra MF: visualize high-dimensional data".
+
+\item
+Search where the analysis results have been saved and change MATLAB's current directory to this cvBMS results directory. Then go back to the batch editor.
+
+\item
+Specify the input images by clicking "Input images \ra Specify". Choose likeliest frequency maps ending on \texttt{\_LFM.nii} for all models that were in your analysis.
+
+\item
+Specify the overlay image by clicking "Overlay image \ra Specify". Choose the selected model map (SMM), located in the sub-directory \texttt{MS\_SMM\_BMS\_10} of the cvBMS results folder, from one of the models that you are particularly interested in, e.g. representing the hypothesis that you want to support using your experiment.
+
+\item
+Click "Overlay threshold \ra Specify" and enter "$>\!0$" (without quotes).
+
+\item
+Click "X-Axis Ticks \ra Specify" and enter "\texttt{cellstr(num2str([1:M]'))'}".
+
+Here, \texttt{M} has to be replaced by the number of models in your model space.
+
+\item
+Click "Y-Axis Limits \ra Specify" and enter "$[0, 1]$".
+
+\item
+Click "Title \ra Specify" and enter a figure name, e.g. "cvBMS visualization".
+
+\item
+Save the batch under the filename \texttt{BMS\_LFM.mat} into the cvBMS results directory.
+
+\item
+Run the batch by clicking the green triangle.
+	
+\end{itemize}
+
+\textbf{Consequences:} This module results in an interactive plot in the SPM graphics window (see Figure~4). The lower panel will show an anatomical image highlighting the voxels in which the model that you are interested in is selected as the optimal model. Upon browsing through through the anatomical image, the upper panel will adapt instantly and show a bar plot of estimated model frequencies.
+
+\textbf{Remark:} In the future, this feature will be automatized and have its own module.
+
+\pagebreak
+\vspace{1em}
+\begin{flushleft}
+\includegraphics[width=1.0\linewidth, clip=true, trim=0 25 0 25]{../Figures/Figure_4.pdf}
+\end{flushleft}
+\vspace{-1em}
+
+\textbf{Figure 4.} Graphical output from second-level model selection results visualization.
+
+
+
+\pagebreak
+\setstretch{1.5}
+\section[How to extend the toolbox with your own modules]{How to extend the toolbox \\ with your own modules} \label{sec:MACS-ext}
+
+The MACS toolbox can be easily augmented with your own modules, e.g. when you want to employ other variants of first-level model assessment or second-level model selection. Generally, such an extension has to consist of three components:
+
+\begin{itemize}
+	
+\item
+a \textit{mathematical function} that implements the desired method;
+
+\item
+an \textit{interface function} that applies the method to GLMs in SPM;
+
+\item
+a \textit{batch function}, if you want this method to be available in the batch editor.
+	
+\end{itemize}
+
+In MACS, references from second-level analyses to first-level images are managed by simply saving the image headers into the \texttt{SPM.mat} file as fields of the struct variable \texttt{SPM.MACS}. Consequently, if you want to implement a new first-level criterion called ABC, its image headers would have to be written into \texttt{SPM.MACS.ABC}, so that other analyses can access these images via \texttt{SPM.MACS.ABC.fname} upon loading the \texttt{SPM.mat}.\footnote{In MACS toolbox modules belonging to the automatic processing stream, e.g. "MS: perform BMS (automatic)", these images can then be incorporated by simply changing the parameter "Enter LME map" from "cvLME" to "ABC".} Conversely, if you want to implement a new second-level approach using cvLME images from the first level, this method would have to reference \texttt{SPM.MACS.cvLME}, so that these images can be accessed via \texttt{SPM.MACS.cvLME.fname} upon loading the \texttt{SPM.mat}.
+
+On the following pages (see pp.~\pageref{sec:ABC-inter}-\pageref{sec:DEF-batch}), we provide code snippets for implementing:
+
+\begin{itemize}
+	
+\item
+a method of first-level model assessment taking an SPM-GLM variable \texttt{SPM} as an input: In our example, the technique is called ABC, for "A Bayesian Criterion", and we assume that you have written a mathematical function which calculates the ABC over voxels called \texttt{function\_that\_returns\_voxel\_wise\_ABC}.
+	
+\item
+a method of second-level model selection taking a model space variable \texttt{MS} as an input: In our example, the technique is called DEF, for "Discrete Evidence Fusion", and we assume that you have written a mathematical function which performs DEF in one voxel called \texttt{function\_that\_performs\_voxel\_wise\_DEF}.
+
+\end{itemize}
+
+Then, the interface and batch functions which have to be added to the MACS toolbox folder would have to look something like this...
+
+
+\pagebreak
+\subsection*{Snippet 1: interface function for a first-level operation} \label{sec:ABC-inter}
+
+\vspace{1em}
+\setstretch{0.9}
+\begin{verbatim}
+function MA_calculate_ABC(SPM)
+% _
+% Calculate ABC, A Bayesian Criterion
+
+% Load design
+%-----------------------------------------------------------------------%
+X = SPM.xX.X;                   % design matrix
+K = SPM.xX.K;                   % filtering matrix
+W = SPM.xX.W;                   % whitening matrix
+V = SPM.xVi.V;                  % non-sphericity
+
+% Load data
+%-----------------------------------------------------------------------%
+[M m_dim m_ind] = MA_load_mask(SPM);
+ Y              = MA_load_data(SPM,m_ind);
+
+% Compute ABC
+%-----------------------------------------------------------------------%
+ABC        = NaN(size(M));
+ABC(m_ind) = function_that_returns_voxel_wise_ABC(Y, X, K, W);
+
+% Save ABC image
+%-----------------------------------------------------------------------%
+H         =  MA_init_header(SPM, false);
+H.fname   = 'MA_ABC.nii';
+H.descrip = 'MA_calculate ABC: A Bayesian Criterion';
+spm_write_vol(H,reshape(ABC,m_dim));
+
+% Save ABC header
+%-----------------------------------------------------------------------%
+SPM.MACS.ABC = H;
+save(strcat(SPM.swd,'/','SPM.mat'),'SPM');
+\end{verbatim}
+\setstretch{1.5}
+
+
+\pagebreak
+\subsection*{Snippet 2: interface function for a second-level operation} \label{sec:DEF-inter}
+
+\vspace{1em}
+\setstretch{0.9}
+\begin{verbatim}
+function MS_perform_DEF(MS)
+% _
+% Perform DEF, Discrete Evidence Fusion
+
+% Get model parameters
+%-----------------------------------------------------------------------%
+N = size(MS.SPMs,1);            % number of subjects
+M = size(MS.SPMs,2);            % number of models
+
+% Get image dimensions
+%-----------------------------------------------------------------------%
+load(MS.SPMs{1,1});             % first subject/model
+H = spm_vol(SPM.MACS.ABC);      % ABC image header
+V = prod(H.dim);                % number of voxels
+
+% Load ABC images
+%-----------------------------------------------------------------------%
+ABC = zeros(N,M,V);             % N x M x V array of ABCs
+for i = 1:N                     % subjects
+    for j = 1:M                 % models
+        load(MS.SPMs{i,j});
+        abc_hdr    = spm_vol(SPM.MACS.ABC);
+        abc_img    = spm_read_vols(abc_hdr);
+        ABC(i,j,:) = reshape(abc_img,[1 1 V]);
+    end;
+end;
+
+% Create mask image
+%-----------------------------------------------------------------------%
+ABC_1 = squeeze(ABC(:,1,:));    % N x V matrix of ABCs for 1st model
+[m_img m_hdr m_ind] = MS_create_mask(ABC_1, H);
+ v    = numel(m_ind);
+
+% Perform DEF analysis
+%-----------------------------------------------------------------------%
+DEF = NaN(M,V);
+for j = 1:v
+    DEF(:,m_ind(j)) = function_that_performs_voxel_wise_DEF(ABC(:,:,j))';
+end;
+
+% Save DEF maps
+%-----------------------------------------------------------------------%
+cd(MS.swd);
+for i = 1:M
+    H.fname   = strcat(MS.GLMs{i},'_DEF.nii');
+    H.descrip = 'MS_perform DEF: Discrete Evidence Fusion';
+    spm_write_vol(H,reshape(DEF(i,:),H.dim));
+end;
+\end{verbatim}
+\setstretch{1.5}
+
+
+\pagebreak
+\subsection*{Snippet 3: batch function for a first-level operation} \label{sec:ABC-batch}
+
+\vspace{1em}
+\setstretch{0.9}
+\begin{verbatim}
+function module = batch_MA_ABC
+% _
+% Configure MATLAB Batch for MACS Toolbox
+
+% Select SPM.mat
+%-----------------------------------------------------------------------%
+SPM_mat         = cfg_files;
+SPM_mat.tag     = 'SPM_mat';
+SPM_mat.name    = 'Select SPM.mat';
+SPM_mat.help    = {'Select the SPM.mat file of a specified and/or estimated GLM.'};
+SPM_mat.filter  = 'mat';
+SPM_mat.ufilter = '^SPM\.mat$';
+SPM_mat.num     = [1 1];
+
+% MA: ABC (man)
+%-----------------------------------------------------------------------%
+module      = cfg_exbranch;
+module.tag  = 'MA_ABC';
+module.name = 'MA: calculate ABC (manually)';
+module.val  = {SPM_mat};
+module.help = {'A Bayesian Criterion for General Linear Model'
+               'Type "help MA_calculate_ABC" for help.'};
+module.prog = @run_module;
+module.vout = @vout_module;
+
+% Run batch
+%-----------------------------------------------------------------------%
+function out = run_module(job)
+
+% execute operation
+load(job.SPM_mat{1});
+MA_calculate_ABC(SPM);
+load(job.SPM_mat{1});
+out.ABC_nii = cellstr(strcat(SPM.swd,'/',SPM.MACS.ABC.fname));
+
+% Dependencies
+%-----------------------------------------------------------------------%
+function dep = vout_module(job)
+
+% define dependencies
+dep(1)            = cfg_dep;
+dep(1).sname      = 'ABC map (voxel-wise image)';
+dep(1).src_output = substruct('.','ABC_nii');
+dep(1).tgt_spec   = cfg_findspec({{'filter','image','strtype','e'}});
+\end{verbatim}
+\setstretch{1.5}
+
+
+\pagebreak
+\subsection*{Snippet 4: batch function for a second-level operation} \label{sec:DEF-batch}
+
+\vspace{1em}
+\setstretch{0.9}
+\begin{verbatim}
+function module = batch_MS_DEF
+% _
+% Configure MATLAB Batch for MACS Toolbox
+
+% Select MS.mat
+%-----------------------------------------------------------------------%
+MS_mat         = cfg_files;
+MS_mat.tag     = 'MS_mat';
+MS_mat.name    = 'Select MS.mat';
+MS_mat.help    = {'Select the MS.mat file describing a model space of GLMs.'};
+MS_mat.filter  = 'mat';
+MS_mat.ufilter = '^MS\.mat$';
+MS_mat.num     = [1 1];
+
+% MS: DEF (auto)
+%-----------------------------------------------------------------------%
+module      = cfg_exbranch;
+module.tag  = 'MS_DEF';
+module.name = 'MS: perform DEF (automatic)';
+module.val  = {MS_mat};
+module.help = {'Discrete Evidence Fusion for General Linear Models'
+	'Type "help MS_perform_DEF" for help.'};
+module.prog = @run_module;
+module.vout = @vout_module;
+
+% Run batch
+%-----------------------------------------------------------------------%
+function out = run_module(job)
+
+% execute operation
+load(job.MS_mat{1});
+MS_perform_DEF(MS);
+load(job.MS_mat{1});
+out.DEF_mat = cellstr(strcat(MS.swd,'/','DEF.mat'));
+
+% Dependencies
+%-----------------------------------------------------------------------%
+function dep = vout_module(job)
+
+% define dependencies
+dep(1)            = cfg_dep;
+dep(1).sname      = 'DEF results (DEF.mat file)';
+dep(1).src_output = substruct('.','DEF_mat');
+dep(1).tgt_spec   = cfg_findspec({{'filter','mat','strtype','e'}});
+\end{verbatim}
+\setstretch{1.5}
+
+
+\pagebreak
+\textbf{Remark:} In order for these batch modules to appear in the SPM batch editor as part of the MACS toolbox, the batch function names, i.e. \texttt{batch\_MS\_DEF} and \texttt{batch\_MA\_ABC}, have to be added to the variable \texttt{module.values} in the function \texttt{batch\_cfg\_master.m}. Before you do this, make a copy of this function under the name \texttt{batch\_cfg\_master\_orig.m} in order not to destroy anything.
+
+
+\end{document}
