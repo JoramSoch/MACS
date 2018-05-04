@@ -21,7 +21,7 @@ function R = MD_dirrnd(alpha,N)
 % E-Mail: joram.soch@bccn-berlin.de
 % 
 % First edit: 21/10/2014, 18:30 (V0.2/V6)
-%  Last edit: 16/03/2017, 20:55 (V0.99/V15)
+%  Last edit: 04/05/2018, 14:40 (V1.2/V18)
 
 
 % Get dimensionality
@@ -30,9 +30,9 @@ K = numel(alpha);
 
 % Generate Gamma random numbers
 %-------------------------------------------------------------------------%
-R = spm_gamrnd(repmat(alpha,[N 1]),1);
-% The function here calls the SPM function "spm_gamrnd".
-% Alternatives are the MATLAB-own "gamrnd" (requires statistics toolbox)
+R = gamrnd(repmat(alpha,[N 1]),1);
+% The function here calls the MATLAB function "gamrnd".
+% Alternatives are the SPM function "spm_gamrnd" (requires SPM8/12)
 % or the toolbox-own "MD_gamrnd" (which somehow isn't working correctly).
 
 % calculate Dirichlet random numbers
