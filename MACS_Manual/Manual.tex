@@ -57,7 +57,7 @@
 		\textbf{Toolbox URL:} & \url{https://github.com/JoramSoch/MACS} \\
 		\textbf{Support Contact:} & Joram Soch $\left\langle\right.$\url{joram.soch@bccn-berlin.de}$\left.\right\rangle$  \\
 		\textbf{Current Version:} & MACS V1.1 \begin{tabular}{l} \includegraphics[scale=0.3]{../Figures/DOI_V11.png} \end{tabular} \\
-		\textbf{Toolbox Paper:} & Soch J, Allefeld C (in review). MACS -- a new SPM toolbox for model assessment, comparison and selection. \textit{Journal of Neuroscience Methods}, in review, available at \textit{bioRxiv}; DOI: 10.1101/194365. \\
+		\textbf{Toolbox Paper:} & Soch J, Allefeld C (in review). MACS -- a new SPM toolbox for model assessment, comparison and selection. \textit{Journal of Neuroscience Methods}, in review, available from \textit{bioRxiv}; DOI: 10.1101/194365. \\
 	\end{tabular}
 \end{center}
 \vspace*{1em}
@@ -118,10 +118,10 @@ Soch J, Haynes JD, Allefeld C (2016). How to avoid mismodelling in GLM-based fMR
 Soch J, Meyer AP, Haynes JD, Allefeld C (2017). How to improve parameter estimates in GLM-based fMRI data analysis: cross-validated Bayesian model averaging. \textit{NeuroImage}, vol. 158, pp. 186-195; DOI: 10.1016/j.neuroimage.2017.06.056.
 
 \item
-Soch J, Allefeld C (in review). MACS – a new SPM toolbox for model assessment, comparison and selection. \textit{Journal of Neuroscience Methods}, in review, available at \textit{bioRxiv}; DOI: 10.1101/194365.
+Soch J, Allefeld C (in review). MACS – a new SPM toolbox for model assessment, comparison and selection. \textit{Journal of Neuroscience Methods}, in review, available from \textit{bioRxiv}; DOI: 10.1101/194365.
 
 \item
-Soch J (in prep.). cvBMS and cvBMA: filling in the gaps. Technical Report, in preparation, will be available at \textit{arXiv}.
+Soch J (in prep.). cvBMS and cvBMA: filling in the gaps. Technical Report, in preparation, will be available from \textit{arXiv}.
 
 \end{itemize}
 
@@ -558,9 +558,9 @@ Run the batch by clicking the green triangle.
 	
 \end{itemize}
 
-\textbf{Consequences:} For each model in the model space, these operations will write the following images into the output directory: \texttt{GLM\_XYZ\_model\_alpha.nii}, voxel-wise concentration parameters of the posterior Dirichlet distribution that comes out of the RFX BMS; \texttt{GLM\_XYZ\_model\_EF.nii}, the expected frequency (EF) of each model, i.e. the posterior mean of model frequencies; \texttt{GLM\_XYZ\_model\_LF.nii}, the likeliest frequency (EF) of each model, i.e. the posterior mdoe of model frequencies; and, if the attribute "Exceedance probabilities" in the module "MS: perform BMS (automatic)" was set to "Yes", \texttt{GLM\_XYZ\_model\_EP.nii}, the exceedance probability of each model, i.e. the posterior probability that this model is more frequent (or, "more often used") than any other model in the model space. Generally, the most interesting thing to look at are likeliest frequencies which can be interpreted as the proportion of subjects in which the corresponding model is the optimal model or best explanation of the measured data.
+\textbf{Consequences:} For each model in the model space, these operations will write the following images into the output directory: \texttt{GLM\_XYZ\_model\_alpha.nii}, voxel-wise concentration parameters of the posterior Dirichlet distribution that comes out of the RFX BMS; \texttt{GLM\_XYZ\_model\_EF.nii}, the expected frequency (EF) of each model, i.e. the posterior mean of model frequencies; \texttt{GLM\_XYZ\_model\_LF.nii}, the likeliest frequency (LF) of each model, i.e. the posterior mode of model frequencies; and, if the attribute "Exceedance probabilities" in the module "MS: perform BMS (automatic)" was set to "Yes", \texttt{GLM\_XYZ\_model\_EP.nii}, the exceedance probability of each model, i.e. the posterior probability that this model is more frequent (or, "more often used") than any other model in the model space. Generally, the most interesting thing to look at are likeliest frequencies which can be interpreted as the proportion of subjects in which the corresponding model is the optimal model or best explanation of the measured data.
 
-Additionally, there will be sub-directory called \texttt{MS\_SMM\_BMS\_10} which contains the following images: \texttt{MS\_SMM\_map\_pos\_X\_mod\_Y\_GLM\_XYZ.nii}, where \texttt{GLM\_XYZ} is the name of the model placed at the \texttt{Y}-th position when defining the model space and ranking on \texttt{X}-th place when ordering by the number of voxels in which models are selected according to estimated model frequency. For example, \texttt{MS\_SMM\_map\_pos\_2\_mod\_8\_GLM\_B4.nii} would be the selected-model map (SMM) of \texttt{GLM\_A4}, the second model in the model space (\texttt{mod\_8}) and the winning model in second-most of the voxels (\text{pos\_2}). SMMs are likeliest frequency maps, but only show those voxels where the corresponding model is the optimal model. For further information, type \texttt{help MS\_SMM\_BMS} into the command window.
+Additionally, there will be a sub-directory called \texttt{MS\_SMM\_BMS\_10} which contains the following images: \texttt{MS\_SMM\_map\_pos\_X\_mod\_Y\_GLM\_XYZ.nii}, where \texttt{GLM\_XYZ} is the name of the model placed at the \texttt{Y}-th position when defining the model space and ranking on \texttt{X}-th place when ordering by the number of voxels in which models are selected according to estimated model frequency. For example, \texttt{MS\_SMM\_map\_pos\_2\_mod\_8\_GLM\_B4.nii} would be the selected-model map (SMM) of \texttt{GLM\_B4}, the eighth model in the model space (\texttt{mod\_8}) and the winning model in second-most of the voxels (\text{pos\_2}). SMMs are likeliest frequency maps, but only show those voxels where the corresponding model is the optimal model. For further information, type \texttt{help MS\_SMM\_BMS} into the command window.
 
 \textbf{Remark:} The pipeline described here is also available as a template batch in the MACS toolbox. Simply start the SPM batch editor and open the file \texttt{cvBMS\_template.mat} from the toolbox sub-directory \texttt{MACS\_Pipelines}.
 
@@ -834,9 +834,9 @@ end;
 
 % Create mask image
 %-----------------------------------------------------------------------%
-ABC_1 = squeeze(ABC(:,1,:));    % N x V matrix of ABCs for 1st model
-[m_img m_hdr m_ind] = MS_create_mask(ABC_1, H);
- v    = numel(m_ind);
+ABCs = reshape(ABC,[N*M, V]);   % (N*M) x V matrix of ABCs
+[m_img m_hdr m_ind] = MS_create_mask(ABCs, H);
+ v   = numel(m_ind);
 
 % Perform DEF analysis
 %-----------------------------------------------------------------------%
@@ -938,7 +938,7 @@ module.tag  = 'MS_DEF';
 module.name = 'MS: perform DEF (automatic)';
 module.val  = {MS_mat};
 module.help = {'Discrete Evidence Fusion for General Linear Models'
-	'Type "help MS_perform_DEF" for help.'};
+               'Type "help MS_perform_DEF" for help.'};
 module.prog = @run_module;
 module.vout = @vout_module;
 
@@ -966,7 +966,7 @@ dep(1).tgt_spec   = cfg_findspec({{'filter','mat','strtype','e'}});
 
 
 \pagebreak
-\textbf{Remark:} In order for these batch modules to appear in the SPM batch editor as part of the MACS toolbox, the batch function names, i.e. \texttt{batch\_MS\_DEF} and \texttt{batch\_MA\_ABC}, have to be added to the variable \texttt{module.values} in the function \texttt{batch\_cfg\_master.m}. Before you do this, make a copy of this function under the name \texttt{batch\_cfg\_master\_orig.m} in order not to destroy anything.
+\textbf{Remark:} In order for these batch modules to appear in the SPM batch editor as part of the MACS toolbox, the batch function names, i.e. \texttt{batch\_MA\_ABC} and \texttt{batch\_MS\_DEF}, have to be added to the variable \texttt{module.values} in the function \texttt{batch\_cfg\_master.m}. Before you do this, make a copy of this function under the name \texttt{batch\_cfg\_master\_orig.m} in order not to destroy anything.
 
 
 \end{document}
