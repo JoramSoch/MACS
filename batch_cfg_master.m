@@ -6,7 +6,7 @@ function module = batch_cfg_master
 % E-Mail: joram.soch@bccn-berlin.de
 % 
 % First edit: 17/03/2017, 00:45 (V0.99/V15)
-%  Last edit: 09/03/2018, 10:25 (V1.2/V18)
+%  Last edit: 04/05/2018, 16:55 (V1.2/V18)
 
 
 % Define toolbox path
@@ -43,6 +43,8 @@ module.values = {batch_MA_model_space, ...      % MA: define model space
                  batch_MA_LFE_group_auto, ...   % MA: calculate LFE (automatic)
                  batch_MC_LBF_group_man, ...    % MC: calculate LBF (manually)
                  batch_MC_LBF_group_auto, ...   % MC: calculate LBF (automatic)
+                 batch_MS_PPs_group_man, ...    % MS: calculate PPs (manually)
+                 batch_MS_PPs_group_auto, ...   % MS: calculate PPs (automatic)
                  batch_MS_BMS_group_man, ...    % MS: perform BMS (manually)
                  batch_MS_BMS_group_auto, ...   % MS: perform BMS (automatic)
                  batch_MS_BMA_group_man, ...    % MS: perform BMA (manually)
