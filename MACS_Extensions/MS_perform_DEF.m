@@ -27,9 +27,9 @@ end;
 
 % Create mask image
 %-------------------------------------------------------------------------%
-ABC_1 = squeeze(ABC(:,1,:));    % N x V matrix of ABCs for 1st model
-[m_img m_hdr m_ind] = MS_create_mask(ABC_1, H);
- v    = numel(m_ind);
+ABCs = reshape(ABC,[N*M, V]);   % (N*M) x V matrix of ABCs
+[m_img m_hdr m_ind] = MS_create_mask(ABCs, H);
+ v   = numel(m_ind);
 
 % Perform DEF analysis
 %-------------------------------------------------------------------------%

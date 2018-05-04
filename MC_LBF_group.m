@@ -28,7 +28,7 @@ function MC_LBF_group(job)
 % E-Mail: joram.soch@bccn-berlin.de
 % 
 % First edit: 18/03/2017, 17:05 (V0.99/V15)
-%  Last edit: 09/03/2018, 11:55 (V1.2/V18)
+%  Last edit: 04/05/2018, 15:25 (V1.2/V18)
 
 
 %=========================================================================%
@@ -91,10 +91,10 @@ spm_progress_bar('Clear');
 
 % Create mask image
 %-------------------------------------------------------------------------%
-LME_1 = squeeze(LME(1,:,:));    % N x V matrix of LMEs for 1st model
-if size(LME_1,2) == N, LME_1 = LME_1'; end;
-[m_img m_hdr m_ind] = MS_create_mask(LME_1, H);
-clear LME_1
+LMEs = permute(LME, [3 1 2]);   % N x M x V array of LMEs
+LMEs = reshape(LMEs,[N*M, V]);  % (N*M) x V matrix of LMEs
+[m_img m_hdr m_ind] = MS_create_mask(LMEs, H);
+clear LMEs
 
 
 %=========================================================================%
