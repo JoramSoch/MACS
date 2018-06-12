@@ -46,7 +46,7 @@
 % E-Mail: joram.soch@bccn-berlin.de
 % 
 % First edit: 18/08/2017, 17:35 (V1.1/V17)
-%  Last edit: 09/03/2018, 09:30 (V1.2/V18)
+%  Last edit: 11/06/2018, 15:35 (V1.2/V18)
 
 
 %%% Step 0: Study parameters %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -76,6 +76,7 @@ M = numel(mod_nams);
 %%% Step 1: Create model space job %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % working directory
+clear job
 job.dir{1} = strcat(stat_dir,'/',ms_name,'_',ms_suff,'/');
 
 % assemble SPM.mats
