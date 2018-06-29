@@ -61,7 +61,7 @@ function MA_cvLME_single(SPM, data, disc, AnC)
 % E-Mail: joram.soch@bccn-berlin.de
 % 
 % First edit: 04/03/2014, 19:00 (V0.1/V1)
-%  Last edit: 09/03/2018, 12:00 (V1.2/V18)
+%  Last edit: 29/06/2018, 13:25 (V1.2/V18)
 
 
 %=========================================================================%
@@ -99,10 +99,11 @@ if nargin < 3 || isempty(disc), disc = 10 + mod(size(SPM.xX.X,1),10); end;
 %-------------------------------------------------------------------------%
 if nargin < 4 || isempty(AnC), AnC = false; end;
 
-% Add session field if GLM for EEG
+% Add session field if other GLM
 %-------------------------------------------------------------------------%
 if ~isfield(SPM,'Sess')
     SPM.Sess = 1;
+    disc     = 0;
 end;
 
 % Call other function if multi-run
@@ -191,11 +192,11 @@ end;
 %-------------------------------------------------------------------------%
 if mod(n-disc,2) == 0           % EVEN number of scans
     s1 = [1:(n-disc)/2];        % leave out d volumes in the middle
-    s2 = [(n-disc)/2+disc+1:n];
+    s2 = [((n-disc)/2+disc+1):n];
 end;
 if mod(n-disc,2) == 1           % UNEVEN number of scans
     s1 = [1:(n-disc-1)/2];      % leave out d volumes and the last one
-    s2 = [(n-disc-1)/2+disc+1:(n-1)];
+    s2 = [((n-disc-1)/2+disc+1):(n-1)];
 end;
 
 % Partition data into two parts (2)

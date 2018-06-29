@@ -67,7 +67,7 @@ function MA_cvLME_multi(SPM, data, mode, AnC)
 % E-Mail: joram.soch@bccn-berlin.de
 % 
 % First edit: 04/03/2014, 19:00 (V0.1/V1)
-%  Last edit: 09/03/2018, 12:00 (V1.2/V18)
+%  Last edit: 29/06/2018, 13:25 (V1.2/V18)
 
 
 %=========================================================================%
@@ -105,11 +105,11 @@ if nargin < 3 || isempty(mode), mode = 'N-1'; end;
 %-------------------------------------------------------------------------%
 if nargin < 4 || isempty(AnC), AnC = false; end;
 
-% Call other function if GLM for EEG
+% Call other function if other GLM
 %-------------------------------------------------------------------------%
 if ~isfield(SPM,'Sess')
     SPM.Sess = 1;
-    disc = 10 + mod(size(SPM.xX.X,1),10);
+    disc     = 0;
     MA_cvLME_single(SPM,data,disc,AnC);
     return
 end;
