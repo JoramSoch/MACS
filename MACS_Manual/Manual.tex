@@ -56,8 +56,8 @@
 	\begin{tabular}{l p{10.5cm}}
 		\textbf{Toolbox URL:} & \url{https://github.com/JoramSoch/MACS} \\
 		\textbf{Support Contact:} & Joram Soch $\left\langle\right.$\url{joram.soch@bccn-berlin.de}$\left.\right\rangle$  \\
-		\textbf{Current Version:} & MACS V1.1 \begin{tabular}{l} \includegraphics[scale=0.3]{../Figures/DOI_V11.png} \end{tabular} \\
-		\textbf{Toolbox Paper:} & Soch J, Allefeld C (in review). MACS -- a new SPM toolbox for model assessment, comparison and selection. \textit{Journal of Neuroscience Methods}, in review, available from \textit{bioRxiv}; DOI: 10.1101/194365. \\
+		\textbf{Current Version:} & MACS V1.2 \begin{tabular}{l} \includegraphics[scale=0.3]{../Figures/DOI_V11.png} \end{tabular} \\
+		\textbf{Toolbox Paper:} & Soch J, Allefeld C (2018). MACS -- a new SPM toolbox \linebreak[4]for model assessment, comparison and selection. \textit{Journal of \linebreak[4]Neuroscience Methods}, vol. 306, pp. 19-31; DOI: 10.1016/\linebreak[4]j.jneumeth.2018.05.017. \\
 	\end{tabular}
 \end{center}
 \vspace*{1em}
@@ -75,7 +75,7 @@
 \pagenumbering{arabic}
 \section{How to install the toolbox and read this manual} \label{sec:MACS}
 
-\textbf{Purpose:} This is a manual for \textbf{MACS} (pronounced as "Max"), an SPM toolbox for model assessment, comparison and selection (MACS) of general linear models (GLMs) applied to functional magnetic resonance imaging (fMRI) data using Statistical Parametric Mapping (SPM). MACS includes classical, information-theoretic and Bayesian methods of model assessment previously applied to GLMs for fMRI as well as recent methodological developments of model selection (Soch et al., 2016) and model averaging (Soch et al., 2017) in fMRI data analysis (Soch \& Allefeld, in review).
+\textbf{Purpose:} This is a manual for \textbf{MACS} (pronounced as "Max"), an SPM toolbox for model assessment, comparison and selection (MACS) of general linear models (GLMs) applied to functional magnetic resonance imaging (fMRI) data using Statistical Parametric Mapping (SPM). MACS includes classical, information-theoretic and Bayesian methods of model assessment previously applied to GLMs for fMRI as well as recent methodological developments of model selection (Soch et al., 2016) and model averaging (Soch et al., 2017) in fMRI data analysis (Soch \& Allefeld, 2018).
 
 \textbf{Requirements:} To use the MACS toolbox, you need SPM8 or SPM12 running in \linebreak[4] MATLAB R2008a or later running on any operating system.
 
@@ -107,7 +107,7 @@ Open the SPM batch editor by clicking "Batch" in the SPM menu window.
 \textbf{Remark:} When reading this manual, you are not meant to go from first to last page, but instead choose a specific analysis to be performed and search for the corresponding section in the manual. Each section is subdivided into subsesctions (\textit{Purpose} -- \textit{Requirements} -- \textit{Procedure} -- \textit{Consequences}) and is written in the form of a cooking recipe, so that you can follow step-by-step instructions to perform a specific analysis. If you are unsure which analysis you want to perform or about where to start, we recommend to read the manual in the following order: Sections \ref{sec:GoF} -- \ref{sec:cvLME-man} -- \ref{sec:MS} -- \ref{sec:cvLME-auto} -- \ref{sec:cvBMS} -- \ref{sec:cvBMS-vis} -- \ref{sec:cvBMA} -- \ref{sec:cvBMA-vis}.
 
 \pagebreak
-\textbf{Documentation:} Further information on the toolbox can be found in two theoretical papers (Soch et al., 2016; Soch et al., 2017) as well as a toolbox paper (Soch \& Allefeld, in review) and a technical report (Soch, in prep.) which you are also welcome to cite when using the toolbox:
+\textbf{Documentation:} Further information on the toolbox can be found in two theoretical papers (Soch et al., 2016; Soch et al., 2017) as well as a toolbox paper (Soch \& Allefeld, 2018) and a technical report (Soch, 2018) which you are also welcome to cite when using the toolbox:
 
 \begin{itemize}
 
@@ -118,10 +118,10 @@ Soch J, Haynes JD, Allefeld C (2016). How to avoid mismodelling in GLM-based fMR
 Soch J, Meyer AP, Haynes JD, Allefeld C (2017). How to improve parameter estimates in GLM-based fMRI data analysis: cross-validated Bayesian model averaging. \textit{NeuroImage}, vol. 158, pp. 186-195; DOI: 10.1016/j.neuroimage.2017.06.056.
 
 \item
-Soch J, Allefeld C (in review). MACS – a new SPM toolbox for model assessment, comparison and selection. \textit{Journal of Neuroscience Methods}, in review, available from \textit{bioRxiv}; DOI: 10.1101/194365.
+Soch J, Allefeld C (2018). MACS – a new SPM toolbox for model assessment, comparison and selection. \textit{Journal of Neuroscience Methods}, vol. 306, pp. 19-31; DOI: 10.1016/j.jneumeth.2018.05.017.
 
 \item
-Soch J (in prep.). cvBMS and cvBMA: filling in the gaps. Technical Report, in preparation, will be available from \textit{arXiv}.
+Soch J (2018). cvBMS and cvBMA: filling in the gaps. Technical Report, in preparation, will be available from \textit{arXiv}.
 
 \end{itemize}
 
@@ -402,37 +402,31 @@ Really, this is all? Yes, this is it!
 \pagebreak
 \section{How to calculate posterior probabilities from cvLMEs} \label{sec:PP}
 
-\textbf{Purpose:} Because the cvLME is a relative measure of model quality, its absolute value has no direct interpretation. However, posterior probabilities (PP) can be used to quantify the evidence in favor of each model. This section demonstrates how to calculate posterior model probabilities for a single subject.
+\textbf{Purpose:} Because the cvLME is a relative measure of model quality, its absolute value has no direct interpretation. However, posterior probabilities (PP) can be used to quantify the relative evidence in favor of each model.
 
-\textbf{Requirements:} This module requires that several models for the same subject have been assessed using the cvLME (see Section~\ref{sec:cvLME-man} or \ref{sec:cvLME-auto}), such that a cvLME map \texttt{MA\_cvLME.nii} exists in the directory of each.
+\textbf{Requirements:} This module requires that several models for one or more subjects have been assessed using the cvLME (see Section~\ref{sec:cvLME-man} or \ref{sec:cvLME-auto}), such that a cvLME map \texttt{MA\_cvLME.nii} exists in the directory of each.
 
 \textbf{Procedure:} Computing posterior probabilities proceeds as follows:
 \begin{itemize}
 
 \item
-Go to the folder belonging to this subject, i.e. where the model sub-directories are located, and create a new sub-directory, e.g. \texttt{MS\_BMS\_subject}. This is the output directory into which analysis results will be saved.
-	
-\item
-Set up a batch that defines a model space (see Section~\ref{sec:MS}) which only includes the models from this particular subject and uses the output folder as the model space directory. Don't save and run this batch!
+Set up a batch that defines a model space (see Section~\ref{sec:MS}) including all models from all subjects, but don't save and run this batch!
 
 \item
-Select the MACS toolbox module for group-level Bayesian model selection by clicking \linebreak[4] "SPM \ra Tools \ra MACS Toolbox \ra MS: perform BMS (automatic)".
+Select the MACS toolbox module for posterior probability calculation by clicking \linebreak[4] "SPM \ra Tools \ra MACS Toolbox \ra MS: calculate PPs (automatic)".
 
 \item
 Select the model space by clicking "Select MS.mat \ra Dependency" and then \linebreak[4] "MA: define model space: model space (MS.mat file) \ra OK".
 
 \item
-Switch the estimation algorithm by clicking "Inference method \ra Fixed Effects (FFX)".
-
-\item
-Save the batch under the filename \texttt{design.mat} into the output directory.
+Save the batch under the filename \texttt{design.mat} into the model space directory.
 
 \item
 Run the batch by clicking the green triangle.
 	
 \end{itemize}
 
-\textbf{Consequences:} This module results in an image called \texttt{GLM\_XYZ\_model\_PPM.nii} for each model defined in the model space where \texttt{GLM\_XYZ} stands for the name given to this model. This posterior probability map (PPM) contains the voxel-wise posterior probabilities of this model relative to the cvLMEs from the whole model space.
+\textbf{Consequences:} For each subject in the model space, this module will create an output directory called \texttt{MS\_PPs\_uniform} in the folder where the first model's sub-directory is located. Within this folder, there will be an image called \texttt{GLM\_XYZ\_PP.nii} for each model family where \texttt{GLM\_XYZ} stands for the name given to this model. This posterior probability map (PPM) contains the voxel-wise posterior probabilities of this model relative to the cvLMEs from the whole model space. Note that a change in the model space is a change of the comparison set and will therefore also change the PPs.
 
 
 
@@ -788,7 +782,7 @@ ABC(m_ind) = function_that_returns_voxel_wise_ABC(Y, X, K, W);
 %-----------------------------------------------------------------------%
 H         =  MA_init_header(SPM, false);
 H.fname   = 'MA_ABC.nii';
-H.descrip = 'MA_calculate ABC: A Bayesian Criterion';
+H.descrip = 'MA_calculate_ABC: A Bayesian Criterion';
 spm_write_vol(H,reshape(ABC,m_dim));
 
 % Save ABC header
@@ -850,7 +844,7 @@ end;
 cd(MS.swd);
 for i = 1:M
     H.fname   = strcat(MS.GLMs{i},'_DEF.nii');
-    H.descrip = 'MS_perform DEF: Discrete Evidence Fusion';
+    H.descrip = 'MS_perform_DEF: Discrete Evidence Fusion';
     spm_write_vol(H,reshape(DEF(i,:),H.dim));
 end;
 \end{verbatim}
