@@ -1,6 +1,6 @@
 # MACS
 
-<a href="https://zenodo.org/badge/latestdoi/92269905"><img src="https://zenodo.org/badge/92269905.svg" alt="DOI"></a>
+<a href="https://doi.org/10.5281/zenodo.1302371"><img src="https://zenodo.org/badge/DOI/10.5281/zenodo.1302371.svg" alt="DOI"></a>
 
 <h3>MACS – a new SPM toolbox for model assessment, comparison and selection</h3>
 
