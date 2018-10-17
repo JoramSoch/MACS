@@ -28,7 +28,7 @@ function R = MD_dirrnd(alpha, N, method)
 % E-Mail: joram.soch@bccn-berlin.de
 % 
 % First edit: 21/10/2014, 18:30 (V0.2/V6)
-%  Last edit: 16/05/2018, 15:50 (V1.2/V18)
+%  Last edit: 17/10/2018, 14:05 (V1.3/V19)
 
 
 % Get dimensionality
@@ -55,9 +55,9 @@ if strcmp(method,'SPM')
         R(:,j) = spm_gamrnd(alpha(j),1,N,1);
     end;
 end;
-% Note: Although this takes twice as long as the MATLAB implementation,
-% because other than in MATLAB, a for-loop has to be used. However, it
-% does not require MATLAB's statistics toolbox.
+% Note: This takes twice as long as the MATLAB implementation, because
+% other than in MATLAB, a for-loop has to be used. However, it does not
+% require MATLAB's statistics toolbox.
 
 % Generate Gamma random numbers (MACS)
 %-------------------------------------------------------------------------%
