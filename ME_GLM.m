@@ -1,6 +1,6 @@
 function [beta_est, sig2_est] = ME_GLM(Y, X, V, msg)
 % _
-% Estimation of Classical General Linear Model
+% Maximum Likelihood Estimation of General Linear Model
 % FORMAT [beta_est, sig2_est] = ME_GLM(Y, X, V, msg)
 % 
 %     Y   - an n x v data matrix of v time series with n data points
@@ -11,35 +11,36 @@ function [beta_est, sig2_est] = ME_GLM(Y, X, V, msg)
 %     beta_est - a p x v matrix (estimated regression coefficients)
 %     sig2_est - a 1 x v vector (estimated residual variance)
 % 
-% FORMAT [beta_est, sig2_est] = ME_GLM(Y, X, V) returns the classical
-% parameter estimates for a general linear model with data Y, design
-% matrix X, covariance matrix V.
+% FORMAT [beta_est, sig2_est] = ME_GLM(Y, X, V) returns the maximum
+% likelihood parameter estimates for a general linear model with data Y,
+% design matrix X, covariance matrix V.
 % 
 % The given fMRI data (y) are modelled as a linear combination (b) of
 % experimental factors and potential confounds (X), where errors (e) are
 % assumed to be normally distributed around zero and to have a known
-% covariance structure (V):
-%     y = Xb + e, e ~ N(0, V)
+% covariance structure (V), but unknown residual variance (s2):
+%     y = Xb + e, e ~ N(0, s2 V)
 % This gives rise to the following likelihood function:
-%     p(y|beta) = N(y; Xb, V)
-% This implies the following residual sum of squares:
-%     RSS(beta) = (y-Xb)'(y-Xb) = |y-Xb|^2
+%     p(y|b,s2) = N(y; Xb, s2 V)
 % 
-% Maximum Likelihood (ML) or Ordinary Least Squares (OLS) estimation
-% proceeds by minimizing RSS with respect to beta which is equivalent
-% to the residual vector being orthogonal to the design space (X'e = 0).
-% ML/OLS estimates are given by [1,2]:
+% Maximum Likelihood (ML) estimation proceeds by maximizing the (log)
+% likelihood function (log) p(y|b,s2) with respect to the free model
+% parameters (b,s2).
+% 
+% When the covariance matrix is equal to the identity matrix (V = I),
+% errors are i.i.d. and ML parameter estimates are equivalent to the
+% Ordinary Least Squares (OLS) solution [1,2]:
 %     beta_est = (X'*X)^-1 * X'*y
 %     sig2_est = 1/n * (y-Xb_est)'*(y-Xb_est)
 % 
 % When the covariance matrix is not equal to the identity matrix (V <> I),
-% so that errors are not i.i.d., Gauss-Markov (GM) estimation or Weighted
-% Least Squares (WLS) must be used. GM/WLS estimates are given by [1,2]:
+% so that errors are not i.i.d., ML estimates are equivalent to the
+% Weighted Least Squares (WLS) solution [1,2]:
 %     beta_est = (X'*inv(V)*X)^-1 * X'*inv(V)*y
 %     sig2_est = 1/n * (y-Xb_est)'*inv(V)*(y-Xb_est)
 % 
 % An unbiased estimate for the residual variance is given by:
-%     sig2_est = 1/(n-p) * (y-Xb_est)'*[inv(V)]*(y-Xb_est)
+%     sig2_ub  = n/(n-p) * sig2_est
 % 
 % References:
 % [1] Bishop CM (2006): "Pattern Recognition and Machine Learning".
@@ -51,7 +52,7 @@ function [beta_est, sig2_est] = ME_GLM(Y, X, V, msg)
 % E-Mail: joram.soch@bccn-berlin.de
 % 
 % First edit: 29/10/2014, 14:05 (V0.2/V7)
-%  Last edit: 09/03/2018, 12:30 (V1.2/V18)
+%  Last edit: 14/11/2018, 15:50 (V1.3/V19)
 
 
 % Get model dimensions
@@ -69,9 +70,9 @@ spm_progress_bar('Init', 100, msg, '');
 
 % Prepare parameter estimation
 %-------------------------------------------------------------------------%
-P = inv(V);                     % inverse of data covariance matrix
+P = inv(V);                     % inverse of covariance matrix
 
-% Estimate posterior parameters
+% Calculate parameter estimates
 %-------------------------------------------------------------------------%
 beta_est = (X'*P*X)^-1 * X'*P*Y;% estimated regression coefficients
 resi_est = Y - X*beta_est;      % estimated residuals/errors/noise
