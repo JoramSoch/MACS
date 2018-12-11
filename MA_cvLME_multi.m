@@ -9,8 +9,8 @@ function MA_cvLME_multi(SPM, data, mode, AnC)
 % 
 % FORMAT MA_cvLME_multi(SPM, data, mode, AnC) generates a cross-validated
 % log model evidence map for a multi-session GLM specified by SPM, using
-% data indicated by data and using a cross-validation mode indicated by
-% mode.
+% data indicated by data, using a cross-validation mode indicated by mode
+% and calculating accuracy and complexity if AnC is true.
 % 
 % The present procedure performs N-fold cross-validation and uses N-1
 % sessions (or 1 session) to calculate parameter priors that are used for
@@ -67,7 +67,7 @@ function MA_cvLME_multi(SPM, data, mode, AnC)
 % E-Mail: joram.soch@bccn-berlin.de
 % 
 % First edit: 04/03/2014, 19:00 (V0.1/V1)
-%  Last edit: 29/06/2018, 13:25 (V1.2/V18)
+%  Last edit: 11/12/2018, 10:15 (V1.3/V19)
 
 
 %=========================================================================%
@@ -105,18 +105,17 @@ if nargin < 3 || isempty(mode), mode = 'N-1'; end;
 %-------------------------------------------------------------------------%
 if nargin < 4 || isempty(AnC), AnC = false; end;
 
-% Call other function if other GLM
+% Call other function if second-level
 %-------------------------------------------------------------------------%
 if ~isfield(SPM,'Sess')
-    SPM.Sess = 1;
-    disc     = 0;
-    MA_cvLME_single(SPM,data,disc,AnC);
+    disc = mod(size(SPM.xX.X,1),2);
+    MA_cvLME_other(SPM,data,disc,AnC);
     return
 end;
 
 % Call other function if single-run
 %-------------------------------------------------------------------------%
-if length(SPM.Sess) == 1
+if numel(SPM.Sess) == 1
     disc = 10 + mod(size(SPM.xX.X,1),10);
     MA_cvLME_single(SPM,data,disc,AnC);
     return

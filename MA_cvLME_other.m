@@ -1,18 +1,18 @@
-function MA_cvLME_single(SPM, data, disc, AnC)
+function MA_cvLME_other(SPM, data, disc, AnC)
 % _
-% Cross-Validated Log Model Evidence for General Linear Model (single-session)
-% FORMAT MA_cvLME_single(SPM, data, disc, AnC)
+% Cross-Validated Log Model Evidence for General Linear Model (non-first-level)
+% FORMAT MA_cvLME_other(SPM, data, disc, AnC)
 %     SPM  - a structure specifying an estimated GLM
 %     data - a string indicating which data to use (see below)
 %     disc - an integer indicating how many volumes to discard (see below)
 %     AnC  - a logical indicating accuracy and complexity computation
 % 
-% FORMAT MA_cvLME_single(SPM, data, disc, AnC) generates a cross-validated
-% log model evidence map for a single-session GLM specified by SPM, using
+% FORMAT MA_cvLME_other(SPM, data, disc, AnC) generates a cross-validated
+% log model evidence map for a second-level GLM specified by SPM, using
 % data indicated by data, discarding a number of volumes indicated by disc
 % and calculating accuracy and complexity if AnC is true.
 % 
-% The present procedure splits the data set into two parts and uses the
+% The present procedure splits the scans set into two parts and uses the
 % first (second) one to calculate parameter priors for calculating the
 % Bayesian log model evidence on the second (first) one. Assumming
 % independence between the two parts, the total (cross-validated) log model
@@ -25,16 +25,20 @@ function MA_cvLME_single(SPM, data, disc, AnC)
 %     If data is 'KWy', then the whitened and filtered data are used.
 %     If data is 'WKy', then the filtered and whitened data are used.
 % 
-% The default for this variable is 'Ky' which means that the analysis
-% operates on the filtered data and uses the whitening matrix for
-% non-sphericity correction. This is recommended if high-pass filter
-% settings are invariant across all models in the model space and
-% accomodates for different AR assumptions due to SPM's ReML algorithm.
+% Since second-level models do not have a temporal filter, the option 'Ky'
+% is equivalent to 'y' and the options 'KWy'/'WKy' are equivalent to 'Wy'.
+% These options are merely kept for consistency with "MA_cvLME_single".
+% The default for this variable is 'y' which means that the analysis
+% operates on non-filtered data (because second-level models have no
+% filter) and non-whitened data (because model assessment uses the non-
+% sphericity as the covariance matrix). This is recommened, if the non-
+% sphericity differs between models.
 % 
 % The input variable "disc" is an integer indicating how much volumes are
-% left out ("discarded") in the middle of the fMRI data set. The default
-% for this variable is set such that at least 10 scans are left out and the
-% number of remaining scans is divisible by 10, i.e. disc = 10 + mod(n,10).
+% left out at the end of the design matrix. This input is ignored by this
+% function and overwritten with mod(n,2), such that both halfs have an
+% equal number of scans, whether the number of scans is even or odd.
+% The variable is merely kept for consistency with "MA_cvLME_single".
 % 
 % The input variable "AnC" is a logical indicating whether model accuracy
 % and model complexity are calculated and written to images. The log model
@@ -47,21 +51,13 @@ function MA_cvLME_single(SPM, data, disc, AnC)
 %     help ME_GLM_NG_AnC
 % 
 % Exemplary usage:
-%     MA_cvLME_single(SPM, 'Ky', 15, true);
-% 
-% References:
-% [1] Soch J, Haynes JD, Allefeld C (2016): "How to avoid mismodelling in
-%     GLM-based fMRI data analysis: cross-validated Bayesian model selection".
-%     NeuroImage, vol. 141, pp. 469–489.
-% [2] Soch J, Meyer AP, Haynes JD, Allefeld C (2017): "How to improve parameter estimates in 
-%     GLM-based fMRI data analysis: cross-validated Bayesian model averaging".
-%     NeuroImage, vol. 158, pp. 186-195.
+%     MA_cvLME_other(SPM, 'y', 0, true);
 % 
 % Author: Joram Soch, BCCN Berlin
 % E-Mail: joram.soch@bccn-berlin.de
 % 
 % First edit: 04/03/2014, 19:00 (V0.1/V1)
-%  Last edit: 11/12/2018, 10:15 (V1.3/V19)
+%  Last edit: 11/12/2018, 10:35 (V1.3/V19)
 
 
 %=========================================================================%
@@ -74,7 +70,7 @@ if nargin == 0
     SPM_mat = spm_select(1,'^SPM\.mat$','Select SPM.mat!');
     SPM_dir = fileparts(SPM_mat); load(SPM_mat);
     SPM.swd = SPM_dir;
-    MA_cvLME_single(SPM);
+    MA_cvLME_other(SPM);
     return
 end;
 
@@ -83,35 +79,26 @@ end;
 if ~isfield(SPM.xVi,'V')
     SPM_mat = strcat(SPM.swd,'/','SPM.mat');
     MA_GLM_AR_only(SPM_mat); load(SPM_mat);
-    MA_cvLME_single(SPM);
+    MA_cvLME_other(SPM);
     return
 end;
 
 % Set data flag if necessary
 %-------------------------------------------------------------------------%
-if nargin < 2 || isempty(data), data = 'Ky'; end;
+if nargin < 2 || isempty(data), data = 'y'; end;
 
 % Set disc number if necessary
 %-------------------------------------------------------------------------%
-if nargin < 3 || isempty(disc), disc = 10 + mod(size(SPM.xX.X,1),10); end;
+if nargin < 3 || isempty(disc), disc = mod(size(SPM.xX.X,1),2); end;
 
 % Inactivate AnC if necessary
 %-------------------------------------------------------------------------%
 if nargin < 4 || isempty(AnC), AnC = false; end;
 
-% Call other function if second-level
+% Call other function if first-level
 %-------------------------------------------------------------------------%
-if ~isfield(SPM,'Sess')
-    disc = mod(size(SPM.xX.X,1),2);
-    MA_cvLME_other(SPM,data,disc,AnC);
-    return
-end;
-
-% Call other function if multi-run
-%-------------------------------------------------------------------------%
-if numel(SPM.Sess) > 1
-    mode = 'N-1';
-    MA_cvLME_multi(SPM,data,mode,AnC);
+if isfield(SPM,'Sess')
+    MA_cvLME_single(SPM,[],[],AnC);
     return
 end;
 
@@ -135,7 +122,7 @@ p = size(X,2);                  % number of regressors
 
 % Init progress bar
 %-------------------------------------------------------------------------%
-Finter = spm('FigName','MA_cvLME_single: load');
+Finter = spm('FigName','MA_cvLME_other: load');
 
 % Load mask image
 %-------------------------------------------------------------------------%
@@ -153,24 +140,18 @@ v = numel(m_ind);
 
 % Init progress bar
 %-------------------------------------------------------------------------%
-Finter = spm('FigName','MA_cvLME_single: estimate (1)');
+Finter = spm('FigName','MA_cvLME_other: estimate (1)');
 
 % Preprocess data if required
 %-------------------------------------------------------------------------%
-if strcmp(data,'y') | strcmp(data,'Wy')
-    if size(K.X0,2) > 1         % Delete the lowest frequency in filter to
-        K.X0 = K.X0(:,2:end);   % prevent Ln1/2 from being non-invertible
-    end;                        % which can happen due to the partition.
-    p = p + size(K.X0,2);       % Design matrix is augmented by filter.
-end;                            
 if strcmp(data,'y')
   % Y = Y;                      % RAW data are used
-    X = [X K.X0];               % design matrix must have filter added
+  % X = X;                      % design matrix remains the same
     P = spm_inv(V);             % precision is inverse of non-sphericity
 end;
 if strcmp(data,'Wy')
     Y = W*Y;                    % WHITENED data are used
-    X = W*[X K.X0];             % design must have filter and be whitened
+    X = W*X;                    % design must be whitened
     P = speye(n);               % precision is equal to identity matrix
 end;
 if strcmp(data,'Ky')
@@ -191,14 +172,19 @@ end;
 
 % Partition data into two parts (1)
 %-------------------------------------------------------------------------%
-if mod(n-disc,2) == 0           % EVEN number of scans
-    s1 = [1:(n-disc)/2];        % leave out d volumes in the middle
-    s2 = [((n-disc)/2+disc+1):n];
+rng(sum(m_dim)+n);              % seed random number generator
+disc = mod(n,2);                % so that partition is replicable
+if disc == 0                
+    S = [[1*ones(1,n/2), 2*ones(1,n/2)]', rand(n,1)];
+    S = sortrows(S,2);
 end;
-if mod(n-disc,2) == 1           % UNEVEN number of scans
-    s1 = [1:(n-disc-1)/2];      % leave out d volumes and the last one
-    s2 = [((n-disc-1)/2+disc+1):(n-1)];
+if disc == 1
+    S = [[1*ones(1,(n-1)/2), 2*ones(1,(n-1)/2), 3]', rand(n,1)];
+    S = sortrows(S,2);
 end;
+s1 = find(S(:,1)==1)';
+s2 = find(S(:,1)==2)';
+rng('default');                 % random number generator back to default
 
 % Partition data into two parts (2)
 %-------------------------------------------------------------------------%
@@ -220,7 +206,7 @@ end;
 
 % Init progress bar
 %-------------------------------------------------------------------------%
-Finter = spm('FigName','MA_cvLME_single: estimate (2)');
+Finter = spm('FigName','MA_cvLME_other: estimate (2)');
 
 % Set (non-informative) priors for both parts
 %-------------------------------------------------------------------------%
@@ -249,7 +235,7 @@ clear Y X P
 
 % Init progress bar
 %-------------------------------------------------------------------------%
-Finter = spm('FigName','MA_cvLME_single: estimate (3)');
+Finter = spm('FigName','MA_cvLME_other: estimate (3)');
 
 % Preallocate images
 %-------------------------------------------------------------------------%
@@ -293,24 +279,33 @@ end;
 
 % Init progress bar
 %-------------------------------------------------------------------------%
-Finter = spm('FigName','MA_cvLME_single: save');
+Finter = spm('FigName','MA_cvLME_other: save');
 
 % Initialise image files
 %-------------------------------------------------------------------------%
 H = MA_init_header(SPM, false);
 
+% Save split-half cross-validation
+%-------------------------------------------------------------------------%
+SPM.MACS.Part(1).X = X1;
+SPM.MACS.Part(1).P = P1;
+SPM.MACS.Part(1).s = s1;
+SPM.MACS.Part(2).X = X2;
+SPM.MACS.Part(2).P = P2;
+SPM.MACS.Part(2).s = s2;
+
 % Write log model evidence
 %-------------------------------------------------------------------------%
 H.fname   = 'MA_cvLME.nii';
-H.descrip = 'MA_cvLME_single: cross-validated log model evidence for general linear model with normal-gamma priors (GLM-NG)';
+H.descrip = 'MA_cvLME_other: cross-validated log model evidence for general linear model with normal-gamma priors (GLM-NG)';
 spm_write_vol(H,reshape(cvLME,m_dim));
 SPM.MACS.cvLME = H;
 H.fname   = 'MA_cvLME_P1.nii';
-H.descrip = 'MA_cvLME_single: log model evidence for 1st part based on priors estimated from 2nd part';
+H.descrip = 'MA_cvLME_other: log model evidence for 1st part based on priors estimated from 2nd part';
 spm_write_vol(H,reshape(oosLME1,m_dim));
 SPM.MACS.oosLME(1) = H;
 H.fname   = 'MA_cvLME_P2.nii';
-H.descrip = 'MA_cvLME_single: log model evidence for 2nd part based on priors estimated from 1st part';
+H.descrip = 'MA_cvLME_other: log model evidence for 2nd part based on priors estimated from 1st part';
 spm_write_vol(H,reshape(oosLME2,m_dim));
 SPM.MACS.oosLME(2) = H;
 
@@ -318,27 +313,27 @@ SPM.MACS.oosLME(2) = H;
 %-------------------------------------------------------------------------%
 if AnC
     H.fname   = 'MA_cvAcc.nii';
-    H.descrip = 'MA_cvLME_single: cross-validated model accuracy for general linear model with normal-gamma priors (GLM-NG)';
+    H.descrip = 'MA_cvLME_other: cross-validated model accuracy for general linear model with normal-gamma priors (GLM-NG)';
     spm_write_vol(H,reshape(cvAcc,m_dim));
     SPM.MACS.cvAcc = H;
     H.fname   = 'MA_cvCom.nii';
-    H.descrip = 'MA_cvLME_single: cross-validated model complexity for general linear model with normal-gamma priors (GLM-NG)';
+    H.descrip = 'MA_cvLME_other: cross-validated model complexity for general linear model with normal-gamma priors (GLM-NG)';
     spm_write_vol(H,reshape(cvCom,m_dim));
     SPM.MACS.cvCom = H;
     H.fname   = 'MA_cvAcc_P1.nii';
-    H.descrip = 'MA_cvLME_single: model accuracy for 1st part based on priors estimated from 2nd part';
+    H.descrip = 'MA_cvLME_other: model accuracy for 1st part based on priors estimated from 2nd part';
     spm_write_vol(H,reshape(oosAcc1,m_dim));
     SPM.MACS.oosAcc(1) = H;
     H.fname   = 'MA_cvCom_P1.nii';
-    H.descrip = 'MA_cvLME_single: model complexity for 1st part based on priors estimated from 2nd part';
+    H.descrip = 'MA_cvLME_other: model complexity for 1st part based on priors estimated from 2nd part';
     spm_write_vol(H,reshape(oosCom1,m_dim));
     SPM.MACS.oosCom(1) = H;
     H.fname   = 'MA_cvAcc_P2.nii';
-    H.descrip = 'MA_cvLME_single: model accuracy for 2nd part based on priors estimated from 1st part';
+    H.descrip = 'MA_cvLME_other: model accuracy for 2nd part based on priors estimated from 1st part';
     spm_write_vol(H,reshape(oosAcc2,m_dim));
     SPM.MACS.oosAcc(2) = H;
     H.fname   = 'MA_cvCom_P2.nii';
-    H.descrip = 'MA_cvLME_single: model complexity for 2nd part based on priors estimated from 1st part';
+    H.descrip = 'MA_cvLME_other: model complexity for 2nd part based on priors estimated from 1st part';
     spm_write_vol(H,reshape(oosCom2,m_dim));
     SPM.MACS.oosCom(2) = H;
 end;
