@@ -7,7 +7,7 @@ function function_index
 % E-Mail: joram.soch@bccn-berlin.de
 % 
 % First edit: 15/08/2017, 17:15 (V1.1/V17)
-%  Last edit: 02/02/2018, 02:55 (V1.2/V18)
+%  Last edit: 08/01/2019, 12:25 (V1.4/V20)
 
 
 % Get toolbox file index
@@ -20,12 +20,12 @@ files    = dir(strcat(MACS_dir,'/'));
 % Prepare function index
 %-------------------------------------------------------------------------%
 n = 0;
-f = cell(1,6);
+f = cell(1,12);
 
 % Browse toolbox functions
 %-------------------------------------------------------------------------%
 for i = 1:numel(files)
-    if ~isempty(strfind(files(i).name,'.m')) || ~isempty(strfind(files(i).name,'.py'))
+    if (~isempty(strfind(files(i).name,'.m')) && isempty(strfind(files(i).name,'.md'))) || ~isempty(strfind(files(i).name,'.py'))
         
         % Get function type
         %-----------------------------------------------------------------%
@@ -46,11 +46,19 @@ for i = 1:numel(files)
         purpose = lines{3}(3:end);                      % function purpose
         nocl    = numel(lines);                         % number of code lines
         for j = 1:numel(lines)
-            if strncmp(lines{j},'% First edit:',13)     % first edit
-                first_edit = lines{j}(15:end);
+            if strncmp(lines{j},'% First edit:',13) || strncmp(lines{j},'# First edit:',13)
+                first_edit = lines{j}(15:end);          % first edit
+                first_date = first_edit(1:10);
+                first_time = first_edit(13:17);
+                first_ver  = first_edit(20:strfind(first_edit,'/V')-1);
+                first_num  = first_edit(strfind(first_edit,'/V')+1:end-1);
             end;
-            if strncmp(lines{j},'%  Last edit:',13)     % last edit
-                last_edit = lines{j}(15:end);
+            if strncmp(lines{j},'%  Last edit:',13) || strncmp(lines{j},'#  Last edit:',13)
+                last_edit = lines{j}(15:end);           % last edit
+                last_date = last_edit(1:10);
+                last_time = last_edit(13:17);
+                last_ver  = last_edit(20:strfind(last_edit,'/V')-1);
+                last_num  = last_edit(strfind(last_edit,'/V')+1:end-1);
             end;
         end;
         
@@ -61,18 +69,24 @@ for i = 1:numel(files)
         else
             f{n,1} = files(i).name;
         end;
-        f{n,2} = type;
-        f{n,3} = purpose;
-        f{n,4} = first_edit;
-        f{n,5} = last_edit;
-        f{n,6} = nocl;
+        f{n,2}  = type;
+        f{n,3}  = purpose;
+        f{n,4}  = first_date;
+        f{n,5}  = first_time;
+        f{n,6}  = first_ver;
+        f{n,7}  = first_num;
+        f{n,8}  = last_date;
+        f{n,9}  = last_time;
+        f{n,10} = last_ver;
+        f{n,11} = last_num;
+        f{n,12} = nocl;
         
     end;
 end;
 
 % Save function index
 %-------------------------------------------------------------------------%
-f{n+1,6} = sum(cell2mat(f(:,6)));
-f{n+1,3} = 'Total Number of Code Lines';
-MACS_xls = strcat(strcat(MACS_dir,'/','function_index.xls'));
-xlswrite(MACS_xls, f, 'Functions', strcat('A2:F',num2str(n+2)));
+f{n+1,12} = sum(cell2mat(f(:,12)));
+f{n+1,3}  = 'Total Number of Code Lines';
+MACS_xls  = strcat(strcat(MACS_dir,'/','function_index.xls'));
+xlswrite(MACS_xls, f, 'Functions', strcat('A2:L',num2str(n+2)));
