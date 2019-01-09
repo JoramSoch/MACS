@@ -11,7 +11,7 @@
 # E-Mail: joram.soch@bccn-berlin.de
 # 
 # First edit: 01/02/2018, 22:45 (V1.2/V18)
-#  Last edit: 08/01/2019, 12:40 (V1.2/V18)
+#  Last edit: 08/01/2019, 12:40 (V1.4/V20)
 
 
 # Get toolbox file index
