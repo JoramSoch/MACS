@@ -37,7 +37,7 @@ function [alpha_post] = ME_BMS_RFX_VB(LME, alpha_prior)
 % [4] Soch J & Allefeld C (2015): "Non-Critical Comments on
 %     Bayesian Model Selection". Internal Report, June 2015.
 % [5] Soch J (2018): "cvBMS and cvBMA: filling in the gaps".
-%     Technical Report, in preparation, will be available at arXiv.
+%     arXiv:1807.01585v1; URL: https://arxiv.org/abs/1807.01585.
 % 
 % Author: Joram Soch, BCCN Berlin
 % E-Mail: joram.soch@bccn-berlin.de

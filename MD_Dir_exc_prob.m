@@ -36,7 +36,7 @@ function exc_p = MD_Dir_exc_prob(alpha)
 % [3] Soch J & Allefeld C (2015): "Non-Critical Comments on
 %     Bayesian Model Selection". Internal Report, June 2015.
 % [4] Soch J (2018): "cvBMS and cvBMA: filling in the gaps".
-%     Technical Report, in preparation, will be available at arXiv.
+%     arXiv:1807.01585v1; URL: https://arxiv.org/abs/1807.01585.
 % 
 % Author: Joram Soch, BCCN Berlin
 % E-Mail: joram.soch@bccn-berlin.de

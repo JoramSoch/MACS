@@ -31,7 +31,7 @@ function [LFE] = ME_MF_LFE(LME, prior)
 %     GLM-based fMRI data analysis: cross-validated Bayesian model selection".
 %     NeuroImage, vol. 141, pp. 469–489.
 % [2] Soch J (2018): "cvBMS and cvBMA: filling in the gaps".
-%     Technical Report, in preparation, will be available at arXiv.
+%     arXiv:1807.01585v1; URL: https://arxiv.org/abs/1807.01585.
 % 
 % Author: Joram Soch, BCCN Berlin
 % E-Mail: joram.soch@bccn-berlin.de
