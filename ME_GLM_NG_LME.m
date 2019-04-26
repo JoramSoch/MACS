@@ -31,7 +31,7 @@ function [LME] = ME_GLM_NG_LME(P, L0, a0, b0, Ln, an, bn)
 % E-Mail: joram.soch@bccn-berlin.de
 % 
 % First edit: 07/11/2014, 13:10 (V0.2/V7)
-%  Last edit: 09/03/2018, 12:15 (V1.2/V18)
+%  Last edit: 26/04/2019, 17:55 (V1.4/V20)
 
 
 % Get model dimensions
@@ -46,7 +46,7 @@ Finter = spm('FigName','ME_GLM_NG_LME: estimate');
 
 % Calculate log model evidence
 %-------------------------------------------------------------------------%
-LME = 1/2*log(det(P))  - n/2*log(2*pi) + ...
-      1/2*log(det(L0)) - 1/2*log(det(Ln)) + ...
-      gammaln(an)      - gammaln(a0) + ...
-      a0*log(b0)       - an*log(bn);
+LME = 1/2*MD_mvn_logdet(P,true)  - n/2*log(2*pi) + ...
+      1/2*MD_mvn_logdet(L0,true) - 1/2*MD_mvn_logdet(Ln,true) + ...
+      gammaln(an)                - gammaln(a0) + ...
+      a0*log(b0)                 - an*log(bn);

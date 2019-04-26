@@ -40,7 +40,7 @@ function [sig2, R2, adj_R2, gen_R2] = ME_GLM_GoF(Y, X, V, B)
 % E-Mail: joram.soch@bccn-berlin.de
 % 
 % First edit: 04/03/2015, 15:15 (V0.3/V10)
-%  Last edit: 09/03/2018, 12:40 (V1.2/V18)
+%  Last edit: 26/04/2019, 17:55 (V1.4/V20)
 
 
 % Get model dimensions
@@ -122,8 +122,8 @@ adj_R2 = 1 - (SS_res./(n-p)) ./ (SS_tot./(n-1));
 %               (Y(:,j) - X*B(:,j))' * P * (Y(:,j) - X*B(:,j));
 %     if mod(j,d) == 0, spm_progress_bar('Set',(j/v)*100); end;
 % end;
-% LL0 = LL0 - 1/2 * log(det(V)) - n/2 * log(2*pi);
-% LLm = LLm - 1/2 * log(det(V)) - n/2 * log(2*pi);
+% LL0 = LL0 - 1/2 * MD_mvn_logdet(V,true) - n/2 * log(2*pi);
+% LLm = LLm - 1/2 * MD_mvn_logdet(V,true) - n/2 * log(2*pi);
 
 % Clear progress bar
 %-------------------------------------------------------------------------%

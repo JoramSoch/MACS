@@ -28,7 +28,7 @@ function LL = ME_GLM_LL(Y, X, V, B, s2)
 % E-Mail: joram.soch@bccn-berlin.de
 % 
 % First edit: 18/03/2017, 08:40 (V0.99/V15)
-%  Last edit: 09/03/2018, 12:35 (V1.2/V18)
+%  Last edit: 26/04/2019, 17:50 (V1.4/V20)
 
 
 % Number of data sets
@@ -49,7 +49,7 @@ spm_progress_bar('Init', 100, 'Calculate log-likelihood...', '');
 
 % Log-likelihood function
 %-------------------------------------------------------------------------%
-LL_con = 1/2 * log(det(P)) - n/2 * log(2*pi) - n/2 * log(s2);
+LL_con = 1/2 * MD_mvn_logdet(P,true) - n/2 * log(2*pi*s2);
 LL_var = zeros(1,v);
 for j = 1:v
     LL_var(j) = - 1/2 * ( R(:,j)' * P * R(:,j) ) / s2(j);

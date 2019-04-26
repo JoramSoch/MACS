@@ -37,7 +37,7 @@ function [Acc, Com] = ME_GLM_NG_AnC(X, P, m0, L0, a0, b0, mn, Ln, an, bn, msg)
 % E-Mail: joram.soch@bccn-berlin.de
 % 
 % First edit: 07/01/2015, 14:10 (V0.3/V9)
-%  Last edit: 09/03/2018, 12:15 (V1.2/V18)
+%  Last edit: 26/04/2019, 18:00 (V1.4/V20)
 
 
 % Get model dimensions
@@ -73,13 +73,14 @@ end;
 % Calculate accuracy
 %-------------------------------------------------------------------------%
 Acc = - 1/2 * (an./bn) .* (2*(bn-b0) - PE) + ...
-        1/2 * log(det(P)) - 1/2 * trace(X'*P*X * inv(Ln)) - ...
+        1/2 * MD_mvn_logdet(P,true) - 1/2 * trace(X'*P*X * inv(Ln)) - ...
         n/2 * log(2*pi) + n/2 * (psi(an)-log(bn));
 
 % Calculate complexity
 %-------------------------------------------------------------------------%
 Com = + 1/2 * (an./bn) .* (PE - 2*(bn-b0)) - ...
-        1/2 * log(det(L0)/det(Ln)) + 1/2 * trace(L0*inv(Ln)) - p/2 + ...
+        1/2 * MD_mvn_logdet(L0,true) + 1/2 * MD_mvn_logdet(Ln,true) + ...
+        1/2 * trace(L0*inv(Ln)) - p/2 + ...
          a0 * log(bn./b0) - (gammaln(an)-gammaln(a0)) + (an-a0)*psi(an);
 
 % Clear progress bar
