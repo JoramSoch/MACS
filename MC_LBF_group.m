@@ -22,7 +22,7 @@ function MC_LBF_group(job)
 %     PLoS ONE, vol. 8, iss. 3, e59655.
 % [3] Soch J, Allefeld C (2018): "MACS - a new SPM toolbox for model
 %     assessment, comparison and selection". Journal of Neuroscience
-%     Methods, in review. URL: https://www.biorxiv.org/content/early/2017/11/09/194365.
+%     Methods, vol. 306, pp. 19-31.
 % 
 % Author: Joram Soch, BCCN Berlin
 % E-Mail: joram.soch@bccn-berlin.de
