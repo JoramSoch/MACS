@@ -366,6 +366,28 @@ Run the batch by clicking the green triangle.
 
 \textbf{Consequences:} This module results in an image called \texttt{MA\_cvLME.nii} in the GLM directory which contains the voxel-wise cross-validated log model evidence for this model. Furthermore, a number of images \texttt{MA\_cvLME\_SX.nii} where \texttt{X} ranges from 1 to the number of fMRI recording sessions $S$ will be saved that contain voxel-wise out-of-sample log model evidences for each session. If the selected first-level model is a single-session design, such that split-half cross-validation is used, these images will be called \texttt{MA\_cvLME\_P1.nii} and \texttt{MA\_cvLME\_P2.nii}. Usually, only the cross-validated and not the out-of-sample evidences will be needed and can facilitate a lot of further operations (see Section~\ref{sec:cvLME-auto}).
 
+\textbf{Remark:} The main idea behind the cvLME is that prior information for each model parameter is obtained as a posterior distribution for the same model parameter, estimated from independent data acquired from the same subject under the same conditions. Calculating the cvLME is therefore based on a partition of the fMRI recording sessions into training and test data within each cross-validation fold. In the training phase, data and design matrices from all training sessions are vertically concatenated to allow estimation of the posterior from the whole training data at once.
+
+Note that, for this concatenation to work, the design matrices of all sessions must have the same number of regressors. This may not be always fulfilled, e.g. when a subject did not make an errors in one session, such that there are no "error trials" in this session. Therefore, when calculating the cvLME for a GLM with unequal numbers of regressors between sessions, you will get an error message like this:
+
+\vspace{0.75em}
+\setstretch{0.9}
+\begin{verbatim}
+    Error using vertcat
+    Dimensions of arrays being concatenated are not consistent.
+    In file "C:\spm\spm12_r7219\toolbox\MACS\MA_cvLME_multi.m" (???),
+        function "MA_cvLME_multi" at line 239.
+    In file "C:\spm\spm12_r7219\toolbox\MACS\batch_MA_cvLME_auto.m" (???),
+        function "run_module" at line 71.
+    
+    The following modules did not run:
+    Failed: MA: calculate cvLME (automatic)
+\end{verbatim}
+\setstretch{1.5}
+
+The solution for this problem is to define empty conditions (with no events), leading to empty regressors (with only zeros) in the affected sessions. In SPM model estimation, those regressors will then be marked gray ("parameter not uniquely specified"), because a regressor without variation cannot be attributed any variance in the signal, such that regression coefficients are not estimable. In MACS model assessment, however, session-wise design matrices have the same number of columns, can be vertically concatenated and the cvLME can be calculated without problems.
+
+Note that this does \textit{not only} apply to regressors generated from onsets and durations during SPM model specification, but \textit{for all} regressors in the design matrix, i.e. \textit{also for} those added via the "multiple regressors" feature, e.g. movement parameters or custom regressors constructed by the user. It does \textit{not} apply to the discrete cosine transform (DCT) set used for temporal filtering, because temporal filtering is performed before model estimation, effectively making it a preprocessing step.
 
 
 \pagebreak
