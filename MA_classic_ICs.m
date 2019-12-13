@@ -84,8 +84,7 @@ end;
 % Estimate model if necessary
 %-------------------------------------------------------------------------%
 if ~isfield(SPM.xVi,'V')
-    SPM_mat = strcat(SPM.swd,'/','SPM.mat');
-    MA_GLM_AR_only(SPM_mat); load(SPM_mat);
+    SPM = spm_spm(SPM);
     MA_classic_ICs(SPM);
     return
 end;
