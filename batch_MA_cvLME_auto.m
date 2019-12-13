@@ -68,11 +68,10 @@ for i = 1:N
     for j = 1:M
         fprintf('   - Model %s (%d out of %d) ... ',MS.GLMs{j},j,M);
         load(MS.SPMs{i,j});                 % load SPM.mat
-        % update field in case GLM has not been estimated
-        if ~isfield(SPM, 'swd')
-            path = spm_fileparts(MS.SPMs{i,j});
-            SPM.swd = path;
-        end
+        % update working directory, if non-existent
+        if ~isfield(SPM,'swd')
+            SPM.swd = fileparts(MS.SPMs{i,j});
+        end;
         MA_cvLME_multi(SPM,[],[],AnC);      % calculate cvLME
         fprintf('successful!\n');
     end;

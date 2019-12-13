@@ -62,6 +62,11 @@ function out = run_module(job)
 load(job.SPM_mat{1});
 AnC = logical(job.AnC);
 
+% add working directory
+if ~isfield(SPM,'swd')
+    SPM.swd = fileparts(job.SPM_mat{1});
+end;
+
 % execute operation
 MA_cvLME_multi(SPM,[],[],AnC);
 

@@ -143,6 +143,10 @@ for i = 1:N
     for j = 1:M
         fprintf('   - Model %s (%d out of %d) ... ',MS.GLMs{j},j,M);
         load(MS.SPMs{i,j});                 % load SPM.mat
+        % update working directory, if non-existent
+        if ~isfield(SPM,'swd')
+            SPM.swd = fileparts(MS.SPMs{i,j});
+        end;
         MA_classic_ICs(SPM, [], ICs)        % calculate ICs
         fprintf('successful!\n');
     end;

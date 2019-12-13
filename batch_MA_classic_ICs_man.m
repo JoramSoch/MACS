@@ -67,6 +67,11 @@ function out = run_module(job)
 load(job.SPM_mat{1});
 ICs = {job.ICs};
 
+% add working directory
+if ~isfield(SPM,'swd')
+    SPM.swd = fileparts(job.SPM_mat{1});
+end;
+
 % execute operation
 MA_classic_ICs(SPM, [], ICs)
 
