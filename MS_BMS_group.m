@@ -136,7 +136,7 @@ V = prod(H.dim);                            % number of voxels
 % Init progress bar
 %-------------------------------------------------------------------------%
 Finter = spm('FigName','MS_BMS_group: load');
-spm_progress_bar('Init', 100, 'Load log model evidences...' , '');
+spm_progress_bar('Init', 100, 'Load log model evidences...', '');
 
 % Load log model evidences
 %-------------------------------------------------------------------------%
@@ -275,7 +275,7 @@ mods = job.names';
 % Write images to disk
 %-------------------------------------------------------------------------%
 for i = 1:M
-    if strcmp(method,'FFX')     % Bayes' Rule
+    if strcmp(method,'FFX')     % Bayes' Theorem
         H.fname   = strcat(mods{i},'_model_PPM.nii');
         H.descrip = 'MS_BMS_group: posterior probability maps';
         spm_write_vol(H,reshape(PPM(i,:),H.dim));
