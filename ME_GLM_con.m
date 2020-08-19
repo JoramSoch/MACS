@@ -1,7 +1,7 @@
 function [h, p, stats] = ME_GLM_con(Y, X, V, c, type, alpha, msg)
 % _
 % Contrast-Based Inference for Classical General Linear Model
-% FORMAT [h, p, stats] = ME_GLM_con(beta_est, sig2_est, X, c, type)
+% FORMAT [h, p, stats] = ME_GLM_con(Y, X, V, c, type, alpha, msg)
 % 
 %     h     - a 1 x v vector of test results (H0: false; H1: true)
 %     p     - a 1 x v vector of p-values for the t- or F-test
@@ -20,7 +20,7 @@ function [h, p, stats] = ME_GLM_con(Y, X, V, c, type, alpha, msg)
 %     alpha - a  scalar indicating the significance level (e.g. 0.05)
 %     msg   - a  string used as a message on the SPM progress bar
 % 
-% FORMAT [h, p, stats] = ME_GLM_con(beta_est, sig2_est, X, c, type, msg)
+% FORMAT [h, p, stats] = ME_GLM_con(Y, X, V, c, type, alpha, msg)
 % performns a statistical test indicated by type and specified by the
 % contrast c using the design matrix X, the estimated model parameters
 % beta_est and sig2_est and returns test result h, p-value p and stats,
