@@ -55,7 +55,8 @@ function varargout = MA_inspect_GoF(varargin)
 % hard to inspect the signal when between-session differences are large.
 % Third, there are heavy spikes at the start and end of each session when
 % the signal is whitened which can be avoided when the (whitened) baseline
-% is subtracted.
+% is subtracted. Note that goodness-of-fit measures (such as R^2 and SNR)
+% are also calcualted after this step is applied.
 % 
 % This function was written by modifying the SPM Results User Interface.
 % Consequently, much of this code is stolen from spm_results_ui.m!
@@ -70,7 +71,7 @@ function varargout = MA_inspect_GoF(varargin)
 % E-Mail: joram.soch@bccn-berlin.de
 % 
 % First edit: 12/02/2015, 05:35 (V0.3/V10)
-%  Last edit: 09/03/2018, 11:40 (V1.2/V18)
+%  Last edit: 25/02/2021, 15:43 (V1.4/V20)
 
 
 %=========================================================================%
@@ -282,6 +283,7 @@ case 'loaddata'
     % Calculate GoF as overlay
     %---------------------------------------------------------------------%
     [GLM.sig2, GLM.R2, GLM.adj_R2, GLM.gen_R2] = ME_GLM_GoF(GLM.KWYc, GLM.KWXc, [], GLM.B(GLM.pc,:));
+  % [GLM.sig2, GLM.R2, GLM.adj_R2, GLM.gen_R2] = ME_GLM_GoF(GLM.KWY, GLM.KWX, [], GLM.B);
     [GLM.mf_SNR, GLM.mb_SNR] = ME_GLM_SNR(GLM.KWYc, GLM.KWXc, [], GLM.B(GLM.pc,:));
     
     % Save GoF as images
@@ -599,7 +601,8 @@ case 'updatedataplot'
             else
                 text((1/2)*GLM.n,0,'This is not an in-mask voxel!', 'HorizontalAlignment', 'Center', 'VerticalAlignment', 'Middle', 'FontSize', FS(24));
                 ylim([-1 +1]);
-            end;                            % labels
+            end;
+            set(gca, 'Box', 'On');          % labels
             xlabel('image', 'FontSize', FS(12));
             ylabel('value', 'FontSize', FS(12));
             title('Goodness of Fit: line graph', 'FontSize', FS(20));
@@ -624,7 +627,8 @@ case 'updatedataplot'
                 text((1/2)*GLM.n,0,'This is not an in-mask voxel!', 'HorizontalAlignment', 'Center', 'VerticalAlignment', 'Middle', 'FontSize', FS(24));
                 xlim([1 GLM.n]);
                 ylim([-1 +1]);
-            end;                            % labels
+            end;
+            set(gca, 'Box', 'On');          % labels
             xlabel('predicted signal', 'FontSize', FS(12));
             ylabel('measured signal', 'FontSize', FS(12));
             title('Goodness of Fit: scatter plot', 'FontSize', FS(20));            
