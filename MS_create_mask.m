@@ -20,7 +20,7 @@ function [m_img m_hdr m_ind] = MS_create_mask(y_imgs, y_hdr)
 % E-Mail: joram.soch@bccn-berlin.de
 % 
 % First edit: 09/12/2014, 13:40 (V0.2/V8)
-%  Last edit: 17/08/2015, 23:20 (V0.3/V11)
+%  Last edit: 12/01/2022, 19:28 (V1.4/V20)
 
 
 % Init progress bar
@@ -29,7 +29,13 @@ Finter = spm('FigName','MS_create_mask: save');
 
 % Create mask image
 %-------------------------------------------------------------------------%
-m_img = double(~sign(sum(isnan(y_imgs),1)));
+if any(sum(isnan(y_imgs),1))    % find voxels where all images are non-NaN
+    m_img = double(~sign(sum(isnan(y_imgs),1)));
+elseif any(sum(y_imgs==0,1))    % find voxels where all images are non-zero
+    m_img = double(~sign(sum(y_imgs==0,1)));
+else                            % otherwise, the mask consists of all voxels
+    m_img = ones(1,size(y_imgs,2));
+end;
 m_ind = find(m_img~=0);
 m_hdr = y_hdr;
 
