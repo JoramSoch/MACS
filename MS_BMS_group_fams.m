@@ -71,7 +71,7 @@ function MS_BMS_group_fams(job, method, family, EPs)
 % E-Mail: joram.soch@bccn-berlin.de
 % 
 % First edit: 05/12/2014, 12:15 (V0.2/V8)
-%  Last edit: 09/02/2022, 11:02 (V1.4/V20)
+%  Last edit: 09/02/2022, 13:31 (V1.4/V20)
 
 
 %=========================================================================%
@@ -83,7 +83,7 @@ function MS_BMS_group_fams(job, method, family, EPs)
 if nargin == 0
     design_mat = spm_select(1,'^*.mat','Select Batch Editor Job!');
     load(design_mat);
-    job = matlabbatch{1}.spm.tools.MACS.MS_BMS_group_man;
+    job = matlabbatch{1}.spm.tools.MACS.MS_BMS_fams_man;
     MS_BMS_group(job);
     return
 else

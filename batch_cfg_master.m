@@ -6,7 +6,7 @@ function module = batch_cfg_master
 % E-Mail: joram.soch@bccn-berlin.de
 % 
 % First edit: 17/03/2017, 00:45 (V0.99/V15)
-%  Last edit: 04/05/2018, 16:55 (V1.2/V18)
+%  Last edit: 09/02/2022, 11:40 (V1.4/V20)
 
 
 % Define toolbox path
@@ -49,6 +49,8 @@ module.values = {batch_MA_model_space, ...      % MA: define model space
                  batch_MS_BMS_group_auto, ...   % MS: perform BMS (automatic)
                  batch_MS_BMA_group_man, ...    % MS: perform BMA (manually)
                  batch_MS_BMA_group_auto, ...   % MS: perform BMA (automatic)
+                 batch_MS_BMS_fams_man, ...     % MS: perform family BMS (manually)
+                 batch_MS_BMS_fams_auto, ...    % MS: perform family BMS (automatic)
                  batch_MS_SMM_BMS, ...          % MS: generate SMM from BMS
                  batch_MF_visualize             % MF: visualize high-dimensional data
                 };

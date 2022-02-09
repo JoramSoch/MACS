@@ -252,10 +252,10 @@ sel_mods = sum(mod_list(:,2)>0);
 mod_names = cell(M,1);
 for i = 1:M
     alpha_img = BMS.map.rfx.alpha{i};
-    if ~isempty(strfind(strfind(alpha_img,'_model_')))
+    if ~isempty(strfind(alpha_img,'_model_'))
         mod_names{i} = alpha_img(1:strfind(alpha_img,'_model_')-1);
         MS_type      = 'model';
-    elseif ~isempty(strfind(strfind(alpha_img,'_family_')))
+    elseif ~isempty(strfind(alpha_img,'_family_'))
         mod_names{i} = alpha_img(1:strfind(alpha_img,'_family_')-1);
         MS_type      = 'family';
     else
