@@ -63,7 +63,7 @@ function MS_BMS_group(job, method, family, EPs)
 %     PLoS ONE, vol. 6, iss. 3, e1000709.
 % [4] Soch J, Haynes JD, Allefeld C (2016): "How to avoid mismodelling in
 %     GLM-based fMRI data analysis: cross-validated Bayesian model selection".
-%     NeuroImage, vol. 141, pp. 469�489.
+%     NeuroImage, vol. 141, pp. 469-489.
 % 
 % Author: Joram Soch, BCCN Berlin
 % E-Mail: joram.soch@bccn-berlin.de

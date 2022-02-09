@@ -39,13 +39,13 @@ function MS_SMM_BMS(BMS, mask, extent)
 %     NeuroImage, vol. 46, pp. 1004-1017.
 % [2] Soch J, Haynes JD, Allefeld C (2016): "How to avoid mismodelling in
 %     GLM-based fMRI data analysis: cross-validated Bayesian model selection".
-%     NeuroImage, vol. 141, pp. 469–489.
+%     NeuroImage, vol. 141, pp. 469-489.
 % 
 % Author: Joram Soch, BCCN Berlin
 % E-Mail: joram.soch@bccn-berlin.de
 % 
 % First edit: 12/03/2015, 05:30 (V0.3/V10)
-%  Last edit: 01/11/2017, 11:45 (V1.1/V17)
+%  Last edit: 09/02/2022, 10:57 (V1.4/V20)
 
 
 %=========================================================================%
@@ -251,8 +251,17 @@ sel_mods = sum(mod_list(:,2)>0);
 %-------------------------------------------------------------------------%
 mod_names = cell(M,1);
 for i = 1:M
-    alpha_img    = BMS.map.rfx.alpha{i};
-    mod_names{i} = alpha_img(1:strfind(alpha_img,'_model_')-1);
+    alpha_img = BMS.map.rfx.alpha{i};
+    if ~isempty(strfind(strfind(alpha_img,'_model_')))
+        mod_names{i} = alpha_img(1:strfind(alpha_img,'_model_')-1);
+        MS_type      = 'model';
+    elseif ~isempty(strfind(strfind(alpha_img,'_family_')))
+        mod_names{i} = alpha_img(1:strfind(alpha_img,'_family_')-1);
+        MS_type      = 'family';
+    else
+        mod_names{i} = strcat('GLM_',MF_int2str0(i,ceil(log10(M+1))));
+        MS_type      = 'model';
+    end;
 end;
 clear alpha_img
 
@@ -274,16 +283,16 @@ end;
 
 % Write images to disk
 %-------------------------------------------------------------------------%
-cd(SMM_dir);
-H.fname   = strcat('MS_SMM_mod.nii');       % selected model
-H.descrip = 'MS_SMM_BMS: index of the selected model';
+cd(SMM_dir);                                % selected model
+H.fname   = strcat('MS_SMM_',MS_type(1:3),'.nii');
+H.descrip = sprintf('MS_SMM_BMS: index of the selected %s', MS_type);
 spm_write_vol(H,reshape(M_sel,H.dim));
 H.fname   = strcat('MS_SMM_ord.nii');       % order position
-H.descrip = 'MS_SMM_BMS: position of the selected model';
+H.descrip = sprintf('MS_SMM_BMS: position of the selected %s', MS_type);
 spm_write_vol(H,reshape(M_ord,H.dim));
 for i = 1:sel_mods                          % selected models
-    H.fname   = strcat('MS_SMM_map','_pos_',MF_int2str0(i,ceil(log10(M+1))),'_mod_',MF_int2str0(mod_list(i,1),ceil(log10(M+1))),'_',mod_names{mod_list(i,1)},'.nii');
-    H.descrip = sprintf('MS_SMM_BMS: LF in voxels where %s has been selected', mod_names{i});
+    H.fname   = strcat('MS_SMM_map','_pos_',MF_int2str0(i,ceil(log10(M+1))),'_',MS_type(1:3),'_',MF_int2str0(mod_list(i,1),ceil(log10(M+1))),'_',mod_names{mod_list(i,1)},'.nii');
+    H.descrip = sprintf('MS_SMM_BMS: LF in voxels where %s %s has been selected', MS_type, mod_names{i});
     spm_write_vol(H,reshape(M_con(mod_list(i,1),:),H.dim));
 end;
 

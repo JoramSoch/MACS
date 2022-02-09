@@ -35,6 +35,12 @@ function MS_BMS_group_fams(job, method, family, EPs)
 % 'RFX-VB'. If the number of models is very large, it is advisable to only
 % calculate EPs at the family level. By default, this variable is false.
 % 
+% This function is particularly useful for large, multi-dimensional model
+% spaces (e.g. 2 x 2 x 2 modelling options) in which family inference can
+% be performed along multiple directions (e.g. families A vs. B, 1 vs. 2, 
+% i vs. ii). In this case, only one model space needs to be specified and
+% no manual log family evidence calculation [5] has to be performed.
+% 
 % Further information:
 %     help ME_BMS_FFX
 %     help ME_BMS_RFX_VB
@@ -56,13 +62,16 @@ function MS_BMS_group_fams(job, method, family, EPs)
 %     PLoS ONE, vol. 6, iss. 3, e1000709.
 % [4] Soch J, Haynes JD, Allefeld C (2016): "How to avoid mismodelling in
 %     GLM-based fMRI data analysis: cross-validated Bayesian model selection".
-%     NeuroImage, vol. 141, pp. 469–489.
+%     NeuroImage, vol. 141, pp. 469-489.
+% [5] Soch J, Allefeld C (2018): "MACS â€“ a new SPM toolbox for model 
+%     assessment, comparison and selection". Journal of Neuroscience 
+%     Methods,vol. 306, pp. 19-31.
 % 
 % Author: Joram Soch, BCCN Berlin
 % E-Mail: joram.soch@bccn-berlin.de
 % 
 % First edit: 05/12/2014, 12:15 (V0.2/V8)
-%  Last edit: 18/04/2020, 18:56 (V1.4/V20)
+%  Last edit: 09/02/2022, 11:02 (V1.4/V20)
 
 
 %=========================================================================%
