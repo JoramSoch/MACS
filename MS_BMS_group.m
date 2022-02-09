@@ -31,18 +31,16 @@ function MS_BMS_group(job, method, family, EPs)
 % default, this variable is empty.
 % 
 % When this variable is empty (as by default), a uniform prior over models
-% is applied. If this variable is non-empty, this invokes a uniform prior
-% over model families in order to allow for unbiased family inference.
+% is applied. If this variable is non-empty, this invokes a family-wise
+% Bayesian model selection using the function "MS_BMS_group_fams". This
+% means that first, log family evidences (LFE) are calculated from first-
+% level LMEs [4], and then, Bayesian model selection with a uniform prior
+% over families is applied.
 % 
 % The input variable "EPs" is a logical indicating whether exceedance
 % probabilities (EP) are calculated and written to images in case method is
 % 'RFX-VB'. If the number of models is very large, it is advisable to only
 % calculate EPs at the family level. By default, this variable is false.
-% 
-% NOTE: The MACS Toolbox discourages to use family-uniform priors (FUP) at
-% group-level BMS and instead advocates to calculate log family evidences
-% (LFE) from first-level LMEs [4]. This is implemented via the functions
-% "MA_LFE_uniform" and "ME_MF_LFE".
 % 
 % Further information:
 %     help ME_BMS_FFX
@@ -65,13 +63,13 @@ function MS_BMS_group(job, method, family, EPs)
 %     PLoS ONE, vol. 6, iss. 3, e1000709.
 % [4] Soch J, Haynes JD, Allefeld C (2016): "How to avoid mismodelling in
 %     GLM-based fMRI data analysis: cross-validated Bayesian model selection".
-%     NeuroImage, vol. 141, pp. 469–489.
+%     NeuroImage, vol. 141, pp. 469ï¿½489.
 % 
 % Author: Joram Soch, BCCN Berlin
 % E-Mail: joram.soch@bccn-berlin.de
 % 
 % First edit: 05/12/2014, 12:15 (V0.2/V8)
-%  Last edit: 04/05/2018, 15:05 (V1.2/V18)
+%  Last edit: 09/02/2022, 10:21 (V1.4/V20)
 
 
 %=========================================================================%
@@ -101,6 +99,13 @@ if nargin < 3 || isempty(family), family = []; end;
 % Inactivate EPs if necessary
 %-------------------------------------------------------------------------%
 if nargin < 4 || isempty(EPs), EPs = false; end;
+
+% Call other function if families
+%-------------------------------------------------------------------------%
+if ~isempty(family)
+    MS_BMS_group_fams(job, method, family, EPs);
+    return
+end;
 
 % Change to directory if specified
 %-------------------------------------------------------------------------%
@@ -335,12 +340,6 @@ if strcmp(method,'RFX-VB') || strcmp(method,'RFX-GS')
 end;
 BMS.fname = strcat(BMS_dir,'/','BMS.mat');
 save(strcat(BMS_dir,'/','BMS.mat'),'BMS');
-
-% Perform family inference
-%-------------------------------------------------------------------------%
-if ~isempty(family)
-    MS_BMS_fams(BMS, family.mods, family.fams);
-end;
 
 % Return to origin
 %-------------------------------------------------------------------------%
