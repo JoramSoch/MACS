@@ -630,6 +630,91 @@ Run the batch by clicking the green triangle.
 
 
 \pagebreak
+\setstretch{1.45}
+\section[How to perform family-wise Bayesian model selection]{How to perform family-wise \\ Bayesian model selection} \label{sec:cvBMS-fam}
+
+\textbf{Purpose:} When the models in a model space can be grouped into model families (see Section~\ref{sec:LFE}), model family inference can be performed by calculating log family evidences (LFEs) from log model evidences (LMEs). However, as LFEs are not associated to particular models, automatic group-level Bayesian model selection (see Section~\ref{sec:cvBMS}) is not feasible anymore (Soch \& Allefeld, 2018, pp.~27-28, Fig.~5A). In order to perform automatic family-wise Bayesian model selection, the entire model spaces and the family affiliation for each model need to be specified at once.
+
+\textbf{Requirements:} These operations require that several models for several subjects have been specified in SPM, with their \texttt{SPM.mat} files available on disk. Additionally, the model space must be separable into model families.
+
+\textbf{Procedure:} To perform family-wise cvBMS, proceed as follows:
+\begin{itemize}
+	
+\item
+Create a new directory, e.g. \texttt{MS\_cvBMS\_fam}, at an arbitrary location, preferably somewhere in your second-level results folder. This is the output directory into which analysis results will be saved.
+
+\item
+Set up a batch that defines a model space (see Section~\ref{sec:MS}) which includes all models from all subjects and uses the output folder as the model space directory. Don't save and run this batch!
+
+\item
+Select the MACS toolbox module for cross-validated log model evidences by clicking \linebreak[4] "SPM \ra Tools \ra MACS Toolbox \ra MA: calculate cvLME (automatic)".
+
+\item
+Select the model space by clicking "Select MS.mat \ra Dependency" and then \linebreak[4] "MA: define model space: model space (MS.mat file) \ra OK".
+
+\item
+Select the MACS toolbox module for family-wise Bayesian model selection by clicking \linebreak[4] "SPM \ra Tools \ra MACS Toolbox \ra MS: perform family BMS (automatic)".
+
+\item
+Select the model space by clicking "Select MS.mat \ra Dependency" and then \linebreak[4] "MA: define model space: model space (MS.mat file) \ra OK".
+
+\item
+Specify the family affiliation by clicking "Family vector \ra Specify". This has to be a $1 \times M$ vector ($M$ = number of models) where the number $j$ in the $i$-th position indicates that the $i$-th model belongs to family $j$. For example, if you have 10 models belonging to 4 families, the family vector could be \texttt{[1 1 1 2 2 2 3 3 4 4]}.
+
+\item
+Create a new family label by clicking "Family names \ra New: Name".
+
+\item
+Enter the name of this model family by clicking "Name \ra Specify".
+
+\item
+Repeat the last two steps for all model families. The order of specification has to match the numbers in the family vector and it is required that the numer of family names is equal to the highest number in the family vector.
+
+\item
+Select the MACS toolbox module for selected-model maps after BMS by clicking \linebreak[4] "SPM \ra Tools \ra MACS Toolbox \ra MS: generate SMM from BMS".
+
+\item
+Select model selection results by clicking "Select BMS.mat \ra Dependency" and then \linebreak[4] "MS: perform family BMS (automatic): BMS results (BMS.mat file) \ra OK".
+
+\item
+Save the batch under the filename \texttt{design.mat} into the output directory.
+
+\item
+Run the batch by clicking the green triangle.
+	
+\end{itemize}
+
+\textbf{Consequences:} Output files from family-wise BMS are in principle identical to those from model-wise BMS (see Section~\ref{sec:cvBMS-fam}), except that they refer to model families rather than individual families:
+\begin{itemize}
+	
+\item
+\texttt{GLMs\_XYZ\_family\_alpha.nii}, voxel-wise posterior concentrations for each family;
+
+\item
+\texttt{GLMs\_XYZ\_family\_EF.nii}, the voxel-wise expected frequency (EF) of each family;
+
+\item
+\texttt{GLMs\_XYZ\_family\_LF.nii}, the voxel-wise likeliest frequency (LF) of each family;
+
+\item
+\texttt{GLMs\_XYZ\_family\_EP.nii}, the voxel-wise exceedance probability of each family.
+	
+\end{itemize}
+
+Additionally, there will be a sub-directory called \texttt{MS\_SMM\_BMS\_10} (see Section~\ref{sec:cvBMS-fam}) which contains the following images:
+\begin{itemize}
+	
+\item
+\texttt{MS\_SMM\_map\_pos\_X\_fam\_Y\_GLMs\_XYZ.nii}, the selected-model map (SMM) for model family \texttt{GLMs\_XYZ}, placed at the \texttt{Y}-th position when defining model families and ranking on \texttt{X}-th place when ordering by number of voxels in which this family is optimal.
+	
+\end{itemize}
+
+\textbf{Remark:} In case that model assessment using the cvLME (see Section~\ref{sec:cvLME-auto}) or model selection using RFX BMS (see Section~\ref{sec:cvBMS}) has already been performed before family-wise model selection, then cvLME calculation can be omitted and the module "MA: calculate cvLME (automatic)" can be removed from the corresponding batch.
+
+
+
+\pagebreak
+\setstretch{1.5}
 \section[How to visualize first-level model averaging results]{How to visualize first-level \\ model averaging results} \label{sec:cvBMA-vis}
 
 \textbf{Purpose:} This section introduces you how to get an impression how an averaged model parameter estimate obtained from cross-validated Bayesian model averaging differs from the individual model's parameter estimates.
