@@ -3,6 +3,14 @@ function [h, p, stats] = ME_GLM_pinv_con(Y, X, V, c, type, alpha, msg)
 % Contrast-Based Inference for Classical General Linear Model (using pinv)
 % FORMAT [h, p, stats] = ME_GLM_pinv_con(Y, X, V, c, type, alpha, msg)
 % 
+%     Y     - an n x v data matrix (n data points, v variables)
+%     X     - an n x p design matrix (n data points, p regressors)
+%     V     - an n x n correlation matrix (n x n observations)
+%     c     - a  p x 1 contrast vector or a p x q contrast matrix
+%     type  - a  string indicating the type of inference ('t' or 'F')
+%     alpha - a  scalar indicating the significance level (e.g. 0.05)
+%     msg   - a  string used as a message on the SPM progress bar
+% 
 %     h     - a 1 x v vector of test results (H0: false; H1: true)
 %     p     - a 1 x v vector of p-values for the t- or F-test
 %     stats - a structure variable with the following fields:
@@ -11,14 +19,6 @@ function [h, p, stats] = ME_GLM_pinv_con(Y, X, V, c, type, alpha, msg)
 %     o Fstat - value of the F-statistic       (if type is 'F')
 %     o df_n  - numerator degrees of freedom   (if type is 'F')
 %     o df_d  - denominator degrees of freedom (if type is 'F')
-% 
-%     Y     - an n x v data matrix (n data points, v variables)
-%     X     - an n x p design matrix (n data points, p regressors)
-%     V     - an n x n correlation matrix (n x n observations)
-%     c     - a  p x 1 contrast vector or a p x q contrast matrix
-%     type  - a  string indicating the type of inference ('t' or 'F')
-%     alpha - a  scalar indicating the significance level (e.g. 0.05)
-%     msg   - a  string used as a message on the SPM progress bar
 % 
 % FORMAT [h, p, stats] = ME_GLM_pinv_con(Y, X, V, c, type, alpha, msg)
 % performns a statistical test indicated by type and specified by the
