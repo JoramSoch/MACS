@@ -58,7 +58,7 @@ function MA_cvLME_multi(SPM, data, mode, AnC)
 % References:
 % [1] Soch J, Haynes JD, Allefeld C (2016): "How to avoid mismodelling in
 %     GLM-based fMRI data analysis: cross-validated Bayesian model selection".
-%     NeuroImage, vol. 141, pp. 469–489.
+%     NeuroImage, vol. 141, pp. 469-489.
 % [2] Soch J, Meyer AP, Haynes JD, Allefeld C (2017): "How to improve parameter estimates in 
 %     GLM-based fMRI data analysis: cross-validated Bayesian model averaging".
 %     NeuroImage, vol. 158, pp. 186-195.
@@ -410,7 +410,7 @@ end;
 
 % Save SPM structure
 %-------------------------------------------------------------------------%
-save(strcat(SPM.swd,'/','SPM.mat'),'SPM');
+save(strcat(SPM.swd,'/','SPM.mat'), 'SPM', spm_get_defaults('mat.format'));
 
 % Return to origin
 %-------------------------------------------------------------------------%

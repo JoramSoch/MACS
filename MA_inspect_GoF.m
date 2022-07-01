@@ -310,7 +310,7 @@ case 'loaddata'
     H.descrip = 'MA_inspect_GoF: model-based signal-to-noise ratio (mb. SNR)';
     spm_write_vol(H,reshape(GoF_img,SPM.VM.dim));
     SPM.MACS.SNR_mb = H;
-    save(strcat(SPM.swd,'/','SPM.mat'),'SPM');
+    save(strcat(SPM.swd,'/','SPM.mat'), 'SPM', spm_get_defaults('mat.format'));
     clear H GoF_img
     
     % Return output variables

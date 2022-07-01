@@ -29,4 +29,4 @@ spm_write_vol(H,reshape(ABC,m_dim));
 % Save ABC header
 %-------------------------------------------------------------------------%
 SPM.MACS.ABC = H;
-save(strcat(SPM.swd,'/','SPM.mat'),'SPM');
+save(strcat(SPM.swd,'/','SPM.mat'), 'SPM', spm_get_defaults('mat.format'));

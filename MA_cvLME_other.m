@@ -53,6 +53,12 @@ function MA_cvLME_other(SPM, data, disc, AnC)
 % Exemplary usage:
 %     MA_cvLME_other(SPM, 'y', 0, true);
 % 
+% References:
+% [1] Soch J (2019): "A validation of the MACS toolbox for EEG data analysis
+%     and second-level fMRI". OHBM 2019, Poster #M859, available from F1000;
+%     URL: https://f1000research.com/posters/10-1226;
+%     DOI: 10.7490/f1000research.1118879.1.
+% 
 % Author: Joram Soch, BCCN Berlin
 % E-Mail: joram.soch@bccn-berlin.de
 % 
@@ -340,7 +346,7 @@ end;
 
 % Save SPM structure
 %-------------------------------------------------------------------------%
-save(strcat(SPM.swd,'/','SPM.mat'),'SPM');
+save(strcat(SPM.swd,'/','SPM.mat'), 'SPM', spm_get_defaults('mat.format'));
 
 % Return to origin
 %-------------------------------------------------------------------------%

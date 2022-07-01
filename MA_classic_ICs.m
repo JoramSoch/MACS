@@ -52,7 +52,7 @@ function MA_classic_ICs(SPM, data, ICs)
 %     Journal of the Royal Statistical Society B, vol. 64, pp. 583-639.
 % [5] Hannan EJ, Quinn BG (1979):
 %     "The Determination of the order of an autoregression".
-%     Journal of the Royal Statistical Society B, vol. 41, pp. 190–195.
+%     Journal of the Royal Statistical Society B, vol. 41, pp. 190-195.
 % [6] Cavanaugh JE (1999): "A large-sample model selection
 %     criterion based on Kullback's symmetric divergence".
 %     Statistics and Probability Letters, vol. 42, p. 333-344.
@@ -239,7 +239,7 @@ end;
 
 % Save SPM structure
 %-------------------------------------------------------------------------%
-save(strcat(SPM.swd,'/','SPM.mat'),'SPM');
+save(strcat(SPM.swd,'/','SPM.mat'), 'SPM', spm_get_defaults('mat.format'));
 
 % Return to origin
 %-------------------------------------------------------------------------%
