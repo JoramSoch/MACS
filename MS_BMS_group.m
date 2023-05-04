@@ -250,7 +250,7 @@ if strcmp(method,'RFX-GS')
     for j = 1:v
         [alpha_post, exp_freq, exc_prob] = ME_BMS_RFX_GS(LME(:,:,m_ind(j)), prior);
         alpha(:,m_ind(j)) = alpha_post';
-        EFM(:,m_ind(j))   = exp_prob';
+        EFM(:,m_ind(j))   = exp_freq';
         EPM(:,m_ind(j))   = exc_prob';
         if mod(j,d) == 0, spm_progress_bar('Set',(j/v)*100); end;
     end;
