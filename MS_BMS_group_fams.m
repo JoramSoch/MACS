@@ -252,7 +252,7 @@ if strcmp(method,'RFX-GS')
     % voxel-wise sampling
     spm_progress_bar('Init', 100, 'Sample posterior distribution...', '');
     for j = 1:v
-        [alpha_post, exp_freq, exc_prob] = ME_BMS_RFX_GS(LME(:,:,m_ind(j)), prior);
+        [alpha_post, exp_freq, exc_prob] = ME_BMS_RFX_GS(LFE(:,:,m_ind(j)), prior);
         alpha(:,m_ind(j)) = alpha_post';
         EFM(:,m_ind(j))   = exp_freq';
         EPM(:,m_ind(j))   = exc_prob';
