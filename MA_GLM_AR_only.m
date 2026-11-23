@@ -13,7 +13,7 @@ function MA_GLM_AR_only(SPM_mat)
 % E-Mail: joram.soch@bccn-berlin.de
 % 
 % First edit: 18/08/2015, 04:10 (V0.3/V11)
-%  Last edit: 18/08/2015, 08:30 (V0.3/V11)
+%  Last edit: 23/11/2026, 11:25 (V1.4/V20)
 
 
 % Get SPM.mat if necessary
@@ -34,9 +34,14 @@ catch
     return
 end;
 
+% Detect current SPM version
+%-------------------------------------------------------------------------%
+spm_ver = sscanf(spm('Ver'),'SPM%d');
+if isempty(spm_ver), spm_ver = 12; end;
+
 % If current version is SPM8
 %-------------------------------------------------------------------------%
-if strcmp(spm('Ver'),'SPM8')
+if spm_ver == 8
     
     % Estimate general linear model
     %---------------------------------------------------------------------%
@@ -77,9 +82,9 @@ if strcmp(spm('Ver'),'SPM8')
     
 end;
 
-% If current version is SPM12
+% If current version is SPM12 or higher
 %-------------------------------------------------------------------------%
-if strcmp(spm('Ver'),'SPM12')
+if spm_ver >= 12
     
     % Estimate non-sphericity
     %---------------------------------------------------------------------%
